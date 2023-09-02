@@ -36,52 +36,90 @@ public class BasketService : IBasketService
 
     public async Task<ResponseDto> AddItemToBasketAsync(BasketPostDto basketPostDto)
     {
-        if (!_isAuthenticated)
-            throw new Exception("Login !");
+        EnsureAuthenticated();
+        ValidateInput(basketPostDto);
 
-        if (basketPostDto.Quantity <= 0)
-            throw new Exception("Invalid Quantity");
+        var book = await GetBookByIdAsync(basketPostDto);
+        var userId = await GetUserIdAsync();
 
-        if (basketPostDto is null)
-            throw new Exception("Invalid input data");
+        var userSession = await GetOrCreateUserSessionAsync(userId);
+        var existingBasketItem = await GetExistingBasketItemAsync(userSession, book);
 
-        var book = await _bookRepository.GetByIdAsync(basketPostDto.Id);
-        if (book is null)
-            throw new Exception("");
+        if (existingBasketItem is null)
+        {
+            BasketItem basketItem = new BasketItem
+            {
+                BookId = book.Id,
+                Price = book.Price,
+                Quantity = basketPostDto.Quantity,
+                SessionId = userSession.Id,
+            };
+            userSession.BasketItems.Add(basketItem);
+            userSession.UserId = userId;
+        }
+        else
+        {
+            existingBasketItem.Quantity += basketPostDto.Quantity;
+        }
 
+
+        userSession.TotalPrice = userSession.BasketItems.Sum(p => p.Quantity * p.Price);
+
+
+        if (!await _shoppingSessionRepository.IsExistAsync(ss => ss.Id == userSession.Id))
+            await _shoppingSessionRepository.CreateAsync(userSession);
+        await _shoppingSessionRepository.SaveAsync();
+
+        return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
+    }
+    #region AddItemToBasketAsync Methods
+
+    private async Task<ShoppingSession> GetOrCreateUserSessionAsync(string userId)
+    {
+        var userSession = await _shoppingSessionRepository.GetSingleAsync(ss => ss.UserId == userId && !ss.IsOrdered, nameof(ShoppingSession.BasketItems));
+
+        return userSession ?? new ShoppingSession { UserId = userId };
+    }
+
+    private async Task<BasketItem> GetExistingBasketItemAsync(ShoppingSession userSession, Book book)
+    {
+        return await _basketItemRepository.GetSingleAsync(ss => ss.SessionId == userSession.Id && ss.BookId == book.Id);
+    }
+
+    private async Task<string> GetUserIdAsync()
+    {
         var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user is null)
             throw new Exception($"User can not find by");
-
-
-        //ShoppingSession? userSession = await _shoppingSessionRepository.GetSingleAsync(ss => ss.UserId == userId && !ss.IsOrdered,
-        //nameof(ShoppingSession.BasketItems), // Include BasketItems
-        //nameof(ShoppingSession.BasketItems) + "." + nameof(BasketItem.Book), // Include Book
-        //nameof(ShoppingSession.BasketItems) + "." + nameof(BasketItem.Book) + "." + nameof(Book.Images), // Include Book Images
-        //nameof(ShoppingSession.BasketItems) + "." + nameof(BasketItem.Book) + "." + nameof(Book.Author) + "." + nameof(Author.Images), // Include Author Images
-        //nameof(ShoppingSession.BasketItems) + "." + nameof(BasketItem.Book) + "." + nameof(Book.BookGenres) + "." + nameof(BookGenre.Genre)) ?? new ShoppingSession();
-
-        ShoppingSession? userSession = await _shoppingSessionRepository.GetSingleAsync(ss => ss.UserId == userId && !ss.IsOrdered) ?? new ShoppingSession();
-
-        BasketItem basketItem = new BasketItem
-        {
-            BookId = book.Id,
-            Price = book.Price,
-            Quantity = basketPostDto.Quantity,
-            SessionId = userSession.Id,
-        };
-
-        userSession.BasketItems.Add(basketItem);
-        userSession.UserId = userId;
-        userSession.TotalPrice = userSession.BasketItems.Sum(p => p.Quantity * p.Price);
-
-        await _shoppingSessionRepository.CreateAsync(userSession);
-        await _shoppingSessionRepository.SaveAsync();
-
-        return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
+        return userId;
     }
+
+    private async Task<Book> GetBookByIdAsync(BasketPostDto basketPostDto)
+    {
+        var book = await _bookRepository.GetByIdAsync(basketPostDto.Id);
+        if (book is null)
+            throw new Exception("");
+        return book;
+    }
+
+    private static void ValidateInput(BasketPostDto basketPostDto)
+    {
+        if (basketPostDto.Quantity <= 0)
+            throw new Exception("Invalid Quantity");
+
+        if (basketPostDto is null)
+            throw new Exception("Invalid input data");
+    }
+
+    private void EnsureAuthenticated()
+    {
+        if (!_isAuthenticated)
+            throw new Exception("Login !");
+    }
+    #endregion
+
 
     public async Task<List<BasketGetResponseDto>> GetActiveUserBasket()
     {
