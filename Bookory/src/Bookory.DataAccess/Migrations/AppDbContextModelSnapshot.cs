@@ -107,9 +107,6 @@ namespace Bookory.DataAccess.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BookId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -137,8 +134,6 @@ namespace Bookory.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("BookId1");
 
                     b.HasIndex("SessionId");
 
@@ -640,14 +635,11 @@ namespace Bookory.DataAccess.Migrations
             modelBuilder.Entity("Bookory.Core.Models.BasketItem", b =>
                 {
                     b.HasOne("Bookory.Core.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BasketItems")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bookory.Core.Models.Book", null)
-                        .WithMany("BasketItems")
-                        .HasForeignKey("BookId1");
+                        .IsRequired()
+                        .HasConstraintName("FK_BasketItem_To_Book_BookKey");
 
                     b.HasOne("Bookory.Core.Models.ShoppingSession", "ShoppingSession")
                         .WithMany("BasketItems")

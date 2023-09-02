@@ -17,6 +17,7 @@ public static class AddServiceExtension
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenHelper, JWTHelper>();
         services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IBasketService, BasketService>();
 
         services.AddHttpContextAccessor();
         services.AddTransient<IMailService, MailService>();

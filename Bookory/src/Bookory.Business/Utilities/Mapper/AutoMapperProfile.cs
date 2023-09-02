@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookory.Business.Utilities.DTOs.AuthorDtos;
 using Bookory.Business.Utilities.DTOs.AuthorImageDtos;
+using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.BookImageDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
@@ -81,6 +82,15 @@ public class AutoMapperProfile : Profile
         CreateMap<RegisterDto, AppUser>();
         CreateMap<AppUser, UserGetResponseDto>().ReverseMap();
         CreateMap<IdentityRole, RoleGetResponseDto>().ReverseMap();
+
+        #endregion
+
+        #region Basket Mapper
+
+        CreateMap<Book, BasketItem>();
+        CreateMap<BasketItem, BasketGetResponseDto>()
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+            .ForCtorParam("BasketBook", opt => opt.MapFrom(src => src.Book));
 
         #endregion
     }

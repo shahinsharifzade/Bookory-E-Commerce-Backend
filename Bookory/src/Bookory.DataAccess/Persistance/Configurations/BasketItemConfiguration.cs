@@ -13,7 +13,8 @@ public class BasketItemConfiguration : IEntityTypeConfiguration<BasketItem>
             .HasForeignKey(ci => ci.SessionId);
 
         builder.HasOne(ci => ci.Book)
-            .WithMany()
-            .HasForeignKey(ci => ci.BookId);
+            .WithMany(b => b.BasketItems)
+            .HasForeignKey(ci => ci.BookId)
+            .HasConstraintName("FK_BasketItem_To_Book_BookKey"); ;
     }
 }

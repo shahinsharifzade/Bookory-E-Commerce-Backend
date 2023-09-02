@@ -34,7 +34,7 @@ public class AuthService : IAuthService
     }
 
     public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
-    {
+        {
         AppUser user = await _userManager.FindByNameAsync(loginDto.UserName);
         if (user is null) throw new LoginFailedException("Invalid username or password");
 
@@ -95,7 +95,7 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null) throw new UserNotFoundException($"User not found by email: {email}");
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Everything is okay");
+        return new ResponseDto((int)HttpStatusCode.OK, $"Everything is okay. token: {token} ");
     }
 
     public async Task<ResponseDto> ResetPasswordAsync(ChangePasswordDto resetPasswordDto, string token, string email)
