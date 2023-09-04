@@ -22,7 +22,6 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         {
             query = query.Include(include);
         }
-
         return query;
     }
 
@@ -34,7 +33,6 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         {
             query = query.Include(include);
         }
-
         return query.Where(expression);
     }
 

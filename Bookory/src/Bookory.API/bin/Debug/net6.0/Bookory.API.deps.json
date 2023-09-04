@@ -750,7 +750,8 @@
           "Bookory.DataAccess": "1.0.0",
           "FluentValidation.AspNetCore": "11.3.0",
           "MailKit": "4.1.0",
-          "MimeKit": "4.1.0"
+          "MimeKit": "4.1.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "Bookory.Business.dll": {}

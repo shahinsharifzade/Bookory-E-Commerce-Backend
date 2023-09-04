@@ -5,7 +5,7 @@ public class BasketItem : BaseEntity
 {
     public int Quantity { get; set; }
     public decimal Price { get; set; } //Unit price
-    public Guid SessionId { get; set; }
+    public Guid? SessionId { get; set; }
     public ShoppingSession ShoppingSession { get; set; }
 
     public Guid BookId { get; set; }

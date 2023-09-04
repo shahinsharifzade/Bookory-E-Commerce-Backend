@@ -22,17 +22,24 @@ public class BasketsController : ControllerBase
         return Ok(basket);
     }
 
-    [HttpPost]
+    [HttpPost("add")]
     public async Task<IActionResult> Add([FromQuery] BasketPostDto basketPostDto)
     {
         var respons =await _basketService.AddItemToBasketAsync(basketPostDto);
         return Ok(respons);
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("delete/{id}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         var respons = await _basketService.RemoveBasketItemAsync(id);
+        return Ok(respons);
+    }
+
+    [HttpPost("update")]
+    public async Task<IActionResult> Update(BasketPutDto basketPutDto)
+    {
+        var respons = await _basketService.UpdateItemAsync(basketPutDto);
         return Ok(respons);
     }
 }

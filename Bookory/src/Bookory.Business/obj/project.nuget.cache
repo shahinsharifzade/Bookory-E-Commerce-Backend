@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "06A75Lcd449SeiCLGwgrInOUQLSXLYTIXZTdtOmziv356bq+WbbhWViQ/Y745Y1SDnSJkKee7bYXXXUZxVeDwg==",
+  "dgSpecHash": "MJaRSZdMJMGIVWsjaCYY68yZUipNyHqeR4MlgTtpqwI3eJ1svoeA8lIkPbZAUKEwUKO+TlWZrY923rkkb7xKsg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Business\\Bookory.Business.csproj",
   "expectedPackageFiles": [
@@ -45,6 +45,7 @@
     "C:\\Users\\Şahin\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Şahin\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Şahin\\.nuget\\packages\\mimekit\\4.1.0\\mimekit.4.1.0.nupkg.sha512",
+    "C:\\Users\\Şahin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Şahin\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\Şahin\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\Şahin\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.1\\system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",

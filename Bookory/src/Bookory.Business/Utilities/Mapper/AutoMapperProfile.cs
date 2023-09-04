@@ -90,6 +90,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Book, BasketItem>();
         CreateMap<BasketItem, BasketGetResponseDto>()
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+            .ForMember(dest => dest.Price , opt => opt.MapFrom(src => src.Price))
             .ForCtorParam("BasketBook", opt => opt.MapFrom(src => src.Book));
 
         #endregion
