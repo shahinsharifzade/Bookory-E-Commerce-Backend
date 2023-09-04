@@ -163,9 +163,17 @@ public class BasketService : IBasketService
 
     public async Task<ResponseDto> RemoveBasketItemAsync(Guid id)
     {
+        bool isExist =await _bookRepository.IsExistAsync(b => b.Id == id);
+        if (!isExist)
+            throw new BookNotFoundException("Book does not exist in basket");
+
+        if (!_isAuthenticated)
+        {
+            var response = await RemoveCookieBasketItemAsync(id);
+            return new ResponseDto(response.StatusCode, response.Message);
+        }
 
         var userId = await GetUserIdAsync();
-
         ShoppingSession? userSession = await _shoppingSessionRepository.GetSingleAsync(ss => ss.UserId == userId && !ss.IsOrdered);
 
         var book = await _basketItemRepository.GetSingleAsync(bi => bi.BookId == id);
@@ -177,6 +185,20 @@ public class BasketService : IBasketService
         return new ResponseDto((int)HttpStatusCode.OK, "Product is deleted");
     }
 
+    private async Task<ResponseDto> RemoveCookieBasketItemAsync(Guid id)
+    {
+        var basketItems = GetBasketItemsFromCookie();
+
+        BasketItem itemToDelete = basketItems.FirstOrDefault(bi => bi.BookId == id);
+        if (itemToDelete is null)
+            throw new BasketItemNotFoundException("The specified item does not exist in the basket");
+
+        basketItems.Remove(itemToDelete);
+
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
+        return new ResponseDto((int)HttpStatusCode.OK, "Item removed from the basket");
+    }
+
     public async Task<ResponseDto> UpdateItemAsync(BasketPutDto basketPutDto)
     {
         ValidateInputPut(basketPutDto);
@@ -184,7 +206,7 @@ public class BasketService : IBasketService
 
         if (!_isAuthenticated)
         {
-            var response =await UpdateCookieBasketItemAsync(book, basketPutDto);
+            var response = await UpdateCookieBasketItemAsync(book, basketPutDto);
             return new ResponseDto(response.StatusCode, response.Message);
         }
 
@@ -209,7 +231,7 @@ public class BasketService : IBasketService
     private async Task<ResponseDto> UpdateCookieBasketItemAsync(Book book, BasketPutDto basketPutDto)
     {
         List<BasketItem> basketItems = GetBasketItemsFromCookie();
-        BasketItem itemToUpdate = basketItems.FirstOrDefault( bi => bi.BookId == basketPutDto.Id);
+        BasketItem itemToUpdate = basketItems.FirstOrDefault(bi => bi.BookId == basketPutDto.Id);
 
         if (itemToUpdate is null)
             throw new BasketItemNotFoundException("The specified item does not exist in the basket");
