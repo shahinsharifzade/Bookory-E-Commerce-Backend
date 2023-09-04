@@ -6,6 +6,7 @@ using Bookory.Business.Utilities.DTOs.Common;
 using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.BasketException;
 using Bookory.Business.Utilities.Exceptions.BookExceptions;
+using Bookory.Business.Utilities.Exceptions.LoginException;
 using Bookory.Core.Models;
 using Bookory.Core.Models.Identity;
 using Bookory.DataAccess.Repositories.Interfaces;
@@ -65,7 +66,7 @@ public class BasketService : IBasketService
                 BookId = book.Id,
                 Price = book.Price,
                 Quantity = basketPostDto.Quantity,
-                SessionId = userSession.Id,
+                //SessionId = userSession.Id, //Session Id while await _shoppingSessionRepository.SaveAsync();
             };
             userSession.BasketItems.Add(basketItem);
             userSession.UserId = userId;
@@ -80,29 +81,6 @@ public class BasketService : IBasketService
         if (!await _shoppingSessionRepository.IsExistAsync(ss => ss.Id == userSession.Id))
             await _shoppingSessionRepository.CreateAsync(userSession);
         await _shoppingSessionRepository.SaveAsync();
-
-        return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
-    }
-
-    public async Task<ResponseDto> AddBasketItemToCookieAsync(Book book, BasketPostDto basketPostDto)
-    {
-        List<BasketItem> basketItems = GetBasketItemsFromCookie();
-        BasketItem basketItem = new BasketItem
-        {
-            BookId = book.Id,
-            Price = book.Price,
-            Quantity = basketPostDto.Quantity,
-        };
-
-        if (basketItems != null)
-            if (basketItems.Any(bi => bi.BookId == book.Id))
-                basketItems.FirstOrDefault(bi => bi.BookId == book.Id).Quantity += basketPostDto.Quantity;
-            else
-                basketItems.Add(basketItem);
-        else
-            basketItems = new List<BasketItem> { basketItem };
-
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
 
         return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
     }
@@ -125,30 +103,6 @@ public class BasketService : IBasketService
         return basketItems;
     }
 
-    private async Task IncludeBookToBasketItemAsync(List<BasketItem> cookieBasketItems)
-    {
-        if (cookieBasketItems != null)
-        {
-            foreach (var cookieItem in cookieBasketItems)
-            {
-                cookieItem.Book = await _bookRepository.GetSingleAsync(b => b.Id == cookieItem.BookId,
-                                                                                    nameof(Book.Images),
-                                                                                    nameof(Book.Author),
-                                                                                    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
-                                                                                    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
-            }
-        }
-    }
-
-    private List<BasketItem> GetBasketItemsFromCookie()
-    {
-        List<BasketItem> basketItems = null;
-        var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_BASKET_ITEM_KEY];
-        if (cookie != null)
-            basketItems = JsonConvert.DeserializeObject<List<BasketItem>>(cookie);
-        return basketItems;
-    }
-
     public async Task<List<BasketGetResponseDto>> GetBasketItemAsync(Guid id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());
@@ -159,44 +113,6 @@ public class BasketService : IBasketService
         var basketItems = _mapper.Map<List<BasketGetResponseDto>>(userSession.BasketItems);
 
         return basketItems;
-    }
-
-    public async Task<ResponseDto> RemoveBasketItemAsync(Guid id)
-    {
-        bool isExist =await _bookRepository.IsExistAsync(b => b.Id == id);
-        if (!isExist)
-            throw new BookNotFoundException("Book does not exist in basket");
-
-        if (!_isAuthenticated)
-        {
-            var response = await RemoveCookieBasketItemAsync(id);
-            return new ResponseDto(response.StatusCode, response.Message);
-        }
-
-        var userId = await GetUserIdAsync();
-        ShoppingSession? userSession = await _shoppingSessionRepository.GetSingleAsync(ss => ss.UserId == userId && !ss.IsOrdered);
-
-        var book = await _basketItemRepository.GetSingleAsync(bi => bi.BookId == id);
-        if (book is null)
-            throw new BookNotFoundException($"Book does not exist in basket");
-
-        _basketItemRepository.Delete(book);
-        await _basketItemRepository.SaveAsync();
-        return new ResponseDto((int)HttpStatusCode.OK, "Product is deleted");
-    }
-
-    private async Task<ResponseDto> RemoveCookieBasketItemAsync(Guid id)
-    {
-        var basketItems = GetBasketItemsFromCookie();
-
-        BasketItem itemToDelete = basketItems.FirstOrDefault(bi => bi.BookId == id);
-        if (itemToDelete is null)
-            throw new BasketItemNotFoundException("The specified item does not exist in the basket");
-
-        basketItems.Remove(itemToDelete);
-
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
-        return new ResponseDto((int)HttpStatusCode.OK, "Item removed from the basket");
     }
 
     public async Task<ResponseDto> UpdateItemAsync(BasketPutDto basketPutDto)
@@ -228,11 +144,95 @@ public class BasketService : IBasketService
         return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated");
     }
 
+    public async Task<ResponseDto> RemoveBasketItemAsync(Guid id)
+    {
+        bool isExist = await _bookRepository.IsExistAsync(b => b.Id == id);
+        if (!isExist)
+            throw new BookNotFoundException("Book does not exist in basket");
+
+        if (!_isAuthenticated)
+        {
+            var response = await RemoveCookieBasketItemAsync(id);
+            return new ResponseDto(response.StatusCode, response.Message);
+        }
+
+        var userId = await GetUserIdAsync();
+        ShoppingSession? userSession = await _shoppingSessionRepository.GetSingleAsync(ss => ss.UserId == userId && !ss.IsOrdered);
+
+        var book = await _basketItemRepository.GetSingleAsync(bi => bi.BookId == id);
+        if (book is null)
+            throw new BookNotFoundException($"Book does not exist in basket");
+
+        _basketItemRepository.Delete(book);
+        await _basketItemRepository.SaveAsync();
+        return new ResponseDto((int)HttpStatusCode.OK, "Product is deleted");
+    }
+
+    public async Task<ResponseDto> TransferCookieBasketToDatabaseAsync(string userId)
+    {
+        var cookieBasketItems = GetBasketItemsFromCookie();
+        if (cookieBasketItems == null || !cookieBasketItems.Any())
+            return new ResponseDto((int)HttpStatusCode.OK, "No cookie basket items to transfer");
+
+        ShoppingSession userSession = await GetOrCreateUserSessionAsync(userId);
+
+        foreach (var basketItem in cookieBasketItems)
+        {
+            var existingBasketItem = userSession.BasketItems.FirstOrDefault(bi => bi.BookId == basketItem.BookId);
+
+            if (existingBasketItem != null)
+                existingBasketItem.Quantity += basketItem.Quantity;
+            else
+                userSession.BasketItems.Add(basketItem);
+        }
+
+        userSession.TotalPrice = userSession.BasketItems.Sum(bi => bi.Quantity * bi.Price);
+        _shoppingSessionRepository.Update(userSession);
+        await _shoppingSessionRepository.SaveAsync();
+
+        ClearCookieBasket();
+
+        return new ResponseDto((int)HttpStatusCode.OK, "Cookie basket successfully transferred to the database.");
+    }
+
+    #region Cookie Mehtods
+    private List<BasketItem> GetBasketItemsFromCookie()
+    {
+        List<BasketItem> basketItems = null;
+        var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_BASKET_ITEM_KEY];
+        if (cookie != null)
+            basketItems = JsonConvert.DeserializeObject<List<BasketItem>>(cookie);
+        return basketItems;
+    }
+    public async Task<ResponseDto> AddBasketItemToCookieAsync(Book book, BasketPostDto basketPostDto)
+    {
+        List<BasketItem> basketItems = GetBasketItemsFromCookie();
+        BasketItem basketItem = new BasketItem
+        {
+            BookId = book.Id,
+            Price = book.Price,
+            Quantity = basketPostDto.Quantity,
+        };
+
+        if (basketItems != null)
+            if (basketItems.Any(bi => bi.BookId == book.Id))
+                basketItems.FirstOrDefault(bi => bi.BookId == book.Id).Quantity += basketPostDto.Quantity;
+            else
+                basketItems.Add(basketItem);
+        else
+            basketItems = new List<BasketItem> { basketItem };
+
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
+
+        return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
+    }
     private async Task<ResponseDto> UpdateCookieBasketItemAsync(Book book, BasketPutDto basketPutDto)
     {
         List<BasketItem> basketItems = GetBasketItemsFromCookie();
-        BasketItem itemToUpdate = basketItems.FirstOrDefault(bi => bi.BookId == basketPutDto.Id);
+        if (basketItems is null)
+            throw new BasketEmptyException("Your basket is empty");
 
+        BasketItem itemToUpdate = basketItems.FirstOrDefault(bi => bi.BookId == basketPutDto.Id);
         if (itemToUpdate is null)
             throw new BasketItemNotFoundException("The specified item does not exist in the basket");
 
@@ -242,6 +242,28 @@ public class BasketService : IBasketService
 
         return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated");
     }
+    private async Task<ResponseDto> RemoveCookieBasketItemAsync(Guid id)
+    {
+        var basketItems = GetBasketItemsFromCookie();
+
+        if (basketItems is null)
+            throw new BasketEmptyException("Your basket is empty");
+
+        BasketItem itemToDelete = basketItems.FirstOrDefault(bi => bi.BookId == id);
+        if (itemToDelete is null)
+            throw new BasketItemNotFoundException("The specified item does not exist in the basket");
+
+        basketItems.Remove(itemToDelete);
+
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
+        return new ResponseDto((int)HttpStatusCode.OK, "Item removed from the basket");
+    }
+    private void ClearCookieBasket()
+    {
+        _httpContextAccessor.HttpContext.Response.Cookies.Delete(COOKIE_BASKET_ITEM_KEY);
+    }
+
+    #endregion
 
     #region AddItemToBasketAsync Methods
 
@@ -286,7 +308,7 @@ public class BasketService : IBasketService
 
     #endregion
 
-    #region Common Method
+    #region Common Methods
     private async Task<string> GetUserIdAsync()
     {
         var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -295,6 +317,21 @@ public class BasketService : IBasketService
         if (user is null)
             throw new UserNotFoundException($"User can not find by");
         return userId;
+    }
+
+    private async Task IncludeBookToBasketItemAsync(List<BasketItem> cookieBasketItems)
+    {
+        if (cookieBasketItems != null)
+        {
+            foreach (var cookieItem in cookieBasketItems)
+            {
+                cookieItem.Book = await _bookRepository.GetSingleAsync(b => b.Id == cookieItem.BookId,
+                                                                                    nameof(Book.Images),
+                                                                                    nameof(Book.Author),
+                                                                                    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
+                                                                                    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+            }
+        }
     }
 
     private async Task<ShoppingSession> GetUserSessionWithIncludesAsync(string userId)

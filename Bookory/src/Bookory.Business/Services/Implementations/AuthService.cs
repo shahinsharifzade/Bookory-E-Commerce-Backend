@@ -20,17 +20,20 @@ namespace Bookory.Business.Services.Implementations;
 public class AuthService : IAuthService
 {
     private readonly UserManager<AppUser> _userManager;
-    private readonly ITokenHelper _tokenHelper;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly LinkGenerator _linkGenerator;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IBasketService _basketService;
+    private readonly ITokenHelper _tokenHelper;
     private readonly IMailService _mailService;
-    public AuthService(UserManager<AppUser> userManager, ITokenHelper tokenHelper, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator, IMailService mailService)
+
+    public AuthService(UserManager<AppUser> userManager, ITokenHelper tokenHelper, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator, IMailService mailService, IBasketService basketService)
     {
         _userManager = userManager;
         _tokenHelper = tokenHelper;
         _httpContextAccessor = httpContextAccessor;
         _linkGenerator = linkGenerator;
         _mailService = mailService;
+        _basketService = basketService;
     }
 
     public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
@@ -41,11 +44,10 @@ public class AuthService : IAuthService
         bool isSuccess = await _userManager.CheckPasswordAsync(user, loginDto.Password);
         if (!isSuccess) throw new LoginFailedException("Invalid username or password");
 
+        await _basketService.TransferCookieBasketToDatabaseAsync(user.Id);
 
         IList<Claim> claims = await _userManager.GetClaimsAsync(user);
         TokenResponseDto tokenResponseDto = _tokenHelper.CreateToken(claims.ToList());
-
-        //var response = _userManager.Users.ToList();
 
         return tokenResponseDto;
     }
