@@ -48,7 +48,7 @@ public class BasketService : IBasketService
 
         if (!_isAuthenticated)
         {
-            ResponseDto response = await AddCartItemToCookieAsync(book, basketPostDto);
+            ResponseDto response = await AddBasketItemToCookieAsync(book, basketPostDto);
             return new ResponseDto(response.StatusCode, response.Message);
         }
 
@@ -84,9 +84,9 @@ public class BasketService : IBasketService
         return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
     }
 
-    public async Task<ResponseDto> AddCartItemToCookieAsync(Book book, BasketPostDto basketPostDto)
+    public async Task<ResponseDto> AddBasketItemToCookieAsync(Book book, BasketPostDto basketPostDto)
     {
-        List<BasketItem> basketItems = GetCartItemsFromCookie();
+        List<BasketItem> basketItems = GetBasketItemsFromCookie();
         BasketItem basketItem = new BasketItem
         {
             BookId = book.Id,
@@ -111,7 +111,7 @@ public class BasketService : IBasketService
     {
         if (!_isAuthenticated)
         {
-            var cookieBasketItems = GetCartItemsFromCookie();
+            var cookieBasketItems = GetBasketItemsFromCookie();
             await IncludeBookToBasketItemAsync(cookieBasketItems);
 
             return _mapper.Map<List<BasketGetResponseDto>>(cookieBasketItems);
@@ -127,17 +127,20 @@ public class BasketService : IBasketService
 
     private async Task IncludeBookToBasketItemAsync(List<BasketItem> cookieBasketItems)
     {
-        foreach (var cookieItem in cookieBasketItems)
+        if (cookieBasketItems != null)
         {
-            cookieItem.Book = await _bookRepository.GetSingleAsync(b => b.Id == cookieItem.BookId,
-                                                                                nameof(Book.Images),
-                                                                                nameof(Book.Author),
-                                                                                $"{nameof(Book.Author)}.{nameof(Author.Images)}",
-                                                                                $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+            foreach (var cookieItem in cookieBasketItems)
+            {
+                cookieItem.Book = await _bookRepository.GetSingleAsync(b => b.Id == cookieItem.BookId,
+                                                                                    nameof(Book.Images),
+                                                                                    nameof(Book.Author),
+                                                                                    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
+                                                                                    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+            }
         }
     }
 
-    private List<BasketItem> GetCartItemsFromCookie()
+    private List<BasketItem> GetBasketItemsFromCookie()
     {
         List<BasketItem> basketItems = null;
         var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_BASKET_ITEM_KEY];
@@ -178,9 +181,11 @@ public class BasketService : IBasketService
     {
         ValidateInputPut(basketPutDto);
         var book = await GetBookByIdAsync(basketPutDto.Id);
-        
+
         if (!_isAuthenticated)
         {
+            var response =await UpdateCookieBasketItemAsync(book, basketPutDto);
+            return new ResponseDto(response.StatusCode, response.Message);
         }
 
         var userId = await GetUserIdAsync();
@@ -201,6 +206,20 @@ public class BasketService : IBasketService
         return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated");
     }
 
+    private async Task<ResponseDto> UpdateCookieBasketItemAsync(Book book, BasketPutDto basketPutDto)
+    {
+        List<BasketItem> basketItems = GetBasketItemsFromCookie();
+        BasketItem itemToUpdate = basketItems.FirstOrDefault( bi => bi.BookId == basketPutDto.Id);
+
+        if (itemToUpdate is null)
+            throw new BasketItemNotFoundException("The specified item does not exist in the basket");
+
+        itemToUpdate.Quantity = basketPutDto.Quantity;
+
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
+
+        return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated");
+    }
 
     #region AddItemToBasketAsync Methods
 
