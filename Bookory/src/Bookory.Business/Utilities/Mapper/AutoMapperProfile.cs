@@ -5,6 +5,7 @@ using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.BookImageDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
+using Bookory.Business.Utilities.DTOs.UserAddressDtos;
 using Bookory.Business.Utilities.DTOs.UserDtos;
 using Bookory.Business.Utilities.Extension.FileExtensions;
 using Bookory.Business.Utilities.ImageResolver.AuthorResolver;
@@ -76,7 +77,6 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-
         #region User Mapper
 
         CreateMap<RegisterDto, AppUser>();
@@ -90,8 +90,20 @@ public class AutoMapperProfile : Profile
         CreateMap<Book, BasketItem>();
         CreateMap<BasketItem, BasketGetResponseDto>()
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
-            .ForMember(dest => dest.Price , opt => opt.MapFrom(src => src.Price))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForCtorParam("BasketBook", opt => opt.MapFrom(src => src.Book));
+
+        #endregion
+
+        #region UserAddress Mapper
+
+        CreateMap<UserAddress, UserAddressGetReponseDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId)).ReverseMap();
+
+        CreateMap<UserAddressPostDto, UserAddress>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId)).ReverseMap(); 
+
+        CreateMap<UserAddressPutDto, UserAddress>();
 
         #endregion
     }

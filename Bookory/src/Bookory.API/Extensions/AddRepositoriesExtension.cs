@@ -12,6 +12,7 @@ public static class AddRepositoriesExtension
         services.AddScoped<IGenreRepository, GenreRepository>();
         services.AddScoped<IBasketItemRepository, BasketItemRepository>();
         services.AddScoped<IShoppingSessionRepository, ShoppingSessionRepository>();
+        services.AddScoped<IUserAdressRepository, UserAdressRepository>();
 
         return services;
     }

@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BasketDtos;
-using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
 using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.BasketException;
 using Bookory.Business.Utilities.Exceptions.BookExceptions;
-using Bookory.Business.Utilities.Exceptions.LoginException;
 using Bookory.Core.Models;
 using Bookory.Core.Models.Identity;
 using Bookory.DataAccess.Repositories.Interfaces;

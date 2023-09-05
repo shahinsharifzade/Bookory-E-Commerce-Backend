@@ -26,7 +26,9 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Blog> Blogs { get; set; } = null!;
     public DbSet<BasketItem> BasketItems { get; set; } = null!;
     public DbSet<ShoppingSession> ShoppingSessions { get; set; } = null!;
-    public DbSet<Order> Orders  { get; set; } = null!;
+    public DbSet<UserAddress> UserAddresses  { get; set; } = null!;
+    //public DbSet<Order> Orders  { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,6 +39,10 @@ public class AppDbContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<Blog>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<AuthorImage>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<BookImage>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<BasketItem>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<ShoppingSession>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<UserAddress>().HasQueryFilter(x => !x.IsDeleted);
+
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);

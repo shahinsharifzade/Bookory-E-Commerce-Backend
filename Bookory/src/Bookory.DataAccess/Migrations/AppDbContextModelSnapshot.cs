@@ -128,7 +128,7 @@ namespace Bookory.DataAccess.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("SessionId")
+                    b.Property<Guid?>("SessionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -418,38 +418,6 @@ namespace Bookory.DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Bookory.Core.Models.Order", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ShoppingSessionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShoppingSessionId")
-                        .IsUnique();
-
-                    b.ToTable("Orders");
-                });
-
             modelBuilder.Entity("Bookory.Core.Models.ShoppingSession", b =>
                 {
                     b.Property<Guid>("Id")
@@ -486,6 +454,69 @@ namespace Bookory.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ShoppingSessions");
+                });
+
+            modelBuilder.Entity("Bookory.Core.Models.UserAddress", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("AddressLine2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Telephone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAddresses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -643,9 +674,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasOne("Bookory.Core.Models.ShoppingSession", "ShoppingSession")
                         .WithMany("BasketItems")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SessionId");
 
                     b.Navigation("Book");
 
@@ -693,21 +722,21 @@ namespace Bookory.DataAccess.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("Bookory.Core.Models.Order", b =>
-                {
-                    b.HasOne("Bookory.Core.Models.ShoppingSession", "ShoppingSession")
-                        .WithOne("Order")
-                        .HasForeignKey("Bookory.Core.Models.Order", "ShoppingSessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShoppingSession");
-                });
-
             modelBuilder.Entity("Bookory.Core.Models.ShoppingSession", b =>
                 {
                     b.HasOne("Bookory.Core.Models.Identity.AppUser", "User")
                         .WithMany("ShoppingSessions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Bookory.Core.Models.UserAddress", b =>
+                {
+                    b.HasOne("Bookory.Core.Models.Identity.AppUser", "User")
+                        .WithMany("UserAddresses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -790,14 +819,13 @@ namespace Bookory.DataAccess.Migrations
             modelBuilder.Entity("Bookory.Core.Models.Identity.AppUser", b =>
                 {
                     b.Navigation("ShoppingSessions");
+
+                    b.Navigation("UserAddresses");
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.ShoppingSession", b =>
                 {
                     b.Navigation("BasketItems");
-
-                    b.Navigation("Order")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

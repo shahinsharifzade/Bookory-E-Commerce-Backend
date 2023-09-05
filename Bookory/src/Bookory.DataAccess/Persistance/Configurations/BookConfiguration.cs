@@ -11,7 +11,6 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(p => p.AuthorId).IsRequired(true);
 
         builder.Property(p => p.Title).IsRequired(true).HasMaxLength(300);
-        //builder.Property(p => p.Image).IsRequired(true);
         builder.Property(p => p.Description).IsRequired(true).HasMaxLength(300);
         builder.Property(p => p.StockQuantity).IsRequired(true);
         builder.Property(p => p.Price).IsRequired(true).HasColumnType("decimal(10,2)");
