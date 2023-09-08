@@ -42,7 +42,7 @@ public class MailService : IMailService
         builder.HtmlBody = mailRequesDto.Body;
         email.Body = builder.ToMessageBody();
         using var smtp = new SmtpClient();
-        smtp.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true; // Bypass certificate validation
+        //smtp.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true; // Bypass certificate validation
 
         await smtp.ConnectAsync(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
         await smtp.AuthenticateAsync(_mailSettings.Mail, _mailSettings.Password);

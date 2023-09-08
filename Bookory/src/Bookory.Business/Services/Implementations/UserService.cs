@@ -97,9 +97,9 @@ public class UserService : IUserService
         return userDtos;
     }
 
-    public async Task<UserRoleGetResponseDto> GetUserByIdAsync(Guid id)
+    public async Task<UserRoleGetResponseDto> GetUserByIdAsync(string id)
     {
-        var user = await _usermanager.FindByIdAsync(id.ToString());
+        var user = await _usermanager.FindByIdAsync(id);
         if (user is null) throw new UserNotFoundException($"User not found by Id {id}");
 
         var userDto = _mapper.Map<UserGetResponseDto>(user);
@@ -135,4 +135,28 @@ public class UserService : IUserService
         }
     }
 
+
+    #region Stripe
+
+    public async Task<AppUser> GetUserAllDetailsByIdAsync(string id)
+    {
+        var user = await _usermanager.FindByIdAsync(id);
+        if (user is null) throw new UserNotFoundException($"User not found by Id {id}");
+
+        return user;
+    }
+
+    public async Task<bool> SetPaymentTokenID(string userId, string stripeToken)
+    {
+        AppUser user = await _usermanager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user != null)
+        {
+            user.StripeTokenId = stripeToken;
+            await _usermanager.UpdateAsync(user);
+            return true;
+        }
+        return false;
+    }
+    #endregion
 }

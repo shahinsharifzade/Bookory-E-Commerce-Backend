@@ -104,4 +104,10 @@ public class BookService : IBookService
 
         return new((int)HttpStatusCode.OK, "Book successfully delete");
     }
+
+    public async Task<bool> BookIsExistAsync(Guid id)
+    {
+        bool isExist = await _bookRepository.IsExistAsync(b => b.Id == id);
+        return isExist;
+    }
 }

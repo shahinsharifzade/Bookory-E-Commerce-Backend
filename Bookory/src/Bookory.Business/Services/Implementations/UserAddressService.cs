@@ -2,7 +2,6 @@
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.Common;
 using Bookory.Business.Utilities.DTOs.UserAddressDtos;
-using Bookory.Business.Utilities.DTOs.UserDtos;
 using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.UserAddressException;
 using Bookory.Core.Models;
@@ -22,15 +21,17 @@ public class UserAddressService : IUserAddressService
     private readonly IUserAdressRepository _userAdressRepository;
     private readonly IMapper _mapper;
     private readonly UserManager<AppUser> _userManager;
+    private readonly IUserService _userService;
     private readonly bool _isAuthenticated;
 
-    public UserAddressService(IMapper mapper, IUserAdressRepository userAdressRepository, IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager)
+    public UserAddressService(IMapper mapper, IUserAdressRepository userAdressRepository, IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager, IUserService userService)
     {
         _mapper = mapper;
         _userAdressRepository = userAdressRepository;
         _httpContextAccessor = httpContextAccessor;
         _isAuthenticated = _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
         _userManager = userManager;
+        _userService = userService;
     }
 
     public async Task<List<UserAddressGetReponseDto>> GetAllAddressAsync()
@@ -59,6 +60,14 @@ public class UserAddressService : IUserAddressService
         var addressDto = _mapper.Map<UserAddressGetReponseDto>(address);
 
         return addressDto;
+    }
+
+    private async Task<UserAddress> GetUserAddressAsync(UserAddressPutDto userAddressPutDto)
+    {
+        var address = await _userAdressRepository.GetSingleAsync(ua => ua.Id == userAddressPutDto.Id);
+        if (address is null)
+            throw new UserAddressNotFoundException("User Address not found");
+        return address;
     }
 
     public async Task<ResponseDto> AddAddressAsync(UserAddressPostDto userAddressPostDto)
@@ -102,13 +111,7 @@ public class UserAddressService : IUserAddressService
 
         return new ResponseDto((int)HttpStatusCode.OK, "User Address successfully deleted");
     }
-    private async Task<UserAddress> GetUserAddressAsync(UserAddressPutDto userAddressPutDto)
-    {
-        var address = await _userAdressRepository.GetSingleAsync(ua => ua.Id == userAddressPutDto.Id);
-        if (address is null)
-            throw new UserAddressNotFoundException("User Address not found");
-        return address;
-    }
+    
     private void EnsureAuthenticated()
     {
         if (!_isAuthenticated)
@@ -118,7 +121,7 @@ public class UserAddressService : IUserAddressService
     private async Task<string> GetUserIdAsync()
     {
         var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userService.GetUserByIdAsync(userId);
 
         if (user is null)
             throw new UserNotFoundException("User not found");

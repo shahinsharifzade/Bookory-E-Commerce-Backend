@@ -3,4 +3,4 @@ using Bookory.Core.Models;
 
 namespace Bookory.Business.Utilities.DTOs.BasketDtos;
 
-public record BasketGetResponseDto(BookGetResponseDto BasketBook , int Quantity, decimal Price);
+public record BasketGetResponseDto(Guid Id, BookGetResponseDto BasketBook , int Quantity, decimal Price);

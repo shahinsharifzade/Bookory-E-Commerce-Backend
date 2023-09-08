@@ -72,6 +72,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "Stripe.net": {
+              "target": "Package",
+              "version": "[42.4.0-beta.1, )"
             }
           },
           "imports": [

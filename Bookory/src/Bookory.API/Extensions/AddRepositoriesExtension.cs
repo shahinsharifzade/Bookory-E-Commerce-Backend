@@ -1,5 +1,6 @@
 ﻿using Bookory.DataAccess.Repositories.Implementations;
 using Bookory.DataAccess.Repositories.Interfaces;
+using System.Reflection.Metadata;
 
 namespace Bookory.API.Extensions;
 
@@ -13,6 +14,11 @@ public static class AddRepositoriesExtension
         services.AddScoped<IBasketItemRepository, BasketItemRepository>();
         services.AddScoped<IShoppingSessionRepository, ShoppingSessionRepository>();
         services.AddScoped<IUserAdressRepository, UserAdressRepository>();
+
+        services.AddScoped<IPaymentDetailRepository, PaymentDetailRepository>();
+        services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+        services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+
 
         return services;
     }

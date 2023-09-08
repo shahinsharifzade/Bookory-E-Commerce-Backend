@@ -10,4 +10,5 @@ public interface IBookService
     Task<ResponseDto> CreateBookAsync(BookPostDto bookPostDto);
     Task<ResponseDto> UpdateBookAsync(BookPutDto bookPutDto);
     Task<ResponseDto> DeleteBookAsync(Guid Id);
+    Task<bool> BookIsExistAsync(Guid id);
 }

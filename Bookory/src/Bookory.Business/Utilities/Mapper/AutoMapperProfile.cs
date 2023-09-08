@@ -5,6 +5,9 @@ using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.BookImageDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
+using Bookory.Business.Utilities.DTOs.OrderDetailDtos;
+using Bookory.Business.Utilities.DTOs.OrderItemDtos;
+using Bookory.Business.Utilities.DTOs.PaymentDetailDto;
 using Bookory.Business.Utilities.DTOs.UserAddressDtos;
 using Bookory.Business.Utilities.DTOs.UserDtos;
 using Bookory.Business.Utilities.Extension.FileExtensions;
@@ -100,10 +103,32 @@ public class AutoMapperProfile : Profile
         CreateMap<UserAddress, UserAddressGetReponseDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId)).ReverseMap();
 
-        CreateMap<UserAddressPostDto, UserAddress>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId)).ReverseMap(); 
+        CreateMap<UserAddressPostDto, UserAddress>().ReverseMap(); 
 
         CreateMap<UserAddressPutDto, UserAddress>();
+
+        #endregion
+
+        #region Payment Detail Mapper
+
+        CreateMap<PaymentDetail, PaymentDetailGetResponseDto>().ReverseMap();
+        CreateMap<PaymentDetailPostDto, PaymentDetail>();
+
+        #endregion
+
+        #region Order Detail Mapper
+
+        CreateMap<OrderDetailPostDto, OrderDetail>();
+
+        CreateMap<Book, OrderItem>().ReverseMap();
+        CreateMap<OrderDetail, OrderDetailGetResponseDto>().ReverseMap();
+
+        #endregion
+
+        #region Order Item Mapper
+
+        CreateMap<OrderItem,OrderItemGetResponseDto>().ReverseMap();
+        CreateMap<OrderItemPostDto, OrderItem>();
 
         #endregion
     }

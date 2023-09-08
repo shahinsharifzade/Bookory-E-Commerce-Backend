@@ -19,15 +19,24 @@ public class AppDbContext : IdentityDbContext<AppUser>
 
     public DbSet<Author> Authors { get; set; } = null!;
     public DbSet<AuthorImage> AuthorImages { get; set; } = null!;
+
     public DbSet<Book> Books { get; set; } = null!;
     public DbSet<BookImage> BookImages { get; set; } = null!;
+
     public DbSet<Genre> Genres { get; set; } = null!;
     public DbSet<BookGenre> BookGenres { get; set; } = null!;
+
     public DbSet<Blog> Blogs { get; set; } = null!;
+
     public DbSet<BasketItem> BasketItems { get; set; } = null!;
     public DbSet<ShoppingSession> ShoppingSessions { get; set; } = null!;
     public DbSet<UserAddress> UserAddresses  { get; set; } = null!;
-    //public DbSet<Order> Orders  { get; set; } = null!;
+
+    public DbSet<PaymentDetail>  PaymentDetails { get; set; } = null!;
+    public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
+    public DbSet<OrderItem> OrderItems { get; set; } = null!;
+
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

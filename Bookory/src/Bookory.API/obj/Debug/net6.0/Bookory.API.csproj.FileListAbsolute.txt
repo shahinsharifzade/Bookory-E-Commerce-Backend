@@ -211,12 +211,7 @@ C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.A
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\Bookory.Business.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\Bookory.Core.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\Bookory.DataAccess.dll
@@ -258,3 +253,9 @@ C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.A
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\Stripe.net.dll
+C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll

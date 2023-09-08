@@ -3,6 +3,10 @@ using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.Email;
 using Bookory.Business.Utilities.Security.JWT.Implementation;
 using Bookory.Business.Utilities.Security.JWT.Interface;
+using Bookory.Core.Models;
+using Bookory.Core.Models.Stripe;
+using Bookory.DataAccess.Repositories.Implementations;
+using Stripe;
 
 namespace Bookory.API.Extensions;
 
@@ -20,6 +24,17 @@ public static class AddServiceExtension
         services.AddScoped<IBasketService, BasketService>();
         services.AddScoped<IUserAddressService, UserAddressService>();
 
+        services.AddScoped<IShoppingSessionService, ShoppingSessionService>();
+        services.AddScoped<IBasketItemService, BasketItemService>();
+        services.AddScoped<IOrderService, Business.Services.Implementations.OrderService>();
+        services.AddScoped<IPaymentDetailService, PaymentDetailService>();
+        services.AddScoped<IOrderItemService, OrderItemService>();
+        services.AddScoped<IOrderDetailService, OrderDetailService>();
+
+        services.AddScoped<IStripeService, StripeService>();
+
+        services.AddScoped<StripeSettings>();
+        
         services.AddHttpContextAccessor();
         services.AddTransient<IMailService, MailService>();
         return services;
