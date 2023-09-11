@@ -7,7 +7,6 @@ using Bookory.Business.Utilities.Exceptions.BookExceptions;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net;
 using System.Security.Claims;
@@ -52,6 +51,9 @@ public class WishlistService : IWishlistService
             $"{nameof(Wishlist.Books)}.{nameof(Book.Author)}.{nameof(Author.Images)}",
             $"{nameof(Wishlist.Books)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
 
+        if (wishlist == null)
+            throw new Exception("No wishlist item exist");
+
         return _mapper.Map<WishlistGetResponseDto>(wishlist);
     }
 
@@ -83,6 +85,32 @@ public class WishlistService : IWishlistService
             wishlist.Books.Add(book);
             _wishlistRepository.Update(wishlist);
         }
+        await _wishlistRepository.SaveAsync();
+
+        return new ResponseDto((int)HttpStatusCode.OK, "Success");
+    }
+
+    public async Task<ResponseDto> RemoveWishlistItem(Guid id)
+    {
+        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var bookToDelete = await _bookService.GetBookByIdAsync(id);
+
+        if (!isAuthenticated)
+        {
+            var response = await DeleteWishlistItemFromCookie(bookToDelete);
+            return new ResponseDto(response.StatusCode, response.Message);
+        }
+
+        var wishlist = await _wishlistRepository.GetSingleAsync(w => w.UserId == userId, nameof(Wishlist.Books));
+        if (wishlist == null)
+            throw new Exception("Wishlist not found");
+
+        var book = wishlist.Books.FirstOrDefault(b => b.Id == id);
+        if (book == null)
+            throw new Exception("Book not found in wishlist by id " + id);
+
+        wishlist.Books.Remove(book);
+        _wishlistRepository.Update(wishlist);
         await _wishlistRepository.SaveAsync();
 
         return new ResponseDto((int)HttpStatusCode.OK, "Success");
@@ -121,32 +149,6 @@ public class WishlistService : IWishlistService
         ClearCookieBasket();
 
         return new ResponseDto((int)HttpStatusCode.OK, "Cookie wishlist successfully transferred to the database.");
-    }
-
-    public async Task<ResponseDto> RemoveWishlistItem(Guid id)
-    {
-        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var bookToDelete = await _bookService.GetBookByIdAsync(id);
-
-        if (!isAuthenticated)
-        {
-            var response = await DeleteWishlistItemFromCookie(bookToDelete);
-            return new ResponseDto(response.StatusCode, response.Message);
-        }
-
-        var wishlist = await _wishlistRepository.GetSingleAsync(w => w.UserId == userId, nameof(Wishlist.Books));
-        if (wishlist == null)
-            throw new Exception("Wishlist not found");
-
-        var book = wishlist.Books.FirstOrDefault(b => b.Id == id);
-        if (book == null)
-            throw new Exception("Book not found in wishlist by id " + id);
-
-        wishlist.Books.Remove(book);
-        _wishlistRepository.Update(wishlist);
-        await _wishlistRepository.SaveAsync();
-
-        return new ResponseDto((int)HttpStatusCode.OK, "Success");
     }
 
 
