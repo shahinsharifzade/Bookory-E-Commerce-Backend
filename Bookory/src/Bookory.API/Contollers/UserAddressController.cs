@@ -43,8 +43,8 @@ public class UserAddressController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("{id}")]
-    public async Task<IActionResult> Update(Guid id)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _userAddressService.DeleteAddressAsync(id);
         return Ok(response);

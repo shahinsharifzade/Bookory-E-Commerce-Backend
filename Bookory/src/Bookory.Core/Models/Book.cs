@@ -14,14 +14,15 @@ public class Book : BaseEntity
     public Guid AuthorId { get; set; }
     public Author Author { get; set; } = null!;
 
-    public ICollection<BookGenre> BookGenres { get; set; } = null!; 
+    public ICollection<BookGenre> BookGenres { get; set; } = null!;
     public ICollection<BookImage> Images { get; set; } = null!;
     public ICollection<BasketItem>? BasketItems { get; set; } = new List<BasketItem>();
-
+    public ICollection<Wishlist>? Wishlists { get; set; }
     public Book()
     {
-        BookGenres= new List<BookGenre>();
-        Images= new List<BookImage>(); 
-        BasketItems= new List<BasketItem>();
+        BookGenres = new List<BookGenre>();
+        Images = new List<BookImage>();
+        BasketItems = new List<BasketItem>();
+        Wishlists = new List<Wishlist>();
     }
-} 
+}

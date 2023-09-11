@@ -29,7 +29,7 @@ public class BasketsController : ControllerBase
         return Ok(respons);
     }
 
-    [HttpPost("delete/{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         var respons = await _basketService.RemoveBasketItemAsync(id);

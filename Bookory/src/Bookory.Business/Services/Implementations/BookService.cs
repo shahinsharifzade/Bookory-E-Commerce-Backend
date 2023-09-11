@@ -37,7 +37,7 @@ public class BookService : IBookService
         return bookDtos;
     }
 
-    public async Task<BookGetResponseDto> GetBookByIdAsync(Guid id) 
+    public async Task<BookGetResponseDto> GetBookByIdAsync(Guid id)
     {
         var book = await _bookRepository.GetByIdAsync(id,
             nameof(Book.Author),
@@ -50,6 +50,20 @@ public class BookService : IBookService
 
         var bookDto = _mapper.Map<BookGetResponseDto>(book);
         return bookDto;
+    }
+
+    public async Task<Book> GetBookAllDetailsByIdAsync(Guid id)
+    {
+        var book = await _bookRepository.GetByIdAsync(id,
+            nameof(Book.Author),
+            nameof(Book.Images),
+            $"{nameof(Book.Author)}.{nameof(Author.Images)}",
+            $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+
+        if (book is null)
+            throw new BookNotFoundException($"Book not found by Id {id}");
+
+        return book;
     }
 
     public async Task<ResponseDto> CreateBookAsync(BookPostDto bookPostDto)
@@ -109,5 +123,14 @@ public class BookService : IBookService
     {
         bool isExist = await _bookRepository.IsExistAsync(b => b.Id == id);
         return isExist;
+    }
+
+    public async Task<Book> IncludeBookAsync(Guid id)
+    {
+        return (await _bookRepository.GetSingleAsync(b => b.Id == id,
+                                                                    nameof(Book.Images),
+                                                                    nameof(Book.Author),
+                                                                    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
+                                                                    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}"));
     }
 }

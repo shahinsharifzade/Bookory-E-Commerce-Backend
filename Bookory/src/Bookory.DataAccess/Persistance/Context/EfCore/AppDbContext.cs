@@ -35,6 +35,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<PaymentDetail>  PaymentDetails { get; set; } = null!;
     public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
     public DbSet<OrderItem> OrderItems { get; set; } = null!;
+    public DbSet<Wishlist> Wishlists { get; set; } = null!;
 
 
 
@@ -51,6 +52,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<BasketItem>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<ShoppingSession>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<UserAddress>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<Wishlist>().HasQueryFilter(x => !x.IsDeleted);
 
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

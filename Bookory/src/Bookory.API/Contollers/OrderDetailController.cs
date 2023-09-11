@@ -14,6 +14,14 @@ public class OrderDetailController : ControllerBase
         _orderDetailService = orderDetailService;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var response = await _orderDetailService.GetAllOrderDetailAsync();
+
+        return Ok(response);
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -26,14 +34,6 @@ public class OrderDetailController : ControllerBase
     public async Task<IActionResult> GetByUserId(string id)
     {
         var response = await _orderDetailService.GetAllOrderDetailByUserIdAsync(id);
-
-        return Ok(response);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var response = await _orderDetailService.GetAllOrderDetailAsync();
 
         return Ok(response);
     }

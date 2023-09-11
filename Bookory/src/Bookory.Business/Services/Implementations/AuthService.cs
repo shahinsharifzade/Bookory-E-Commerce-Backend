@@ -23,10 +23,11 @@ public class AuthService : IAuthService
     private readonly LinkGenerator _linkGenerator;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IBasketService _basketService;
+    private readonly IWishlistService _wishlistService;
     private readonly ITokenHelper _tokenHelper;
     private readonly IMailService _mailService;
 
-    public AuthService(UserManager<AppUser> userManager, ITokenHelper tokenHelper, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator, IMailService mailService, IBasketService basketService)
+    public AuthService(UserManager<AppUser> userManager, ITokenHelper tokenHelper, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator, IMailService mailService, IBasketService basketService, IWishlistService wishlistService)
     {
         _userManager = userManager;
         _tokenHelper = tokenHelper;
@@ -34,6 +35,7 @@ public class AuthService : IAuthService
         _linkGenerator = linkGenerator;
         _mailService = mailService;
         _basketService = basketService;
+        _wishlistService = wishlistService;
     }
 
     public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
@@ -45,6 +47,7 @@ public class AuthService : IAuthService
         if (!isSuccess) throw new LoginFailedException("Invalid username or password");
 
         await _basketService.TransferCookieBasketToDatabaseAsync(user.Id);
+        await _wishlistService.TransferCookieWishlistToDatabaseAsync(user.Id);
 
         IList<Claim> claims = await _userManager.GetClaimsAsync(user);
         TokenResponseDto tokenResponseDto = _tokenHelper.CreateToken(claims.ToList());

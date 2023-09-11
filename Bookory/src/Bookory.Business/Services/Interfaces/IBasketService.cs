@@ -1,6 +1,5 @@
 ﻿using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.Common;
-using Bookory.Core.Models;
 
 namespace Bookory.Business.Services.Interfaces;
 

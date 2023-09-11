@@ -637,6 +637,59 @@ namespace Bookory.DataAccess.Migrations
                     b.ToTable("UserAddresses");
                 });
 
+            modelBuilder.Entity("Bookory.Core.Models.Wishlist", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Wishlists");
+                });
+
+            modelBuilder.Entity("BookWishlist", b =>
+                {
+                    b.Property<Guid>("BooksId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WishlistsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BooksId", "WishlistsId");
+
+                    b.HasIndex("WishlistsId");
+
+                    b.ToTable("BookWishlist", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -900,6 +953,36 @@ namespace Bookory.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Bookory.Core.Models.Wishlist", b =>
+                {
+                    b.HasOne("Bookory.Core.Models.Identity.AppUser", null)
+                        .WithMany("Wishlists")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("Bookory.Core.Models.Identity.AppUser", "User")
+                        .WithOne("Wishlist")
+                        .HasForeignKey("Bookory.Core.Models.Wishlist", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookWishlist", b =>
+                {
+                    b.HasOne("Bookory.Core.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bookory.Core.Models.Wishlist", null)
+                        .WithMany()
+                        .HasForeignKey("WishlistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -979,6 +1062,11 @@ namespace Bookory.DataAccess.Migrations
                     b.Navigation("ShoppingSessions");
 
                     b.Navigation("UserAddresses");
+
+                    b.Navigation("Wishlist")
+                        .IsRequired();
+
+                    b.Navigation("Wishlists");
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.OrderDetail", b =>

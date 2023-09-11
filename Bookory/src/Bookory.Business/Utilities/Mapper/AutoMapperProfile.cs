@@ -10,6 +10,7 @@ using Bookory.Business.Utilities.DTOs.OrderItemDtos;
 using Bookory.Business.Utilities.DTOs.PaymentDetailDto;
 using Bookory.Business.Utilities.DTOs.UserAddressDtos;
 using Bookory.Business.Utilities.DTOs.UserDtos;
+using Bookory.Business.Utilities.DTOs.WishlistDtos;
 using Bookory.Business.Utilities.Extension.FileExtensions;
 using Bookory.Business.Utilities.ImageResolver.AuthorResolver;
 using Bookory.Business.Utilities.ImageResolver.BookResolver;
@@ -103,7 +104,7 @@ public class AutoMapperProfile : Profile
         CreateMap<UserAddress, UserAddressGetReponseDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId)).ReverseMap();
 
-        CreateMap<UserAddressPostDto, UserAddress>().ReverseMap(); 
+        CreateMap<UserAddressPostDto, UserAddress>().ReverseMap();
 
         CreateMap<UserAddressPutDto, UserAddress>();
 
@@ -127,10 +128,16 @@ public class AutoMapperProfile : Profile
 
         #region Order Item Mapper
 
-        CreateMap<OrderItem,OrderItemGetResponseDto>().ReverseMap();
+        CreateMap<OrderItem, OrderItemGetResponseDto>().ReverseMap();
         CreateMap<OrderItemPostDto, OrderItem>();
 
         #endregion
+
+        #region Wishlist Mapper
+
+        CreateMap<Wishlist, WishlistGetResponseDto>();
+
+        #endregion 
     }
 }
 

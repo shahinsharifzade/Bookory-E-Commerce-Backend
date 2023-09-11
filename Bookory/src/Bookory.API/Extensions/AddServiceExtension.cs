@@ -3,10 +3,7 @@ using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.Email;
 using Bookory.Business.Utilities.Security.JWT.Implementation;
 using Bookory.Business.Utilities.Security.JWT.Interface;
-using Bookory.Core.Models;
 using Bookory.Core.Models.Stripe;
-using Bookory.DataAccess.Repositories.Implementations;
-using Stripe;
 
 namespace Bookory.API.Extensions;
 
@@ -30,6 +27,8 @@ public static class AddServiceExtension
         services.AddScoped<IPaymentDetailService, PaymentDetailService>();
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<IOrderDetailService, OrderDetailService>();
+        services.AddScoped<IWishlistService, WishlistService>();
+
 
         services.AddScoped<IStripeService, StripeService>();
 

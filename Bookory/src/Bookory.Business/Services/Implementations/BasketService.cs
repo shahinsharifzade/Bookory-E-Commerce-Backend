@@ -28,7 +28,7 @@ public class BasketService : IBasketService
     private readonly IBasketItemService _basketItemService;
     private readonly IUserService _userService;
 
-    private readonly IShoppingSessionRepository _shoppingSessionRepository;
+    private readonly IShoppingSessionRepository _shoppingSessionRepository; // Qalib
 
     private readonly IBookRepository _bookRepository; // 1 dene qaldi
     public BasketService(IShoppingSessionRepository shoppingSessionRepository, IHttpContextAccessor httpContextAccessor, IBookRepository bookRepository, IMapper mapper, IBookService bookService, IShoppingSessionService shoppingSessionService, IUserService userService, IBasketItemService basketItemService)
@@ -282,11 +282,12 @@ public class BasketService : IBasketService
         {
             foreach (var cookieItem in cookieBasketItems)
             {
-                cookieItem.Book = await _bookRepository.GetSingleAsync(b => b.Id == cookieItem.BookId,
-                                                                                    nameof(Book.Images),
-                                                                                    nameof(Book.Author),
-                                                                                    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
-                                                                                    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+                //cookieItem.Book = await _bookRepository.GetSingleAsync(b => b.Id == cookieItem.BookId,
+                //                                                                    nameof(Book.Images),
+                //                                                                    nameof(Book.Author),
+                //                                                                    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
+                //                                                                    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+                cookieItem.Book = await _bookService.IncludeBookAsync(cookieItem.BookId);
             }
         }
     }

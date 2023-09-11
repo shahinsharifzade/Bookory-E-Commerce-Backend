@@ -9,12 +9,14 @@ public class AppUser : IdentityUser
     public ICollection<ShoppingSession>? ShoppingSessions { get; set; }
     public ICollection<UserAddress>? UserAddresses { get; set; }
     public ICollection<OrderDetail>? OrderDetails { get; set; }
+    public ICollection<Wishlist> Wishlists { get; set; }
+    public Wishlist Wishlist { get; set; }
 
     public AppUser()
     {
         ShoppingSessions = new List<ShoppingSession>();
         UserAddresses = new List<UserAddress>();
         OrderDetails = new List<OrderDetail>();
+        Wishlists = new List<Wishlist>();
     }
-
 }

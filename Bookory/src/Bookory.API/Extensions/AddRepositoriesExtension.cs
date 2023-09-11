@@ -18,6 +18,7 @@ public static class AddRepositoriesExtension
         services.AddScoped<IPaymentDetailRepository, PaymentDetailRepository>();
         services.AddScoped<IOrderItemRepository, OrderItemRepository>();
         services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+        services.AddScoped<IWishlistRepository, WishlistRepository>();
 
 
         return services;
