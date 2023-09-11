@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.OrderDetailDtos;
+using Bookory.Business.Utilities.Exceptions.OrderDetailExceptions;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +22,10 @@ public class OrderDetailService : IOrderDetailService
 
     public async Task<List<OrderDetailGetResponseDto>> GetAllOrderDetailAsync()
     {
-        var orderDetail =await _orderDetailRepository.GetAll(
-            nameof(OrderDetail.OrderItems),
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Images)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}.{nameof(Author.Images)}").ToListAsync();
+        var orderDetail = await _orderDetailRepository.GetAll(includes).ToListAsync();
+
+        if (orderDetail == null)
+            throw new OrderDetailNotFoundException("No order details were found");
 
         var orderDetailsDto = _mapper.Map<List<OrderDetailGetResponseDto>>(orderDetail);
         return orderDetailsDto;
@@ -35,13 +33,10 @@ public class OrderDetailService : IOrderDetailService
 
     public async Task<OrderDetailGetResponseDto> GetOrderDetailAsync(Guid id)
     {
-        var orderDetail = await _orderDetailRepository.GetByIdAsync(id,
-            nameof(OrderDetail.OrderItems),
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Images)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}.{nameof(Author.Images)}");
+        var orderDetail = await _orderDetailRepository.GetByIdAsync(id, includes);
+
+        if (orderDetail == null)
+            throw new OrderDetailNotFoundException($"Order detail with ID {id} was not found");
 
         var orderDetailDto = _mapper.Map<OrderDetailGetResponseDto>(orderDetail);
         return orderDetailDto;
@@ -49,13 +44,10 @@ public class OrderDetailService : IOrderDetailService
 
     public async Task<List<OrderDetailGetResponseDto>> GetAllOrderDetailByUserIdAsync(string id)
     {
-        var orderDetail =await _orderDetailRepository.GetFiltered(od => od.UserId == id,
-            nameof(OrderDetail.OrderItems),
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Images)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}",
-            $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}.{nameof(Author.Images)}").ToListAsync();
+        var orderDetail = await _orderDetailRepository.GetFiltered(od => od.UserId == id, includes).ToListAsync();
+
+        if (orderDetail == null)
+            throw new OrderDetailNotFoundException("No order details were found for the specified user");
 
         var orderDetailsDto = _mapper.Map<List<OrderDetailGetResponseDto>>(orderDetail);
         return orderDetailsDto;
@@ -72,5 +64,12 @@ public class OrderDetailService : IOrderDetailService
         return orderDetailDto;
     }
 
-    
+    private static readonly string[] includes = {
+        nameof(OrderDetail.OrderItems),
+        $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}",
+        $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}",
+        $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Images)}",
+        $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}",
+        $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.Author)}.{nameof(Author.Images)}"
+    };
 }

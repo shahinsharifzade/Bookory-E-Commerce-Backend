@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.Common;
-using Bookory.Business.Utilities.DTOs.ShoppingSessionDtos;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using System.Net;
@@ -18,6 +17,7 @@ public class ShoppingSessionService : IShoppingSessionService
         _shoppingSessionRepository = shoppingSessionRepository;
     }
 
+    
     public async Task<ShoppingSession> GetShoppingSessionByUserIdAsync(string id)
     {
         var shoppingSession = await _shoppingSessionRepository.GetSingleAsync(ss => ss.UserId == id && !ss.IsOrdered,
@@ -29,11 +29,13 @@ public class ShoppingSessionService : IShoppingSessionService
 
         return shoppingSession;
     }
-
-    public Task<bool> ShoppingSessionIsExistAsync(Guid id)
+   
+    public async Task<ResponseDto> CreateShoppingSessionAsync(ShoppingSession shoppingSession)
     {
-        var isExist = _shoppingSessionRepository.IsExistAsync(ss => ss.Id == id);   
-        return isExist;
+        await _shoppingSessionRepository.CreateAsync(shoppingSession);
+        await _shoppingSessionRepository.SaveAsync();
+
+        return new ResponseDto((int)HttpStatusCode.OK, "The shopping session has been successfully created.");
     }
 
     public async Task<ResponseDto> UpdateShoppingSessionAsync(ShoppingSession shoppingSession)
@@ -41,6 +43,17 @@ public class ShoppingSessionService : IShoppingSessionService
         _shoppingSessionRepository.Update(shoppingSession);
         await _shoppingSessionRepository.SaveAsync();
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Shopping Session Updated");
+        return new ResponseDto((int)HttpStatusCode.OK, "The shopping session has been successfully updated.");
+    }
+
+    public Task<bool> ShoppingSessionIsExistAsync(Guid id)
+    {
+        var isExist = _shoppingSessionRepository.IsExistAsync(ss => ss.Id == id);
+        return isExist;
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _shoppingSessionRepository.SaveAsync();
     }
 }

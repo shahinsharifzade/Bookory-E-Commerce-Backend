@@ -10,6 +10,7 @@ using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Net;
 using System.Security.Claims;
 
@@ -39,9 +40,12 @@ public class UserAddressService : IUserAddressService
         EnsureAuthenticated();
         string? userId = await GetUserIdAsync();
 
-        var address = await _userAdressRepository.GetFiltered(ua => ua.UserId == userId, nameof(UserAddress.User)).ToListAsync();
-        var addressDto = _mapper.Map<List<UserAddressGetReponseDto>>(address);
+        var addresses = await _userAdressRepository.GetFiltered(ua => ua.UserId == userId, nameof(UserAddress.User)).ToListAsync();
 
+        if (addresses == null || addresses.Count == 0)
+            throw new UserAddressNotFoundException("No user addresses were found for the current user.");
+
+        var addressDto = _mapper.Map<List<UserAddressGetReponseDto>>(addresses);
         return addressDto;
     }
 
@@ -51,23 +55,15 @@ public class UserAddressService : IUserAddressService
 
         var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId is null)
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException("The user associated with the current session could not be found.");
 
         var address = await _userAdressRepository.GetSingleAsync(ua => ua.Id == id, nameof(UserAddress.User));
-        if(address is null)
-            throw new UserAddressNotFoundException("User Address not found");
+        if (address is null)
+            throw new UserAddressNotFoundException($"The user address with the specified ID: {id} could not be found.");
 
         var addressDto = _mapper.Map<UserAddressGetReponseDto>(address);
 
         return addressDto;
-    }
-
-    private async Task<UserAddress> GetUserAddressAsync(UserAddressPutDto userAddressPutDto)
-    {
-        var address = await _userAdressRepository.GetSingleAsync(ua => ua.Id == userAddressPutDto.Id);
-        if (address is null)
-            throw new UserAddressNotFoundException("User Address not found");
-        return address;
     }
 
     public async Task<ResponseDto> AddAddressAsync(UserAddressPostDto userAddressPostDto)
@@ -81,21 +77,24 @@ public class UserAddressService : IUserAddressService
         await _userAdressRepository.CreateAsync(newAddressDto);
         await _userAdressRepository.SaveAsync();
 
-        return new ResponseDto((int)HttpStatusCode.Created, "User Address successfully created");
+        return new ResponseDto((int)HttpStatusCode.Created, "User address has been successfully added.");
     }
 
     public async Task<ResponseDto> UpdateAddressAsync(UserAddressPutDto userAddressPutDto)
     {
         EnsureAuthenticated();
         var userId = await GetUserIdAsync();
-        UserAddress? address = await GetUserAddressAsync(userAddressPutDto);
+        var address = await _userAdressRepository.GetSingleAsync(ua => ua.Id == userAddressPutDto.Id);
+
+        if (address is null)
+            throw new UserAddressNotFoundException($"The user address with the specified ID: {userAddressPutDto.Id} could not be found.");
 
         var updatedAddress = _mapper.Map(userAddressPutDto, address);
         updatedAddress.UserId = userId;
         _userAdressRepository.Update(updatedAddress);
         await _userAdressRepository.SaveAsync();
 
-        return new ResponseDto((int)HttpStatusCode.OK, "User Address successfully update");
+        return new ResponseDto((int)HttpStatusCode.OK, "User address has been successfully update");
     }
 
     public async Task<ResponseDto> DeleteAddressAsync(Guid id)
@@ -104,28 +103,27 @@ public class UserAddressService : IUserAddressService
 
         var address = await _userAdressRepository.GetSingleAsync(ua => ua.Id == id);
         if (address is null)
-            throw new UserAddressNotFoundException("User Address not found");
+            throw new UserAddressNotFoundException($"The user address with the specified ID: {id} could not be found.");
 
         _userAdressRepository.SoftDelete(address);
         await _userAdressRepository.SaveAsync();
 
-        return new ResponseDto((int)HttpStatusCode.OK, "User Address successfully deleted");
+        return new ResponseDto((int)HttpStatusCode.OK, "User address has been successfully deleted");
     }
-    
+
+    #region Methods
     private void EnsureAuthenticated()
     {
         if (!_isAuthenticated)
-            throw new AuthenticationFailedException("Please Login");
-
+            throw new AuthenticationFailedException("Authentication required. Please log in to access this resource.");
     }
+
     private async Task<string> GetUserIdAsync()
     {
         var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userService.GetUserByIdAsync(userId);
-
-        if (user is null)
-            throw new UserNotFoundException("User not found");
-
         return userId;
     }
+
+    #endregion
 }

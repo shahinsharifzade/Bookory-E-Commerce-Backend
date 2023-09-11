@@ -17,7 +17,6 @@ public class GenresController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> GetAll([FromQuery] string? search)
     {
         return Ok(await _genreService.GetAllGenresAsync(search));

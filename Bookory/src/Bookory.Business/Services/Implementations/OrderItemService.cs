@@ -5,7 +5,6 @@ using Bookory.Business.Utilities.DTOs.OrderItemDtos;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using System.Net;
-using System.Security.AccessControl;
 
 namespace Bookory.Business.Services.Implementations;
 
@@ -26,6 +25,6 @@ public class OrderItemService : IOrderItemService
         await _orderItemRepository.CreateAsync(orderItem);
         await _orderItemRepository.SaveAsync();
 
-        return new ResponseDto((int)HttpStatusCode.Created, "Order Item successfully created");
+        return new ResponseDto((int)HttpStatusCode.Created, "The order item has been successfully created");
     }
 }

@@ -41,10 +41,10 @@ public class AuthService : IAuthService
     public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
         {
         AppUser user = await _userManager.FindByNameAsync(loginDto.UserName);
-        if (user is null) throw new LoginFailedException("Invalid username or password");
+        if (user is null) throw new LoginFailedException("User with the provided username does not exist.");
 
         bool isSuccess = await _userManager.CheckPasswordAsync(user, loginDto.Password);
-        if (!isSuccess) throw new LoginFailedException("Invalid username or password");
+        if (!isSuccess) throw new LoginFailedException("Invalid username or password. Please check your credentials.");
 
         await _basketService.TransferCookieBasketToDatabaseAsync(user.Id);
         await _wishlistService.TransferCookieWishlistToDatabaseAsync(user.Id);
@@ -58,23 +58,23 @@ public class AuthService : IAuthService
     public async Task<ResponseDto> ConfirmEmailAsync(string token, string email)
     {
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
-            throw new NullOrWhitespaceArgumentException("email or token null");
+            throw new NullOrWhitespaceArgumentException("Email or token cannot be null or whitespace.");
 
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
-            throw new UserNotFoundException($"User not found by email: {email}");
+            throw new UserNotFoundException($"User not found with email: {email}");
 
         var result = await _userManager.ConfirmEmailAsync(user, token);
-        if (!result.Succeeded) throw new UserUpdateFailedException(string.Join(", ", result.Errors.Select(e => e.Description)));
+        if (!result.Succeeded) throw new UserUpdateFailedException($"Failed to confirm email: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         user.IsActive = true;
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Email is confirmed");
+        return new ResponseDto((int)HttpStatusCode.OK, "Email has been successfully confirmed");
     }
 
     public async Task<ResponseDto> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
     {
         var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
-        if (user is null) throw new UserNotFoundException($"User not found by email: {forgotPasswordDto.Email}");
+        if (user is null) throw new UserNotFoundException($"User not found with email: {forgotPasswordDto.Email}");
 
         var httpContext = _httpContextAccessor.HttpContext;
         var request = httpContext.Request;
@@ -89,36 +89,37 @@ public class AuthService : IAuthService
         );
 
         await _mailService.SendEmailAsync(mailRequesDto);
-        return new ResponseDto((int)HttpStatusCode.OK, "Reset Password Link is ready");
+        return new ResponseDto((int)HttpStatusCode.OK, "A reset password link has been sent to your email");
     }
 
     public async Task<ResponseDto> ResetPasswordAsync(string token, string email)
     {
-        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(email))
-            throw new NullOrWhitespaceArgumentException("email or token null");
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
+            throw new NullOrWhitespaceArgumentException("Email or token is null or empty.");
 
         var user = await _userManager.FindByEmailAsync(email);
-        if (user is null) throw new UserNotFoundException($"User not found by email: {email}");
+        if (user is null)
+            throw new UserNotFoundException($"User not found for the email: {email}");
 
-        return new ResponseDto((int)HttpStatusCode.OK, $"Everything is okay. token: {token} ");
+        return new ResponseDto((int)HttpStatusCode.OK, $"Password reset token: {token} has been verified successfully.");
     }
 
     public async Task<ResponseDto> ResetPasswordAsync(ChangePasswordDto resetPasswordDto, string token, string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
-            if (user is null) throw new UserNotFoundException($"User not found by email: {email}");
+            throw new UserNotFoundException($"User not found with the email: {email}");
 
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
-            throw new NullOrWhitespaceArgumentException("email or token null");
+            throw new NullOrWhitespaceArgumentException("Email or token cannot be null or empty.");
 
         if (resetPasswordDto.Password != resetPasswordDto.ConfirmPassword)
-            throw new UserCreateFailedException("Password and PasswordConfirm do not match");
+            throw new UserCreateFailedException("Passwords do not match.");
 
         var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.Password);
-        if (!result.Succeeded) 
-            throw new UserCreateFailedException(string.Join(", ", result.Errors.Select(e => e.Description)));
+        if (!result.Succeeded)
+            throw new UserCreateFailedException("Failed to reset password. Please check the following errors: " + string.Join(", ", result.Errors.Select(e => e.Description)));
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Password Updated Succeffuly");
+        return new ResponseDto((int)HttpStatusCode.OK, "Password updated successfully.");
     }
 }

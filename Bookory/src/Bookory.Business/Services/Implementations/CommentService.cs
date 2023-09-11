@@ -2,6 +2,9 @@
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.CommentDtos;
 using Bookory.Business.Utilities.DTOs.Common;
+using Bookory.Business.Utilities.Exceptions;
+using Bookory.Business.Utilities.Exceptions.AuthException;
+using Bookory.Business.Utilities.Exceptions.CommentExceptions;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -28,10 +31,10 @@ public class CommentService : ICommentService
         _isAuthenticated = _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
     }
 
-    public async Task<ResponseDto> CreateCommentAsync(CommentPostDto commentPostDto)
+    public async Task<ResponseDto> CreateCommentAsync(CommentPostDto commentPostDto) 
     {
         if (!_isAuthenticated)
-            throw new Exception("Please Login");
+            throw new AuthenticationFailedException("Authentication required. Please log in.");
 
         var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -41,16 +44,13 @@ public class CommentService : ICommentService
         await _commentRepository.CreateAsync(comment);
         await _commentRepository.SaveAsync();
 
-        return new ResponseDto((int)HttpStatusCode.Created, "Success");
+        return new ResponseDto((int)HttpStatusCode.Created, "Comment successfully created");
     }
 
     public async Task<List<CommentGetResponseDto>> GetAllEntityCommentsAsync(Guid entityId, string entityType)
     {
-        if (!_isAuthenticated)
-            throw new Exception("Please Login");
-
         var comment = await _commentRepository.GetFiltered(comment => comment.EntityId == entityId && comment.EntityType == entityType, nameof(Comment.Replies)).ToListAsync();
-        if (comment is null) throw new Exception("Null");
+        if (comment is null) throw new CommentNotFoundException("No comments found for the specified entity");
 
         var commentDto = _mapper.Map<List<CommentGetResponseDto>>(comment);
 
@@ -83,14 +83,14 @@ public class CommentService : ICommentService
     public async Task<ResponseDto> ReplyToCommentAsync(CommentReplyPostDto commentReplyPostDto)
     {
         if (!_isAuthenticated)
-            throw new Exception("Please Login");
+            throw new AuthenticationFailedException("Authentication required. Please log in.");
 
         var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         var parentComment = await _commentRepository.GetByIdAsync(commentReplyPostDto.ParentId);
 
         if (parentComment is null)
-            throw new Exception("Parent Comment can not found");
+            throw new ParentCommentNotFoundException("The parent comment with the specified ID could not be found.");
 
         var replyComment = new Comment
         {
@@ -104,6 +104,6 @@ public class CommentService : ICommentService
         _commentRepository.Update(parentComment);
         await _commentRepository.SaveAsync();
 
-        return new ResponseDto((int)HttpStatusCode.Created, "Success");
+        return new ResponseDto((int)HttpStatusCode.Created, "Reply successfully posted");
     }
 }

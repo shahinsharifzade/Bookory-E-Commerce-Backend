@@ -7,7 +7,8 @@ public interface IShoppingSessionService
 {
     Task<ShoppingSession> GetShoppingSessionByUserIdAsync(string id);
     Task<bool> ShoppingSessionIsExistAsync(Guid id);
-    //Task<ResponseDto> CreateShoppingSessionAsync(ShoppingSession shoppingSession);
+    Task<ResponseDto> CreateShoppingSessionAsync(ShoppingSession shoppingSession);
     Task<ResponseDto> UpdateShoppingSessionAsync(ShoppingSession shoppingSession);
+    Task SaveChangesAsync();
 
 }

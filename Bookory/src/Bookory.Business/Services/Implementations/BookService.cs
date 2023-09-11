@@ -27,11 +27,11 @@ public class BookService : IBookService
 
     public async Task<List<BookGetResponseDto>> GetAllBooksAsync(string? search)
     {
-        var books = await _bookRepository.GetFiltered(g => string.IsNullOrEmpty(search) ? true : g.Title.ToLower().Contains(search.Trim().ToLower()),
-            nameof(Book.Images),
-            nameof(Book.Author),
-            $"{nameof(Book.Author)}.{nameof(Author.Images)}",
-            $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}").ToListAsync();
+        var books = await _bookRepository.GetFiltered(
+            g => string.IsNullOrEmpty(search) ? true : g.Title.ToLower().Contains(search.Trim().ToLower()), includes).ToListAsync();
+
+        if (books == null || books.Count == 0)
+            throw new BookNotFoundException("No books were found matching the search criteria.");
 
         var bookDtos = _mapper.Map<List<BookGetResponseDto>>(books);
         return bookDtos;
@@ -39,14 +39,10 @@ public class BookService : IBookService
 
     public async Task<BookGetResponseDto> GetBookByIdAsync(Guid id)
     {
-        var book = await _bookRepository.GetByIdAsync(id,
-            nameof(Book.Author),
-            nameof(Book.Images),
-            $"{nameof(Book.Author)}.{nameof(Author.Images)}",
-            $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+        var book = await _bookRepository.GetByIdAsync(id, includes);
 
         if (book is null)
-            throw new BookNotFoundException($"Book not found by Id {id}");
+            throw new BookNotFoundException($"The book with ID {id} was not found");
 
         var bookDto = _mapper.Map<BookGetResponseDto>(book);
         return bookDto;
@@ -54,14 +50,10 @@ public class BookService : IBookService
 
     public async Task<Book> GetBookAllDetailsByIdAsync(Guid id)
     {
-        var book = await _bookRepository.GetByIdAsync(id,
-            nameof(Book.Author),
-            nameof(Book.Images),
-            $"{nameof(Book.Author)}.{nameof(Author.Images)}",
-            $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+        var book = await _bookRepository.GetByIdAsync(id,includes);
 
         if (book is null)
-            throw new BookNotFoundException($"Book not found by Id {id}");
+            throw new BookNotFoundException($"No book with the specified ID ({id}) was found");
 
         return book;
     }
@@ -69,23 +61,26 @@ public class BookService : IBookService
     public async Task<ResponseDto> CreateBookAsync(BookPostDto bookPostDto)
     {
         bool isExist = await _bookRepository.IsExistAsync(b => b.Title.ToLower().Trim() == bookPostDto.Title.ToLower().Trim());
-        if (isExist) throw new BookAlreadyExistException($"Book already exist with title : {bookPostDto.Title}");
+        if (isExist)
+            throw new BookAlreadyExistException($"A book with the title '{bookPostDto.Title}' already exists");
 
         var newBook = _mapper.Map<Book>(bookPostDto);
 
         await _bookRepository.CreateAsync(newBook);
         await _bookRepository.SaveAsync();
 
-        return new((int)HttpStatusCode.Created, "Book successfully created");
+        return new((int)HttpStatusCode.Created, "The book has been successfully created");
     }
 
     public async Task<ResponseDto> UpdateBookAsync(BookPutDto bookPutDto)
     {
         bool isExist = await _bookRepository.IsExistAsync(b => b.Title.ToLower().Trim() == bookPutDto.Title.ToLower().Trim() && b.Id != bookPutDto.Id);
-        if (isExist) throw new BookAlreadyExistException($"Book already exist with title : {bookPutDto.Title}");
+        if (isExist)
+            throw new BookAlreadyExistException($"A book with the title '{bookPutDto.Title}' already exists");
 
         var book = await _bookRepository.GetSingleAsync(b => b.Id == bookPutDto.Id, nameof(Book.Images));
-        if (book is null) throw new BookNotFoundException($"Book not found by Id {bookPutDto.Id}");
+        if (book is null)
+            throw new BookNotFoundException($"No book found with the ID {bookPutDto.Id}");
 
         DeleteBookImages(bookPutDto, book);
 
@@ -94,7 +89,7 @@ public class BookService : IBookService
         _bookRepository.Update(updatedBook);
         await _bookRepository.SaveAsync();
 
-        return new((int)HttpStatusCode.OK, "Book successfully updated");
+        return new((int)HttpStatusCode.OK, "The book was successfully updated");
     }
 
     private void DeleteBookImages(BookPutDto bookPutDto, Book? book)
@@ -111,12 +106,13 @@ public class BookService : IBookService
     public async Task<ResponseDto> DeleteBookAsync(Guid Id)
     {
         var book = await _bookRepository.GetSingleAsync(b => b.Id == Id);
-        if (book is null) throw new BookNotFoundException($"Book not found by Id {Id}");
+        if (book is null)
+            throw new BookNotFoundException($"The book with ID {Id} was not found");
 
         _bookRepository.SoftDelete(book);
         await _bookRepository.SaveAsync();
 
-        return new((int)HttpStatusCode.OK, "Book successfully delete");
+        return new((int)HttpStatusCode.OK, "The book has been successfully deleted");
     }
 
     public async Task<bool> BookIsExistAsync(Guid id)
@@ -133,4 +129,10 @@ public class BookService : IBookService
                                                                     $"{nameof(Book.Author)}.{nameof(Author.Images)}",
                                                                     $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}"));
     }
+
+    private static readonly string[] includes = {
+    nameof(Book.Images),
+    nameof(Book.Author),
+    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
+    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}"};
 }

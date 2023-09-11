@@ -6,7 +6,7 @@ namespace Bookory.Business.Services.Interfaces;
 public interface IWishlistService
 {
     Task<WishlistGetResponseDto> GetAllWishlistAsync();
-    Task<ResponseDto> AddItemToWishlist(Guid id);
+    Task<ResponseDto> AddItemToWishlist(WishlistPostDto wishlistPostDto);
     Task<ResponseDto> RemoveWishlistItem(Guid id);
     Task<ResponseDto> TransferCookieWishlistToDatabaseAsync(string userId);
 }

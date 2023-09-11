@@ -40,18 +40,18 @@ public class UserService : IUserService
     public async Task<ResponseDto> CreateUserAsync(RegisterDto userPostDto)
     {
         if (userPostDto.Password != userPostDto.PasswordConfirm)
-            throw new UserCreateFailedException("Password and PasswordConfirm do not match");
+            throw new UserCreateFailedException("The provided password and password confirmation do not match.");
 
         AppUser appUser = await _usermanager.FindByNameAsync(userPostDto.UserName);
 
         if (appUser != null)
-            throw new UserAlreadyExistException("User already exists");
+            throw new UserAlreadyExistException("A user with the provided username already exists.");
 
         var newUser = _mapper.Map<AppUser>(userPostDto);
         var result = await _usermanager.CreateAsync(newUser, userPostDto.Password);
 
         if (!result.Succeeded)
-            throw new UserCreateFailedException(string.Join(", ", result.Errors.Select(e => e.Description)));
+            throw new UserCreateFailedException($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
 
         //await CreateRolesAsync(); 
 
@@ -78,16 +78,15 @@ public class UserService : IUserService
         var request = httpContext.Request;
         string url = _linkGenerator.GetUriByAction(httpContext, "Verify", "Auth", new { token = token, email = userPostDto.Email }, scheme: request.Scheme, host: request.Host)!;
 
-        MailRequestDto mailRequesDto = new(
-        newUser.Email,
-        "Confirm Your Email",
-        $"<a href='{HtmlEncoder.Default.Encode(url)}'>Confirm Your Email</a>",
-        null);
+        MailRequestDto mailRequestDto = new(
+            newUser.Email,
+            "Confirm Your Email",
+            $"<a href='{HtmlEncoder.Default.Encode(url)}'>Click here to confirm your email address</a>",
+            null);
 
-        await _mailService.SendEmailAsync(mailRequesDto);
+        await _mailService.SendEmailAsync(mailRequestDto);
 
-        return new ResponseDto((int)HttpStatusCode.Created, "Registered Successfully ");
-
+        return new ResponseDto((int)HttpStatusCode.Created, "Registration completed successfully.");
     }
 
     public async Task<List<UserGetResponseDto>> GetAllUsersAsync(string? search)
@@ -100,7 +99,9 @@ public class UserService : IUserService
     public async Task<UserRoleGetResponseDto> GetUserByIdAsync(string id)
     {
         var user = await _usermanager.FindByIdAsync(id);
-        if (user is null) throw new UserNotFoundException($"User not found by Id {id}");
+
+        if (user is null)
+            throw new UserNotFoundException($"No user was found with the specified ID: {id}");
 
         var userDto = _mapper.Map<UserGetResponseDto>(user);
         var userRoles = await _usermanager.GetRolesAsync(user);
@@ -113,17 +114,19 @@ public class UserService : IUserService
     public async Task<ResponseDto> ChangeUserRoleAsync(Guid userId, Guid roleId)
     {
         var user = await _usermanager.FindByIdAsync(userId.ToString());
-        if (user is null) throw new UserNotFoundException($"User not found by Id {userId}");
+        if (user is null)
+            throw new UserNotFoundException($"User with ID {userId} not found.");
 
         var userRoles = await _usermanager.GetRolesAsync(user);
-        if (userRoles.FirstOrDefault() == "Admin") throw new RoleChangeNotAllowedException("Changing admin roles is not allowed.");
+        if (userRoles.FirstOrDefault() == "Admin")
+            throw new RoleChangeNotAllowedException("Changing roles for administrators is not permitted.");
 
         await _usermanager.RemoveFromRolesAsync(user, userRoles);
 
         var newRole = await _roleManager.FindByIdAsync(roleId.ToString());
         await _usermanager.AddToRoleAsync(user, newRole.ToString());
 
-        return new((int)HttpStatusCode.OK, "Role changed Successfully");
+        return new((int)HttpStatusCode.OK, "User role changed successfully.");
     }
 
     private async Task CreateRolesAsync()
@@ -134,29 +137,4 @@ public class UserService : IUserService
                 await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
         }
     }
-
-
-    #region Stripe
-
-    public async Task<AppUser> GetUserAllDetailsByIdAsync(string id)
-    {
-        var user = await _usermanager.FindByIdAsync(id);
-        if (user is null) throw new UserNotFoundException($"User not found by Id {id}");
-
-        return user;
-    }
-
-    public async Task<bool> SetPaymentTokenID(string userId, string stripeToken)
-    {
-        AppUser user = await _usermanager.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-        if (user != null)
-        {
-            user.StripeTokenId = stripeToken;
-            await _usermanager.UpdateAsync(user);
-            return true;
-        }
-        return false;
-    }
-    #endregion
 }

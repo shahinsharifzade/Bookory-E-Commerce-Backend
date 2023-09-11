@@ -1,4 +1,5 @@
 ﻿using Bookory.Business.Services.Interfaces;
+using Bookory.Business.Utilities.DTOs.WishlistDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;
@@ -21,9 +22,9 @@ public class WishlistController : ControllerBase
     }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> Post(Guid id)
+    public async Task<IActionResult> Post(WishlistPostDto wishlistPostDto)
     {
-        var response = await _wishlistService.AddItemToWishlist(id);
+        var response = await _wishlistService.AddItemToWishlist(wishlistPostDto);
         return Ok(response);
     }
 

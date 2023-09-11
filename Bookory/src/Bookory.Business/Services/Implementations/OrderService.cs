@@ -57,13 +57,13 @@ public class OrderService : IOrderService
 
         var userAddress = await _userAddressService.GetAddressByIdAsync(orderPostDto.AddressId);
         if (userAddress is null)
-            throw new UserAddressNotFoundException("User Address not found");
+            throw new UserAddressNotFoundException("User address not found");
 
         decimal totalPrice = 0;
 
         var userSession = await _shoppingSessionService.GetShoppingSessionByUserIdAsync(userId);
         if (userSession is null)
-            throw new ShoppingSessionNotFoundException("Shopping Session Not Found");
+            throw new ShoppingSessionNotFoundException("Shopping session not found");
 
         var basketItems = _mapper.Map<List<BasketGetResponseDto>>(userSession.BasketItems);
 
@@ -71,18 +71,17 @@ public class OrderService : IOrderService
         {
             if (basketItem.Quantity < basketItem.BasketBook.StockQuantity)
             {
-                decimal DiscountPrice = basketItem.BasketBook.Price - basketItem.BasketBook.DiscountPrice;
+                decimal discountPrice = basketItem.BasketBook.Price - basketItem.BasketBook.DiscountPrice;
 
-                totalPrice += (DiscountPrice * basketItem.Quantity);
+                totalPrice += (discountPrice * basketItem.Quantity);
             }
             else
-                throw new BasketItemQuantityNotEnoughException("Basket item quantity not enough");
+                throw new BasketItemQuantityNotEnoughException("Basket item quantity is not sufficient");
         }
 
         string transactionId = await _stripeService.ChargeAsync(orderPostDto.StripeEmail, orderPostDto.StripeToken, totalPrice);
         if (string.IsNullOrEmpty(transactionId))
             throw new Exception("Payment failed");
-
 
         var newPayment = await _paymentDetailService.CreatePaymentDetailAsync(new PaymentDetailPostDto(Convert.ToInt64(totalPrice * 100), transactionId));
 
@@ -95,7 +94,7 @@ public class OrderService : IOrderService
         }
         userSession.IsOrdered = true;
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Thank You");
+        return new ResponseDto((int)HttpStatusCode.OK, "Thank you for your purchase");
     }
 
     private async Task<string> GetUserIdAsync()
@@ -104,7 +103,7 @@ public class OrderService : IOrderService
         var user = await _userService.GetUserByIdAsync(userId);
 
         if (user is null)
-            throw new UserNotFoundException($"User not found by Id {userId}");
+            throw new UserNotFoundException($"User with ID {userId} not found.");
 
         return userId;
     }
