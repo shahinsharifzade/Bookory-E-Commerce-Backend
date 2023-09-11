@@ -9,7 +9,7 @@ public class AppUser : IdentityUser
     public ICollection<ShoppingSession>? ShoppingSessions { get; set; }
     public ICollection<UserAddress>? UserAddresses { get; set; }
     public ICollection<OrderDetail>? OrderDetails { get; set; }
-    public ICollection<Wishlist> Wishlists { get; set; }
+    public ICollection<Comment> Comments { get; set; }
     public Wishlist Wishlist { get; set; }
 
     public AppUser()
@@ -17,6 +17,6 @@ public class AppUser : IdentityUser
         ShoppingSessions = new List<ShoppingSession>();
         UserAddresses = new List<UserAddress>();
         OrderDetails = new List<OrderDetail>();
-        Wishlists = new List<Wishlist>();
+        Comments= new List<Comment>();
     }
 }

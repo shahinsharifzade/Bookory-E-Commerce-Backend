@@ -213,15 +213,4 @@ public class WishlistService : IWishlistService
 
 
     #endregion
-
-    //private async Task IncludeBookToWishlistAsync(List<BookGetResponseDto> bookDto) 
-    //{
-    //    if (bookDto != null)
-    //    {
-    //        foreach (var book in bookDto)
-    //        {
-
-    //        }
-    //    }
-    //}
 }

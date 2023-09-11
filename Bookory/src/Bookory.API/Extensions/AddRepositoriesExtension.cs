@@ -19,7 +19,7 @@ public static class AddRepositoriesExtension
         services.AddScoped<IOrderItemRepository, OrderItemRepository>();
         services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
         services.AddScoped<IWishlistRepository, WishlistRepository>();
-
+        services.AddScoped<ICommentRepository, CommentRepository>();
 
         return services;
     }

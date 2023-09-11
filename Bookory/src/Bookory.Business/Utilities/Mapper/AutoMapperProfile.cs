@@ -4,6 +4,7 @@ using Bookory.Business.Utilities.DTOs.AuthorImageDtos;
 using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.BookImageDtos;
+using Bookory.Business.Utilities.DTOs.CommentDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
 using Bookory.Business.Utilities.DTOs.OrderDetailDtos;
 using Bookory.Business.Utilities.DTOs.OrderItemDtos;
@@ -137,7 +138,14 @@ public class AutoMapperProfile : Profile
 
         CreateMap<Wishlist, WishlistGetResponseDto>();
 
-        #endregion 
+        #endregion
+
+        #region Comment Mapper
+
+        CreateMap<CommentPostDto, Comment>();
+        CreateMap<Comment, CommentGetResponseDto>().ReverseMap();
+
+        #endregion
     }
 }
 

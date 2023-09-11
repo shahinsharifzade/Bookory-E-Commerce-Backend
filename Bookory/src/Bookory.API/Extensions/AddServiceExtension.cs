@@ -28,6 +28,7 @@ public static class AddServiceExtension
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<IOrderDetailService, OrderDetailService>();
         services.AddScoped<IWishlistService, WishlistService>();
+        services.AddScoped<ICommentService, CommentService>();
 
 
         services.AddScoped<IStripeService, StripeService>();

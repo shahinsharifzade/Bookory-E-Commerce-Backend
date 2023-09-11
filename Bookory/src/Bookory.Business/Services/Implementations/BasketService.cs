@@ -30,13 +30,11 @@ public class BasketService : IBasketService
 
     private readonly IShoppingSessionRepository _shoppingSessionRepository; // Qalib
 
-    private readonly IBookRepository _bookRepository; // 1 dene qaldi
-    public BasketService(IShoppingSessionRepository shoppingSessionRepository, IHttpContextAccessor httpContextAccessor, IBookRepository bookRepository, IMapper mapper, IBookService bookService, IShoppingSessionService shoppingSessionService, IUserService userService, IBasketItemService basketItemService)
+    public BasketService(IShoppingSessionRepository shoppingSessionRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, IBookService bookService, IShoppingSessionService shoppingSessionService, IUserService userService, IBasketItemService basketItemService)
     {
         _shoppingSessionRepository = shoppingSessionRepository;
         _httpContextAccessor = httpContextAccessor;
         _isAuthenticated = _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
-        _bookRepository = bookRepository;
         _mapper = mapper;
         _bookService = bookService;
         _shoppingSessionService = shoppingSessionService;
@@ -276,21 +274,16 @@ public class BasketService : IBasketService
         return userId;
     } //OK
 
-    private async Task IncludeBookToBasketItemAsync(List<BasketItem> cookieBasketItems) //--
+    private async Task IncludeBookToBasketItemAsync(List<BasketItem> cookieBasketItems) 
     {
         if (cookieBasketItems != null)
-        {
+
             foreach (var cookieItem in cookieBasketItems)
             {
-                //cookieItem.Book = await _bookRepository.GetSingleAsync(b => b.Id == cookieItem.BookId,
-                //                                                                    nameof(Book.Images),
-                //                                                                    nameof(Book.Author),
-                //                                                                    $"{nameof(Book.Author)}.{nameof(Author.Images)}",
-                //                                                                    $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
                 cookieItem.Book = await _bookService.IncludeBookAsync(cookieItem.BookId);
             }
-        }
-    }
+
+    } //OK
 
     private async Task<ShoppingSession> GetUserSessionWithIncludesAsync(string userId)
     {

@@ -314,6 +314,59 @@ namespace Bookory.DataAccess.Migrations
                     b.ToTable("BookImages");
                 });
 
+            modelBuilder.Entity("Bookory.Core.Models.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("RefCommentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RefId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RefCommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Bookory.Core.Models.Genre", b =>
                 {
                     b.Property<Guid>("Id")
@@ -643,9 +696,6 @@ namespace Bookory.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -662,15 +712,13 @@ namespace Bookory.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Wishlists");
                 });
@@ -893,6 +941,23 @@ namespace Bookory.DataAccess.Migrations
                     b.Navigation("Book");
                 });
 
+            modelBuilder.Entity("Bookory.Core.Models.Comment", b =>
+                {
+                    b.HasOne("Bookory.Core.Models.Comment", "RefComment")
+                        .WithMany("Replies")
+                        .HasForeignKey("RefCommentId");
+
+                    b.HasOne("Bookory.Core.Models.Identity.AppUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RefComment");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Bookory.Core.Models.OrderDetail", b =>
                 {
                     b.HasOne("Bookory.Core.Models.PaymentDetail", "PaymentDetail")
@@ -955,15 +1020,9 @@ namespace Bookory.DataAccess.Migrations
 
             modelBuilder.Entity("Bookory.Core.Models.Wishlist", b =>
                 {
-                    b.HasOne("Bookory.Core.Models.Identity.AppUser", null)
-                        .WithMany("Wishlists")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Bookory.Core.Models.Identity.AppUser", "User")
                         .WithOne("Wishlist")
-                        .HasForeignKey("Bookory.Core.Models.Wishlist", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Bookory.Core.Models.Wishlist", "UserId");
 
                     b.Navigation("User");
                 });
@@ -1050,6 +1109,11 @@ namespace Bookory.DataAccess.Migrations
                     b.Navigation("Images");
                 });
 
+            modelBuilder.Entity("Bookory.Core.Models.Comment", b =>
+                {
+                    b.Navigation("Replies");
+                });
+
             modelBuilder.Entity("Bookory.Core.Models.Genre", b =>
                 {
                     b.Navigation("BookGenres");
@@ -1057,6 +1121,8 @@ namespace Bookory.DataAccess.Migrations
 
             modelBuilder.Entity("Bookory.Core.Models.Identity.AppUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ShoppingSessions");
@@ -1065,8 +1131,6 @@ namespace Bookory.DataAccess.Migrations
 
                     b.Navigation("Wishlist")
                         .IsRequired();
-
-                    b.Navigation("Wishlists");
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.OrderDetail", b =>
