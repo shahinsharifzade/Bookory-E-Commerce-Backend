@@ -1,5 +1,7 @@
-﻿using Bookory.DataAccess.Repositories.Implementations;
+﻿using Bookory.DataAccess.Persistance.Context.EfCore;
+using Bookory.DataAccess.Repositories.Implementations;
 using Bookory.DataAccess.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +24,16 @@ public static class DataAccessConfigurationServices
         services.AddScoped<IWishlistRepository, WishlistRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddDatabaseSevice(this IServiceCollection services , IConfiguration configuration)
+    {
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseSqlServer(configuration.GetConnectionString("Default"));
+        });
 
         return services;
     }
