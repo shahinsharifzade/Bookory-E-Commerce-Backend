@@ -39,9 +39,12 @@ public class AuthService : IAuthService
     }
 
     public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
-        {
+    {
         AppUser user = await _userManager.FindByNameAsync(loginDto.UserName);
         if (user is null) throw new LoginFailedException("User with the provided username does not exist.");
+
+        if (!user.EmailConfirmed) throw new Exception("ConfirmEmail");
+        if (!user.IsActive) throw new Exception("Blocked");
 
         bool isSuccess = await _userManager.CheckPasswordAsync(user, loginDto.Password);
         if (!isSuccess) throw new LoginFailedException("Invalid username or password. Please check your credentials.");
@@ -92,20 +95,23 @@ public class AuthService : IAuthService
         return new ResponseDto((int)HttpStatusCode.OK, "A reset password link has been sent to your email");
     }
 
-    public async Task<ResponseDto> ResetPasswordAsync(string token, string email)
+    //public async Task<ResponseDto> ResetPasswordAsync(string token, string email)
+    //{
+    //    if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
+    //        throw new NullOrWhitespaceArgumentException("Email or token is null or empty.");
+
+    //    var user = await _userManager.FindByEmailAsync(email);
+    //    if (user is null)
+    //        throw new UserNotFoundException($"User not found for the email: {email}");
+
+    //    return new ResponseDto((int)HttpStatusCode.OK, $"Password reset token: {token} has been verified successfully.");
+    //}
+
+    public async Task<ResponseDto> ResetPasswordAsync(ChangePasswordDto resetPasswordDto, string token, string email)
     {
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
             throw new NullOrWhitespaceArgumentException("Email or token is null or empty.");
 
-        var user = await _userManager.FindByEmailAsync(email);
-        if (user is null)
-            throw new UserNotFoundException($"User not found for the email: {email}");
-
-        return new ResponseDto((int)HttpStatusCode.OK, $"Password reset token: {token} has been verified successfully.");
-    }
-
-    public async Task<ResponseDto> ResetPasswordAsync(ChangePasswordDto resetPasswordDto, string token, string email)
-    {
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
             throw new UserNotFoundException($"User not found with the email: {email}");

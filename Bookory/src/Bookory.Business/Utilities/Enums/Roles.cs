@@ -4,5 +4,6 @@ public enum Roles : byte
 {
     Admin,
     Moderator,
-    Member
+    Member,
+    Vendor
 }

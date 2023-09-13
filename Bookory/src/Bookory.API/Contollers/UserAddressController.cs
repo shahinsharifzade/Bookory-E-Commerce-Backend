@@ -36,7 +36,7 @@ public class UserAddressController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("[action]")]
+    [HttpPut("[action]")]
     public async Task<IActionResult> Update(UserAddressPutDto userAddressPutDto)
     {
         var response = await _userAddressService.UpdateAddressAsync(userAddressPutDto);

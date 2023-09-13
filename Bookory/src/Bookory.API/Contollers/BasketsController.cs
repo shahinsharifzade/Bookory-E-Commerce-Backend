@@ -29,17 +29,17 @@ public class BasketsController : ControllerBase
         return Ok(respons);
     }
 
-    [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
-    {
-        var respons = await _basketService.RemoveBasketItemAsync(id);
-        return Ok(respons);
-    }
-
-    [HttpPost("update")]
+    [HttpPut("update")]
     public async Task<IActionResult> Update(BasketPutDto basketPutDto)
     {
         var respons = await _basketService.UpdateItemAsync(basketPutDto);
         return Ok(respons);
     }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    {
+        var respons = await _basketService.RemoveBasketItemAsync(id);
+        return Ok(respons);
+    }    
 }

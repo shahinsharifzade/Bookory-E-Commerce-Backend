@@ -192,6 +192,9 @@ namespace Bookory.DataAccess.Migrations
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -220,13 +223,16 @@ namespace Bookory.DataAccess.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Rating")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("SoldQuantity")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");
@@ -239,6 +245,8 @@ namespace Bookory.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Books");
                 });
@@ -367,6 +375,72 @@ namespace Bookory.DataAccess.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Bookory.Core.Models.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BannerImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Logo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Companies");
+                });
+
             modelBuilder.Entity("Bookory.Core.Models.Genre", b =>
                 {
                     b.Property<Guid>("Id")
@@ -408,6 +482,9 @@ namespace Bookory.DataAccess.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -423,6 +500,9 @@ namespace Bookory.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsVendorRegistrationComplete")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -449,9 +529,6 @@ namespace Bookory.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StripeTokenId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -908,7 +985,14 @@ namespace Bookory.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Bookory.Core.Models.Company", "Company")
+                        .WithMany("Books")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.Navigation("Author");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.BookGenre", b =>
@@ -954,6 +1038,17 @@ namespace Bookory.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("RefComment");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Bookory.Core.Models.Company", b =>
+                {
+                    b.HasOne("Bookory.Core.Models.Identity.AppUser", "User")
+                        .WithOne("Company")
+                        .HasForeignKey("Bookory.Core.Models.Company", "UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -1114,6 +1209,11 @@ namespace Bookory.DataAccess.Migrations
                     b.Navigation("Replies");
                 });
 
+            modelBuilder.Entity("Bookory.Core.Models.Company", b =>
+                {
+                    b.Navigation("Books");
+                });
+
             modelBuilder.Entity("Bookory.Core.Models.Genre", b =>
                 {
                     b.Navigation("BookGenres");
@@ -1122,6 +1222,8 @@ namespace Bookory.DataAccess.Migrations
             modelBuilder.Entity("Bookory.Core.Models.Identity.AppUser", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Company");
 
                     b.Navigation("OrderDetails");
 

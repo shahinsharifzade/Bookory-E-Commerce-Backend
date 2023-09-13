@@ -38,8 +38,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Wishlist> Wishlists { get; set; } = null!;
     public DbSet<Comment> Comments { get; set; } = null!;
 
-
-
+    public DbSet<Company> Companies { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,6 +54,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<UserAddress>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<Wishlist>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<Comment>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<Company>().HasQueryFilter(x => !x.IsDeleted);
 
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

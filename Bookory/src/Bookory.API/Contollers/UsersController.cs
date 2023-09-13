@@ -33,12 +33,12 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(string id)
+    public async Task<IActionResult> GetById( string id)
     {
         return Ok(await _userService.GetUserByIdAsync(id));
     }
 
-    [HttpPost("changerole")]
+    [HttpPut("changerole")]
     //[Authorize(Roles = "Admin")]
     public async Task<IActionResult> ChangeRole(Guid userId, Guid roleId)
     {
@@ -46,5 +46,5 @@ public class UsersController : ControllerBase
         return StatusCode(response.StatusCode, response.Message);
     }
 
-    
+
 }

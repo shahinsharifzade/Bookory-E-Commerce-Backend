@@ -49,13 +49,19 @@ public class UserService : IUserService
 
         var newUser = _mapper.Map<AppUser>(userPostDto);
         var result = await _usermanager.CreateAsync(newUser, userPostDto.Password);
-
         if (!result.Succeeded)
             throw new UserCreateFailedException($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
 
-        //await CreateRolesAsync(); 
+        //await CreateRolesAsync();
 
-        await _usermanager.AddToRoleAsync(newUser, Roles.Member.ToString());
+        if (userPostDto.RegisterAsVendor)
+        {
+            await _usermanager.AddToRoleAsync(newUser, Roles.Vendor.ToString());
+            newUser.IsVendorRegistrationComplete = false;
+        }
+        else
+            await _usermanager.AddToRoleAsync(newUser, Roles.Member.ToString());
+
 
         List<Claim> userClaims = new()
         {
@@ -82,7 +88,8 @@ public class UserService : IUserService
             newUser.Email,
             "Confirm Your Email",
             $"<a href='{HtmlEncoder.Default.Encode(url)}'>Click here to confirm your email address</a>",
-            null);
+            null
+            );
 
         await _mailService.SendEmailAsync(mailRequestDto);
 
@@ -106,8 +113,22 @@ public class UserService : IUserService
         var userDto = _mapper.Map<UserGetResponseDto>(user);
         var userRoles = await _usermanager.GetRolesAsync(user);
 
-        UserRoleGetResponseDto userRoleDto = new(userDto, userRoles.FirstOrDefault()!);
+        UserRoleGetResponseDto userRoleDto = new(userDto, userRoles.FirstOrDefault()!, user.IsVendorRegistrationComplete);
 
+        return userRoleDto;
+    }
+
+    public async Task<UserAllDetailsGetResponseDto> GetUserByUsernameAsync(string username)
+    {
+        var user = await _usermanager.FindByNameAsync(username);
+
+        if (user is null)
+            throw new UserNotFoundException($"No user was found with the specified username: {username}");
+
+
+        var userRoles = await _usermanager.GetRolesAsync(user);
+
+        UserAllDetailsGetResponseDto userRoleDto = new(user, userRoles.FirstOrDefault()!);
         return userRoleDto;
     }
 
@@ -136,5 +157,11 @@ public class UserService : IUserService
             if (!await _roleManager.RoleExistsAsync(role.ToString()))
                 await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
         }
+    }
+
+    public async Task<ResponseDto> UpdateUserAsync(AppUser user)
+    {
+        await _usermanager.UpdateAsync(user);
+        return new ResponseDto((int)HttpStatusCode.Created, "User update successfully.");
     }
 }

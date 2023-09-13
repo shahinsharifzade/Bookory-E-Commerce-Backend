@@ -1,4 +1,5 @@
-﻿using Bookory.Core.Models.Common;
+﻿using Bookory.Business.Utilities.Enums;
+using Bookory.Core.Models.Common;
 namespace Bookory.Core.Models;
 
 public class Book : BaseEntity
@@ -8,15 +9,19 @@ public class Book : BaseEntity
     public int StockQuantity { get; set; }
     public decimal Price { get; set; }
     public decimal? DiscountPrice { get; set; }
-    public int? Rating { get; set; }
+    public decimal? Rating { get; set; }
     public int SoldQuantity { get; set; }
 
     public Guid AuthorId { get; set; }
     public Author Author { get; set; } = null!;
 
+    public BookStatus Status { get; set; }
+    public Guid? CompanyId { get; set; }
+    public Company? Company { get; set; }
+
     public ICollection<BookGenre> BookGenres { get; set; } = null!;
     public ICollection<BookImage> Images { get; set; } = null!;
-    public ICollection<BasketItem>? BasketItems { get; set; } = new List<BasketItem>();
+    public ICollection<BasketItem>? BasketItems { get; set; } 
     public ICollection<Wishlist>? Wishlists { get; set; }
     public Book()
     {

@@ -5,6 +5,7 @@ using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.BookImageDtos;
 using Bookory.Business.Utilities.DTOs.CommentDtos;
+using Bookory.Business.Utilities.DTOs.CompanyDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
 using Bookory.Business.Utilities.DTOs.OrderDetailDtos;
 using Bookory.Business.Utilities.DTOs.OrderItemDtos;
@@ -15,6 +16,8 @@ using Bookory.Business.Utilities.DTOs.WishlistDtos;
 using Bookory.Business.Utilities.Extension.FileExtensions;
 using Bookory.Business.Utilities.ImageResolver.AuthorResolver;
 using Bookory.Business.Utilities.ImageResolver.BookResolver;
+using Bookory.Business.Utilities.ImageResolver.CompanyResolver.CompanyPostResolver;
+using Bookory.Business.Utilities.ImageResolver.CompanyResolver.CompanyPutResolver;
 using Bookory.Core.Models;
 using Bookory.Core.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -144,6 +147,21 @@ public class AutoMapperProfile : Profile
 
         CreateMap<CommentPostDto, Comment>();
         CreateMap<Comment, CommentGetResponseDto>().ReverseMap();
+
+        #endregion
+
+        #region Company Mapper
+
+        CreateMap<CompanyPostDto, Company>()
+            .ForMember(dest => dest.Logo , opt => opt.MapFrom<CompanyLogoPostResolver>())
+            .ForMember(dest => dest.BannerImage, opt => opt.MapFrom<CompanyBannerImagePostResolver>());
+
+        CreateMap<CompanyPutDto, Company>()
+          .ForMember(dest => dest.Logo, opt => opt.MapFrom<CompanyLogoPutResolver>())
+          .ForMember(dest => dest.BannerImage, opt => opt.MapFrom<CompanyBannerImagePutResolver>());
+
+        CreateMap<Company, CompanyGetResponseDto>();
+        CreateMap<Company, CompanyGetResponseDtoInclude>();
 
         #endregion
     }

@@ -1,12 +1,9 @@
 using Bookory.API.Extensions;
-using Bookory.Business.Utilities.Email.Settings;
-using Bookory.Business.Utilities.Mapper;
-using Bookory.Business.Utilities.Validators.AuthorValidator;
+using Bookory.Business.ConfiguratoinService;
 using Bookory.Core.Models.Identity;
 using Bookory.Core.Models.Stripe;
+using Bookory.DataAccess.ConfigurationService;
 using Bookory.DataAccess.Persistance.Context.EfCore;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Stripe;
@@ -23,26 +20,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 #region Stripe
-
-//StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
-
-//StripeConfiguration.ApiKey = builder.Configuration.GetValue<string>("Stripe:SecretKey");
-
-//Stripe
+//old
 //builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-//StripeConfiguration.ApiKey = "sk_test_51Nn1IUDU36UGP8uCPNtMxVpoJRXD0wo8lan1PIBHV9XH03OEPvKwsIjxOJQWIDFmg14GEeZN783pjjbaX3H1XZuL00CcQcr6JG";
-//StripeConfiguration.SetApiKey(builder.Configuration.GetSection("Stripe")["SecretKey"]);
+//StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Value;
 
-//var options = new CardCreateOptions
-//{
-//    Source = "tok_visa_debit", //https://stripe.com/docs/testing?testing-method=tokens
-//};
-//var service = new CardService();
-//service.Create("YourStripeUserId", options);
-//StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe").Get<StripeSettings>().SecretKey;
-
-builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Value;
+//new
+builder.Services.AddStripeServices(builder.Configuration);
     
 builder.Services.AddCors(options =>
 {
@@ -62,14 +45,20 @@ TokenOption tokenOption = builder.Configuration.GetSection("TokenOptions").Get<T
 builder.Services.AddUserIdentityService();
 builder.Services.AddJwtAuthenticationService(tokenOption.Audience, tokenOption.Issuer, tokenOption.SecurityKey);
 
-builder.Services.AddRepositoriesService();
-builder.Services.AddService();
+//old
+//builder.Services.AddRepositoriesService();
 
-builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings")); //Mail 
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile)); // Mapper
+//new
+builder.Services.AddBusinessServices();
+builder.Services.AddRepositoriesService();
+builder.Services.AddCustomServices(builder.Configuration);
+
+//old
+//builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings")); //Mail 
+//builder.Services.AddAutoMapper(typeof(AutoMapperProfile)); // Mapper
 //builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly); // Mapper
-builder.Services.AddValidatorsFromAssembly(typeof(AuthorPostDtoValidator).Assembly);
-builder.Services.AddFluentValidationAutoValidation(c => c.DisableDataAnnotationsValidation = true).AddFluentValidationClientsideAdapters();
+//builder.Services.AddValidatorsFromAssembly(typeof(AuthorPostDtoValidator).Assembly);
+//builder.Services.AddFluentValidationAutoValidation(c => c.DisableDataAnnotationsValidation = true).AddFluentValidationClientsideAdapters();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

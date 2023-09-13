@@ -2,4 +2,4 @@
 
 namespace Bookory.Business.Utilities.DTOs.UserDtos;
 
-public record UserGetResponseDto(Guid Id, string FullName, string Email, string UserName);
+public record UserGetResponseDto(string Id, string FullName, string Email, string UserName);
