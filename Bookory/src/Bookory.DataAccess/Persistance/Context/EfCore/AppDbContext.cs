@@ -1,6 +1,7 @@
 ﻿using Bookory.Core.Models;
 using Bookory.Core.Models.Common;
 using Bookory.Core.Models.Identity;
+using ECommerce.DataAccessLayer.Persistance.Interceptors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ namespace Bookory.DataAccess.Persistance.Context.EfCore;
 public class AppDbContext : IdentityDbContext<AppUser>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly BaseEntityInterceptor _baseEntityInterceptor;
 
-    public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor, BaseEntityInterceptor baseEntityInterceptor) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
+        _baseEntityInterceptor = baseEntityInterceptor;
     }
 
     public DbSet<Author> Authors { get; set; } = null!;
@@ -61,26 +64,9 @@ public class AppDbContext : IdentityDbContext<AppUser>
         base.OnModelCreating(modelBuilder);
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var entries = ChangeTracker.Entries<BaseEntity>();
-
-        foreach (var item in entries)
-        {
-            switch (item.State)
-            {
-                case EntityState.Added:
-                    item.Entity.CreatedAt = DateTime.UtcNow;
-                    item.Entity.ModifiedAt = DateTime.UtcNow;
-                    //item.Entity.CreateBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-                    break;
-
-                case EntityState.Modified:
-                    item.Entity.ModifiedAt = DateTime.UtcNow;
-                    //item.Entity.ModifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-                    break;
-            }
-        }
-        return base.SaveChangesAsync(cancellationToken);
+        optionsBuilder.AddInterceptors(_baseEntityInterceptor);
+        base.OnConfiguring(optionsBuilder); 
     }
 }

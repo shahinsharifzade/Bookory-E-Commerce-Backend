@@ -29,5 +29,6 @@ public class Book : BaseEntity
         Images = new List<BookImage>();
         BasketItems = new List<BasketItem>();
         Wishlists = new List<Wishlist>();
+        BasketItems = new List<BasketItem>();
     }
 }

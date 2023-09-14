@@ -2,6 +2,9 @@
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
+using Bookory.Business.Utilities.DTOs.MailDtos;
+using Bookory.Business.Utilities.DTOs.UserDtos;
+using Bookory.Business.Utilities.Email;
 using Bookory.Business.Utilities.Enums;
 using Bookory.Business.Utilities.Exceptions.BookExceptions;
 using Bookory.Business.Utilities.Extension.FileExtensions.Common;
@@ -19,11 +22,16 @@ public class BookService : IBookService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IBasketItemService _basketItemService;
     private readonly IBookRepository _bookRepository;
     private readonly ICompanyService _companyService;
+    private readonly IAuthorService _authorService;
+    private readonly IGenreService _genreService;
     private readonly IUserService _userService;
+    private readonly IMailService _mailService;
     private readonly IMapper _mapper;
-    public BookService(IBookRepository bookRepository, IMapper mapper, IWebHostEnvironment webHostEnvironment, IUserService userService, IHttpContextAccessor httpContextAccessor, ICompanyService companyService)
+
+    public BookService(IBookRepository bookRepository, IMapper mapper, IWebHostEnvironment webHostEnvironment, IUserService userService, IHttpContextAccessor httpContextAccessor, ICompanyService companyService, IMailService mailService, IBasketItemService basketItemService, IGenreService genreService, IAuthorService authorService)
     {
         _bookRepository = bookRepository;
         _mapper = mapper;
@@ -31,6 +39,10 @@ public class BookService : IBookService
         _userService = userService;
         _httpContextAccessor = httpContextAccessor;
         _companyService = companyService;
+        _mailService = mailService;
+        _basketItemService = basketItemService;
+        _genreService = genreService;
+        _authorService = authorService;
     }
 
 
@@ -70,7 +82,7 @@ public class BookService : IBookService
 
     public async Task<List<BookGetResponseDto>> GetBooksByCompanyIdAsync(Guid id)
     {
-        var books = await _bookRepository.GetFiltered( b => b.CompanyId == id , includes).ToListAsync();
+        var books = await _bookRepository.GetFiltered(b => b.CompanyId == id, includes).ToListAsync();
 
         if (books == null || books.Count == 0)
             throw new BookNotFoundException("No books were found matching the search criteria.");
@@ -85,20 +97,23 @@ public class BookService : IBookService
         if (isExist)
             throw new BookAlreadyExistException($"A book with the title '{bookPostDto.Title}' already exists");
 
+        await _authorService.GetAuthorByIdAsync(bookPostDto.AuthorId);
+        foreach (var genreId in bookPostDto.GenreIds)
+            await _genreService.GetGenreByIdAsync(genreId);
+
         var newBook = _mapper.Map<Book>(bookPostDto);
 
         var username = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
         var userDetail = await _userService.GetUserByUsernameAsync(username);
 
-        if (userDetail.User.IsVendorRegistrationComplete == false) throw new Exception("Olmaz");
+        if (userDetail.User.IsVendorRegistrationComplete == false) throw new BookCreationException("Failed to create a new book because the vendor's registration is not complete.");
 
         if (userDetail.Role == Roles.Vendor.ToString())
         {
-            var company = await _companyService.GetCompanyByUsernameAsync(username);
-
             newBook.Status = BookStatus.PendingApproval;
             newBook.CompanyId = userDetail.User.CompanyId;
 
+            var company = await _companyService.GetCompanyByUsernameAsync(username);
             company.Books.Add(newBook);
         }
 
@@ -110,13 +125,17 @@ public class BookService : IBookService
 
     public async Task<ResponseDto> UpdateBookAsync(BookPutDto bookPutDto)
     {
+        var book = await _bookRepository.GetSingleAsync(b => b.Id == bookPutDto.Id, nameof(Book.Images));
+        if (book is null)
+            throw new BookNotFoundException($"No book found with the ID {bookPutDto.Id}");
+
         bool isExist = await _bookRepository.IsExistAsync(b => b.Title.ToLower().Trim() == bookPutDto.Title.ToLower().Trim() && b.Id != bookPutDto.Id);
         if (isExist)
             throw new BookAlreadyExistException($"A book with the title '{bookPutDto.Title}' already exists");
 
-        var book = await _bookRepository.GetSingleAsync(b => b.Id == bookPutDto.Id, nameof(Book.Images));
-        if (book is null)
-            throw new BookNotFoundException($"No book found with the ID {bookPutDto.Id}");
+        await _authorService.GetAuthorByIdAsync(bookPutDto.AuthorId);
+        foreach (var genreId in bookPutDto.GenreIds)
+            await _genreService.GetGenreByIdAsync(genreId);
 
         DeleteBookImages(bookPutDto, book);
 
@@ -124,6 +143,13 @@ public class BookService : IBookService
 
         var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userService.GetUserByIdAsync(userId);
+
+        foreach (var basketBookItem in updatedBook.BasketItems)
+        {
+            basketBookItem.Price = bookPutDto.Price;
+            await _basketItemService.UpdateBasketItemAsync(basketBookItem);
+        }
+
         if (user.Role == Roles.Vendor.ToString())
             updatedBook.Status = BookStatus.PendingApproval;
 
@@ -167,8 +193,12 @@ public class BookService : IBookService
 
         book.Status = status;
 
-        var user = _userService.GetUserByIdAsync(book.Company.UserId);
-        //user.g
+        //Mail
+        if (book.Company != null)
+        {
+            var user = await _userService.GetUserByIdAsync(book.Company.UserId);
+            await SendStatusInformationMailAsync(status, book, user);
+        }
 
         _bookRepository.Update(book);
         await _bookRepository.SaveAsync();
@@ -191,6 +221,12 @@ public class BookService : IBookService
                                                                     $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}"));
     }
 
+    public async Task UpdateBookByEntityAsync(Book book)
+    {
+        _bookRepository.Update(book);
+        await _bookRepository.SaveAsync();
+    }
+
     private void DeleteBookImages(BookPutDto bookPutDto, Book? book)
     {
         if (bookPutDto.Images != null)
@@ -202,9 +238,29 @@ public class BookService : IBookService
         }
     }
 
+    private async Task SendStatusInformationMailAsync(BookStatus status, Book? book, UserRoleGetResponseDto user)
+    {
+        string emailSubject = $"Book {status} Notification";
+        string emailBody = $"Dear {user.User.UserName},\n\n" +
+               $"We want to inform you that the book with the following details has been {status.ToString().ToLower()}:\n\n" +
+               $"Title: {book.Title}\n" +
+               $"Author: {book.Author.Name}\n" +
+               $"Price: {book.Price}\n\n" +
+               "Thank you for using our service!\n\n" +
+               "Sincerely,\n" +
+               "Your Bookstore Team";
 
+        MailRequestDto mailRequestDto = new(
+        user.User.Email,
+        emailSubject,
+        emailBody,
+        null);
+
+        await _mailService.SendEmailAsync(mailRequestDto);
+    }
 
     private static readonly string[] includes = {
+    nameof(Book.BasketItems),
     nameof(Book.Images),
     nameof(Book.Author),
     nameof(Book.Company),

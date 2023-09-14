@@ -53,7 +53,7 @@ public class BooksController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, [FromForm] BookPutDto bookPutDto)
     {
-        var updatedBook = new BookPutDto(id, bookPutDto.Title, bookPutDto.Images, bookPutDto.MainImageIndex, bookPutDto.Description, bookPutDto.Price, bookPutDto.DiscountPrice, bookPutDto.AuthorId);
+        var updatedBook = new BookPutDto(id, bookPutDto.Title, bookPutDto.Images, bookPutDto.MainImageIndex, bookPutDto.Description, bookPutDto.Price, bookPutDto.DiscountPrice, bookPutDto.StockQuantity, bookPutDto.AuthorId, bookPutDto.GenreIds);
         var response = await _bookService.UpdateBookAsync(updatedBook);
 
         return StatusCode(response.StatusCode, response.Message);

@@ -22,8 +22,7 @@ public class OrderService : IOrderService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserAddressService _userAddressService;
     private readonly IBasketItemService _basketItemService;
-    private readonly IBasketService _basketService;
-    private readonly bool? _isAuthenticated;
+    private readonly IBookService _bookService;
 
     private readonly IPaymentDetailService _paymentDetailService;
     private readonly IOrderDetailService _orderDetailService;
@@ -33,9 +32,8 @@ public class OrderService : IOrderService
     private readonly IUserService _userService;
     private readonly IMapper _mapper;
 
-    public OrderService(IUserAddressService userAddressService, IUserService userService, IHttpContextAccessor httpContextAccessor, IBasketService basketService, IShoppingSessionService shoppingSessionService, IBasketItemService basketItemService, IMapper mapper, IStripeService stripeService, IOrderDetailService orderDetailService, IOrderItemService orderItemService, IPaymentDetailService paymentDetailService)
+    public OrderService(IUserAddressService userAddressService, IUserService userService, IHttpContextAccessor httpContextAccessor, IShoppingSessionService shoppingSessionService, IBasketItemService basketItemService, IMapper mapper, IStripeService stripeService, IOrderDetailService orderDetailService, IOrderItemService orderItemService, IPaymentDetailService paymentDetailService, IBookService bookService)
     {
-        _isAuthenticated = _httpContextAccessor?.HttpContext?.User.Identity?.IsAuthenticated;
         _httpContextAccessor = httpContextAccessor;
         _shoppingSessionService = shoppingSessionService;
         _paymentDetailService = paymentDetailService;
@@ -44,9 +42,9 @@ public class OrderService : IOrderService
         _basketItemService = basketItemService;
         _orderItemService = orderItemService;
         _stripeService = stripeService;
-        _basketService = basketService;
         _userService = userService;
         _mapper = mapper;
+        _bookService = bookService;
     }
 
 
@@ -89,6 +87,11 @@ public class OrderService : IOrderService
 
         foreach (var basketItem in basketItems)
         {
+            var book = await _bookService.GetBookAllDetailsByIdAsync(basketItem.BasketBook.Id);
+            book.StockQuantity -= basketItem.Quantity;
+            book.SoldQuantity += basketItem.Quantity;
+            await _bookService.UpdateBookByEntityAsync(book);
+
             await _orderItemService.CreateOrderItemAsync(new OrderItemPostDto(basketItem.Quantity, basketItem.BasketBook.Id, orderDetail.Id));
             await _basketItemService.DeleteBasketItemAsync(basketItem.Id);
         }

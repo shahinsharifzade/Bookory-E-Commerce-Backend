@@ -14,6 +14,7 @@ public interface IBookService
     Task<ResponseDto> CreateBookAsync(BookPostDto bookPostDto);
     Task<ResponseDto> UpdateBookAsync(BookPutDto bookPutDto);
     Task<ResponseDto> DeleteBookAsync(Guid id);
+    Task UpdateBookByEntityAsync(Book book);
 
     Task<List<BookGetResponseDto>> GetBooksByCompanyIdAsync(Guid id);
     Task<ResponseDto> ApproveOrRejectBookAsync(Guid bookId, BookStatus status);

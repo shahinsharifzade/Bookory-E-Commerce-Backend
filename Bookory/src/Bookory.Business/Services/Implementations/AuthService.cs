@@ -22,8 +22,8 @@ public class AuthService : IAuthService
     private readonly UserManager<AppUser> _userManager;
     private readonly LinkGenerator _linkGenerator;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IBasketService _basketService;
     private readonly IWishlistService _wishlistService;
+    private readonly IBasketService _basketService;
     private readonly ITokenHelper _tokenHelper;
     private readonly IMailService _mailService;
 
@@ -43,8 +43,8 @@ public class AuthService : IAuthService
         AppUser user = await _userManager.FindByNameAsync(loginDto.UserName);
         if (user is null) throw new LoginFailedException("User with the provided username does not exist.");
 
-        if (!user.EmailConfirmed) throw new Exception("ConfirmEmail");
-        if (!user.IsActive) throw new Exception("Blocked");
+        if (!user.EmailConfirmed) throw new ConfirmEmailException("Login failed because the email associated with this account has not been confirmed");
+        if (!user.IsActive) throw new BlockedUserException("Login failed because this account has been blocked");
 
         bool isSuccess = await _userManager.CheckPasswordAsync(user, loginDto.Password);
         if (!isSuccess) throw new LoginFailedException("Invalid username or password. Please check your credentials.");
@@ -84,34 +84,31 @@ public class AuthService : IAuthService
         string token = await _userManager.GeneratePasswordResetTokenAsync(user);
         string url = _linkGenerator.GetUriByAction(httpContext, "ResetPassword", "Auth", new { token = token, email = forgotPasswordDto.Email }, scheme: request.Scheme, host: request.Host)!;
 
-        MailRequestDto mailRequesDto = new(
-        forgotPasswordDto.Email,
-        "Reset Your Password",
-        $"<a href='{HtmlEncoder.Default.Encode(url)}'>Reset Your Password</a>",
-        null
-        );
+        string emailSubject = "Password Reset Request";
+        string emailBody = $@"
+        <html>
+        <body>
+            <p>Hello,</p>
+            <p>You have requested to reset your password for your account.</p>
+            <p>To reset your password, click on the following link:</p>
+            <p><a href='{HtmlEncoder.Default.Encode(url)}'>Reset Your Password</a></p>
+            <p>If you did not request this password reset, you can safely ignore this email.</p>
+            <p>Thank you!</p>
+        </body>
+        </html>";
 
-        await _mailService.SendEmailAsync(mailRequesDto);
+        MailRequestDto mailRequestDto = new MailRequestDto(
+            forgotPasswordDto.Email,
+            emailSubject,
+            emailBody,
+            null
+        );
+        await _mailService.SendEmailAsync(mailRequestDto);
         return new ResponseDto((int)HttpStatusCode.OK, "A reset password link has been sent to your email");
     }
 
-    //public async Task<ResponseDto> ResetPasswordAsync(string token, string email)
-    //{
-    //    if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
-    //        throw new NullOrWhitespaceArgumentException("Email or token is null or empty.");
-
-    //    var user = await _userManager.FindByEmailAsync(email);
-    //    if (user is null)
-    //        throw new UserNotFoundException($"User not found for the email: {email}");
-
-    //    return new ResponseDto((int)HttpStatusCode.OK, $"Password reset token: {token} has been verified successfully.");
-    //}
-
     public async Task<ResponseDto> ResetPasswordAsync(ChangePasswordDto resetPasswordDto, string token, string email)
     {
-        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
-            throw new NullOrWhitespaceArgumentException("Email or token is null or empty.");
-
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
             throw new UserNotFoundException($"User not found with the email: {email}");

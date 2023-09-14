@@ -52,7 +52,7 @@ public class AuthorService : IAuthorService
         bool isExist = await _authorRepository.IsExistAsync(a => a.Name.ToLower().Trim() == authorPostDto.Name.ToLower().Trim());
         if (isExist) throw new AuthorAlreadyExistException("An author with the same name already exists.");
 
-        Author newAuthor = _mapper.Map<Author>(authorPostDto);
+        var newAuthor = _mapper.Map<Author>(authorPostDto);
 
         await _authorRepository.CreateAsync(newAuthor);
         await _authorRepository.SaveAsync();
@@ -67,12 +67,8 @@ public class AuthorService : IAuthorService
 
         var author = await _authorRepository.GetSingleAsync(b => b.Id == authorPutDto.Id, nameof(Author.Images));
         if (author is null) throw new AuthorNotFoundException($"Author not found with ID {authorPutDto.Id}");
-
-        if (authorPutDto.Images != null)
-            foreach (var image in author.Images)
-            {
-                FileHelper.DeleteFile(new string[] { _webHostEnvironment.WebRootPath, "assets", "images", "authors", image.Image });
-            }
+        
+        DeleteAuthorImage(authorPutDto, author);
 
         var updatedAuthor = _mapper.Map(authorPutDto, author);
 
@@ -92,6 +88,15 @@ public class AuthorService : IAuthorService
         await _authorRepository.SaveAsync();
 
         return new ResponseDto((int)HttpStatusCode.OK, "Author has been successfully deleted");
+    }
+
+    private void DeleteAuthorImage(AuthorPutDto authorPutDto, Author? author)
+    {
+        if (authorPutDto.Images != null)
+            foreach (var image in author.Images)
+            {
+                FileHelper.DeleteFile(new string[] { _webHostEnvironment.WebRootPath, "assets", "images", "authors", image.Image });
+            }
     }
 
     private static readonly string[] includes = {

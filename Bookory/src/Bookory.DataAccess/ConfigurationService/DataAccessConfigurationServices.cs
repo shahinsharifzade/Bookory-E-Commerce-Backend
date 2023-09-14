@@ -1,6 +1,8 @@
-﻿using Bookory.DataAccess.Persistance.Context.EfCore;
+﻿using Bookory.Core.Models.Common;
+using Bookory.DataAccess.Persistance.Context.EfCore;
 using Bookory.DataAccess.Repositories.Implementations;
 using Bookory.DataAccess.Repositories.Interfaces;
+using ECommerce.DataAccessLayer.Persistance.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +36,7 @@ public static class DataAccessConfigurationServices
         {
             options.UseSqlServer(configuration.GetConnectionString("Default"));
         });
-
+        services.AddScoped<BaseEntityInterceptor>();
         return services;
     }
 }

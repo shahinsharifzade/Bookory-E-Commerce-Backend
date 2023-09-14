@@ -1,5 +1,6 @@
 ﻿using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.AuthorDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;
@@ -16,6 +17,7 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll([FromQuery] string? search)
     {
         return Ok(await _authorService.GetAllAuthorsAsync(search));

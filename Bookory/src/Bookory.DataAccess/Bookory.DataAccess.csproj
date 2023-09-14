@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Bookory.Core\Bookory.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Persistance\Interceptors\" />
-  </ItemGroup>
-
 </Project>

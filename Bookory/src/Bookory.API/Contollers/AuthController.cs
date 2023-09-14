@@ -36,14 +36,6 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
 
-
-    //[HttpGet("[action]")]
-    //public async Task<IActionResult> ResetPassword(string token, string email)
-    //{
-    //    var response = await _authService.ResetPasswordAsync(token,  email);
-    //    return Ok(response);
-    //}
-
     [HttpPut("[action]")]
     public async Task<IActionResult> ChangePassword(ChangePasswordDto resetPasswordDto, string token, string email)
     {
