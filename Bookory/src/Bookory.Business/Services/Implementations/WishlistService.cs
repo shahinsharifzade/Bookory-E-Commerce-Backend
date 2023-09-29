@@ -39,7 +39,7 @@ public class WishlistService : IWishlistService
     {
         if (!isAuthenticated)
         {
-            WishlistGetResponseDto wishlistDto = await GetWishlistItemsFromCookieAsync();
+            WishlistGetResponseDto wishlistDto =  GetWishlistItemsFromCookieAsync();
             return wishlistDto;
         }
 
@@ -119,7 +119,7 @@ public class WishlistService : IWishlistService
 
     public async Task<ResponseDto> TransferCookieWishlistToDatabaseAsync(string userId)
     {
-        var cookieWishlist = await GetWishlistItemsFromCookieAsync();
+        var cookieWishlist =  GetWishlistItemsFromCookieAsync();
 
         if (cookieWishlist.Books is null || !cookieWishlist.Books.Any())
             return new ResponseDto((int)HttpStatusCode.OK, "No items found in the cookie wishlist to transfer");
@@ -151,48 +151,69 @@ public class WishlistService : IWishlistService
 
     #region Cookie Wishlist Mehtods
 
-    private async Task<WishlistGetResponseDto> GetWishlistItemsFromCookieAsync()
+    private WishlistGetResponseDto GetWishlistItemsFromCookieAsync()
     {
-        List<BookGetResponseDto> bookGetResponseDtos = null;
-
+        // Get the list of book IDs from the cookie
         var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_WISHLIST_ITEM_KEY];
-        if (cookie != null) bookGetResponseDtos = JsonConvert.DeserializeObject<List<BookGetResponseDto>>(cookie);
+        List<string> wishlistIds;
 
+        if (cookie != null)
+        {
+            wishlistIds = JsonConvert.DeserializeObject<List<string>>(cookie);
+        }
+        else
+        {
+            wishlistIds = new List<string>();
+        }
+
+        // Create a WishlistGetResponseDto and populate the Books property with book details
         WishlistGetResponseDto wishlistDto = new WishlistGetResponseDto
         {
-            Books = new List<BookGetResponseDto>() // Initialize Books property
+            Books = new List<BookGetResponseDto>()
         };
 
-        if (bookGetResponseDtos != null)
-            foreach (var item in bookGetResponseDtos)
-                wishlistDto.Books.Add(item);
+        foreach (var bookId in wishlistIds)
+        {
+            // Find the book details by ID and add it to the wishlist
+            var book = _bookService.GetBookByIdAsync(Guid.Parse(bookId)).Result; // Assuming GetBookByIdAsync is a method to get book details by ID
+            if (book != null)
+            {
+                var bookDto = _mapper.Map<BookGetResponseDto>(book);
+                wishlistDto.Books.Add(bookDto);
+            }
+        }
 
         return wishlistDto;
     }
 
+
     private async Task<ResponseDto> AddWishlistItemToCookieAsync(Book book)
     {
-        WishlistGetResponseDto wishlistDto = await GetWishlistItemsFromCookieAsync();
+        var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_WISHLIST_ITEM_KEY];
+        List<string> wishlistIds;
 
-        var bookDto = _mapper.Map<BookGetResponseDto>(book);
-
-        if (wishlistDto.Books != null)
-
-            if (wishlistDto.Books.Any(ck => ck.Id == book.Id))
-                throw new WishlistItemAlreadyExistException("The item already exists in the wishlist");
-            else
-                wishlistDto.Books.Add(bookDto);
+        if (cookie != null)
+            wishlistIds = JsonConvert.DeserializeObject<List<string>>(cookie);
 
         else
-            wishlistDto.Books.Add(bookDto);
+            wishlistIds = new List<string>();
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistDto.Books), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true });
+
+        if (wishlistIds.Contains(book.Id.ToString()))
+            throw new WishlistItemAlreadyExistException("The item already exists in the wishlist");
+
+        wishlistIds.Add(book.Id.ToString());
+
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistIds), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.UtcNow.AddMonths(1) }
+        );
+
         return new ResponseDto((int)HttpStatusCode.Created, "The book has been successfully added.");
     }
 
+
     private async Task<ResponseDto> DeleteWishlistItemFromCookie(BookGetResponseDto book)
     {
-        var wishlistItem = await GetWishlistItemsFromCookieAsync();
+        var wishlistItem =  GetWishlistItemsFromCookieAsync();
         if (!wishlistItem.Books.Any(wl => wl.Id == book.Id)) throw new WishlistItemNotFoundException($"No item found in the wishlist by ID {book.Id}");
 
         var bookToDelete = wishlistItem.Books.FirstOrDefault(wl => wl.Id == book.Id);

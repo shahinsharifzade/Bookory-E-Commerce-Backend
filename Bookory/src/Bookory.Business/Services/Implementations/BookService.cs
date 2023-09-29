@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Bookory.Business.Services.Interfaces;
-using Bookory.Business.Utilities.DTOs.AuthorDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
 using Bookory.Business.Utilities.DTOs.MailDtos;
@@ -14,7 +13,6 @@ using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
 
@@ -160,7 +158,7 @@ public class BookService : IBookService
 
         return new((int)HttpStatusCode.OK, "The book was successfully updated");
     }
-        
+
     public async Task<ResponseDto> DeleteBookAsync(Guid Id)
     {
         var book = await _bookRepository.GetSingleAsync(b => b.Id == Id);
@@ -175,19 +173,28 @@ public class BookService : IBookService
 
     public async Task<BookPageResponseDto> GetPageOfBooksAsync(int pageNumber, int pageSize, BookFiltersDto filters)
     {
-        var booksQuery =  _bookRepository.GetFiltered(b =>  b.Status == BookStatus.Approved,includes);
+        var booksQuery = _bookRepository.GetFiltered(b => b.Status == BookStatus.Approved, includes);
 
         if (filters.Authors != null && filters.Authors.Any())
-        {
             booksQuery = booksQuery.Where(b => filters.Authors.Any(a => a == b.AuthorId));
-        }
 
-        decimal totalCount = Math.Ceiling((decimal) await booksQuery.CountAsync() / pageSize);
+        if (filters.Genres != null && filters.Genres.Any())
+            booksQuery = booksQuery.Where(b => b.BookGenres.Any(bg => filters.Genres.Contains(bg.Genre.Id)));
+
+        if (filters.MinPrice != 0 && filters.MaxPrice != 0)
+            booksQuery = booksQuery.Where(b => (b.Price > filters.MinPrice && b.Price < filters.MaxPrice));
+
+        decimal totalCount = await booksQuery.CountAsync();
+
+        if (pageSize != 0)
+        {
+            totalCount = Math.Ceiling((decimal)await booksQuery.CountAsync() / pageSize);
+        }
 
         int itemsToSkip = (pageNumber - 1) * pageSize;
         booksQuery = booksQuery.Skip(itemsToSkip).Take(pageSize);
 
-        var books = await booksQuery.ToListAsync();
+        var books = await booksQuery.ToListAsync(); 
 
         if (books is null || books.Count == 0)
             throw new BookNotFoundException("No books were found matching the provided criteria.");

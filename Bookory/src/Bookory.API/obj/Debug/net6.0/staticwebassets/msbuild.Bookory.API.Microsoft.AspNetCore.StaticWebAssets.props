@@ -96,6 +96,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\authors\ee8953d2-11cc-4925-b347-9d9219737baf-Paulo Coelho.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\06a81cc8-93d8-4792-93a2-664033847203-Hippie.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Bookory.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Bookory.API</BasePath>
+      <RelativePath>assets/images/books/06a81cc8-93d8-4792-93a2-664033847203-Hippie.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\06a81cc8-93d8-4792-93a2-664033847203-Hippie.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\0f04acf7-2a60-4bf8-ab8d-5b05dfe4995c-ringShout.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Bookory.API</SourceId>
@@ -224,12 +240,12 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\34fa8e19-831e-43c6-80e6-e2fd68f60d30-PrideAndPrejudice.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\35f89123-d1be-47ed-8d6d-965ebc63995c-IMG_0114.JPG))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\36e5a640-2802-440c-8bf7-147990b55ddf-Hippie 2.jpeg))">
       <SourceType>Package</SourceType>
       <SourceId>Bookory.API</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/Bookory.API</BasePath>
-      <RelativePath>assets/images/books/35f89123-d1be-47ed-8d6d-965ebc63995c-IMG_0114.JPG</RelativePath>
+      <RelativePath>assets/images/books/36e5a640-2802-440c-8bf7-147990b55ddf-Hippie 2.jpeg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -238,7 +254,7 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\35f89123-d1be-47ed-8d6d-965ebc63995c-IMG_0114.JPG))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\36e5a640-2802-440c-8bf7-147990b55ddf-Hippie 2.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\3896c764-275c-432e-8fd4-d53460b2ed26-PrideAndPrejudice.jpeg))">
       <SourceType>Package</SourceType>
@@ -432,6 +448,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\7f25e90d-a89f-47b2-97fe-e9fb8e60090c-PrideAndPrejudice.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\7fa6a7cf-c0c3-4fa7-be10-12ffd3eaf99c-Hippie.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Bookory.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Bookory.API</BasePath>
+      <RelativePath>assets/images/books/7fa6a7cf-c0c3-4fa7-be10-12ffd3eaf99c-Hippie.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\7fa6a7cf-c0c3-4fa7-be10-12ffd3eaf99c-Hippie.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\811ddcd2-59b4-4c93-9c84-ae237459f153-hannibal.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Bookory.API</SourceId>
@@ -511,6 +543,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\b613928b-0969-4685-8e03-7c58ebde67fe-IMG_1422.JPG))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\b90bad8f-88e8-4674-8ce7-3e5dd3f8a239-Hippie 2.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Bookory.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Bookory.API</BasePath>
+      <RelativePath>assets/images/books/b90bad8f-88e8-4674-8ce7-3e5dd3f8a239-Hippie 2.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\b90bad8f-88e8-4674-8ce7-3e5dd3f8a239-Hippie 2.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\images\books\c161de37-14a7-4354-9e4e-38d7805603ee-error.jpg))">
       <SourceType>Package</SourceType>

@@ -3,6 +3,7 @@ using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
+using Bookory.Business.Utilities.DTOs.WishlistDtos;
 using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.BasketException;
 using Bookory.Business.Utilities.Exceptions.BookExceptions;
@@ -42,6 +43,8 @@ public class BasketService : IBasketService
     public async Task<ResponseDto> AddItemToBasketAsync(BasketPostDto basketPostDto)
     {
         var book = await _bookService.GetBookAllDetailsByIdAsync(basketPostDto.Id);
+        if (book is null) throw new BookNotFoundException($"No book was found with ID: {basketPostDto.Id}");
+
         var bookDto = _mapper.Map<BookGetResponseDto>(book);
 
         if (!_isAuthenticated)
@@ -184,6 +187,7 @@ public class BasketService : IBasketService
     }
 
     #region Cookie Mehtods
+
     private List<BasketItem> GetBasketItemsFromCookie()
     {
         List<BasketItem> basketItems = null;
