@@ -186,7 +186,7 @@ public class WishlistService : IWishlistService
         else
             wishlistDto.Books.Add(bookDto);
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistDto.Books));
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistDto.Books), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true });
         return new ResponseDto((int)HttpStatusCode.Created, "The book has been successfully added.");
     }
 

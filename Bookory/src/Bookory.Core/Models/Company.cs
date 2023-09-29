@@ -13,7 +13,7 @@ public class Company : BaseEntity
     public string ContactEmail { get; set; } = null!;
     public string ContactPhone { get; set; } = null!;
     public string? Address { get; set; } 
-    public decimal? Rating { get; set; }
+    public decimal Rating { get; set; }
 
     public string UserId { get; set; }
     public AppUser User { get; set; }

@@ -192,7 +192,6 @@ public class BasketService : IBasketService
             basketItems = JsonConvert.DeserializeObject<List<BasketItem>>(cookie);
         return basketItems;
     }
-
     public async Task<ResponseDto> AddBasketItemToCookieAsync(BookGetResponseDto book, BasketPostDto basketPostDto)
     {
         List<BasketItem> basketItems = GetBasketItemsFromCookie();
@@ -211,7 +210,9 @@ public class BasketService : IBasketService
         else
             basketItems = new List<BasketItem> { basketItem };
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems),
+            new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true });
+
 
         return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
     }

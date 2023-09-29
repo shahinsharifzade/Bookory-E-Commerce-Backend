@@ -11,5 +11,6 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.HasMany(c => c.Books).WithOne( b => b.Company).OnDelete(DeleteBehavior.Cascade);
         builder.HasOne(c => c.User).WithOne(b => b.Company).HasForeignKey<Company>(c => c.UserId).OnDelete(DeleteBehavior.NoAction); 
 
+        builder.Property(c => c.Rating).HasDefaultValue(0);
     }
 }

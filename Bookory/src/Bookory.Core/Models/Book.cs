@@ -9,7 +9,7 @@ public class Book : BaseEntity
     public int StockQuantity { get; set; }
     public decimal Price { get; set; }
     public decimal? DiscountPrice { get; set; }
-    public decimal? Rating { get; set; }
+    public decimal Rating { get; set; }
     public int SoldQuantity { get; set; }
 
     public Guid AuthorId { get; set; }
@@ -29,6 +29,5 @@ public class Book : BaseEntity
         Images = new List<BookImage>();
         BasketItems = new List<BasketItem>();
         Wishlists = new List<Wishlist>();
-        BasketItems = new List<BasketItem>();
     }
 }

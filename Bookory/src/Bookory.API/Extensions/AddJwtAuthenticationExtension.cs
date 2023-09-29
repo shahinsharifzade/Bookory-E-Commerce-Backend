@@ -1,37 +1,37 @@
-﻿using Bookory.Business.Utilities.Security.Encrypting;
-using Bookory.Core.Models.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿    using Bookory.Business.Utilities.Security.Encrypting;
+    using Bookory.Core.Models.Identity;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace Bookory.API.Extensions;
+    namespace Bookory.API.Extensions;
 
-public static class AddJwtAuthenticationExtension
-{
-    public static IServiceCollection AddJwtAuthenticationService(this IServiceCollection services, IConfiguration configuration)
+    public static class AddJwtAuthenticationExtension
     {
-        TokenOption tokenOption = configuration.GetSection("TokenOptions").Get<TokenOption>();
-        string audience = tokenOption.Audience;
-        string issuer = tokenOption.Issuer;
-        string securityKey = tokenOption.SecurityKey;
-        services.AddAuthentication(opt =>
+        public static IServiceCollection AddJwtAuthenticationService(this IServiceCollection services, IConfiguration configuration)
         {
-            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-
-        }).AddJwtBearer(opt =>
-        {
-            opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            TokenOption tokenOption = configuration.GetSection("TokenOptions").Get<TokenOption>();
+            string audience = tokenOption.Audience;
+            string issuer = tokenOption.Issuer;
+            string securityKey = tokenOption.SecurityKey;
+            services.AddAuthentication(opt =>
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 
-                ValidIssuer = issuer,
-                ValidAudience = audience,
-                IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(securityKey),
-                LifetimeValidator = (_, expires, _, _) => expires != null ? expires > DateTime.UtcNow : false
-            };
-        });
+            }).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
 
-        return services;
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(securityKey),
+                    LifetimeValidator = (_, expires, _, _) => expires != null ? expires > DateTime.UtcNow : false
+                };
+            });
+
+            return services;
+        }
     }
-}

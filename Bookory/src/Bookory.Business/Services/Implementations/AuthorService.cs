@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.AuthorDtos;
+using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
 using Bookory.Business.Utilities.Exceptions.AuthorExceptions;
 using Bookory.Business.Utilities.Extension.FileExtensions.Common;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Bookory.Business.Services.Implementations;
 
@@ -27,13 +30,32 @@ public class AuthorService : IAuthorService
 
     public async Task<List<AuthorGetResponseDto>> GetAllAuthorsAsync(string? search)
     {
-        var authors = await _authorRepository.GetFiltered(g => string.IsNullOrEmpty(search) ? true : g.Name.ToLower().Contains(search.Trim().ToLower()),includes).ToListAsync();
+        var authors =await _authorRepository.GetFiltered(g => string.IsNullOrEmpty(search) ? true : g.Name.ToLower().Contains(search.Trim().ToLower()), includes).ToListAsync();
 
         if (authors is null || authors.Count == 0)
             throw new AuthorNotFoundException("No authors were found matching the provided criteria.");
 
         var authorDtos = _mapper.Map<List<AuthorGetResponseDto>>(authors);
         return authorDtos;
+    }
+
+    public async Task<AuthorPageResponseDto> GetPageOfAuthorsAsync(int pageNumber, int pageSize)
+    {
+        var authorsQuery = _authorRepository.GetAll(includes);
+        decimal totalCount = Math.Ceiling((decimal)await authorsQuery.CountAsync() / pageSize);
+        
+        int itemsToSkip = (pageNumber - 1) * pageSize;
+        authorsQuery = authorsQuery.Skip(itemsToSkip).Take(pageSize);
+
+        var authors = await authorsQuery.ToListAsync();
+        if (authors is null || authors.Count == 0)
+            throw new AuthorNotFoundException("No authors were found matching the provided criteria.");
+
+        var authorGetResponseDto = _mapper.Map<List<AuthorGetResponseDto>>(authors);
+
+        AuthorPageResponseDto authorsDtos = new(authorGetResponseDto, totalCount);
+
+        return authorsDtos;
     }
 
     public async Task<AuthorGetResponseDto> GetAuthorByIdAsync(Guid id)
@@ -98,6 +120,7 @@ public class AuthorService : IAuthorService
                 FileHelper.DeleteFile(new string[] { _webHostEnvironment.WebRootPath, "assets", "images", "authors", image.Image });
             }
     }
+
 
     private static readonly string[] includes = {
     nameof(Author.Images),

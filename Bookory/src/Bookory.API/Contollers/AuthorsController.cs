@@ -1,4 +1,5 @@
-﻿using Bookory.Business.Services.Interfaces;
+﻿using Bookory.Business.Services.Implementations;
+using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.AuthorDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,16 +18,22 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> GetAll([FromQuery] string? search)
     {
         return Ok(await _authorService.GetAllAuthorsAsync(search));
     }
 
     [HttpGet("{id}")]
+    //[Authorize]
     public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
     {
         return Ok(await _authorService.GetAuthorByIdAsync(id));
+    }
+
+    [HttpGet("paged")]
+    public async Task<IActionResult> GetAll([FromQuery] int pageNumber, [FromQuery] int pageSize)
+    {
+        return Ok(await _authorService.GetPageOfAuthorsAsync(pageNumber, pageSize));
     }
 
     [HttpPost]

@@ -1,7 +1,10 @@
-﻿using Bookory.Business.Services.Interfaces;
+﻿using Bookory.Business.Services.Implementations;
+using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.Enums;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Specialized;
 
 namespace Bookory.API.Contollers;
 
@@ -10,10 +13,12 @@ namespace Bookory.API.Contollers;
 public class BooksController : ControllerBase
 {
     private readonly IBookService _bookService;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public BooksController(IBookService bookService)
+    public BooksController(IBookService bookService, IWebHostEnvironment webHostEnvironment)
     {
         _bookService = bookService;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -42,6 +47,13 @@ public class BooksController : ControllerBase
         return Ok(books);
     }
 
+    [HttpGet("paged")]
+    public async Task<IActionResult> GetAll([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] BookFiltersDto filters)
+    {
+
+        return Ok(await _bookService.GetPageOfBooksAsync( pageNumber, pageSize , filters));
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] BookPostDto bookPostDto)
     {
@@ -66,6 +78,7 @@ public class BooksController : ControllerBase
 
         return StatusCode(response.StatusCode, response.Message);
     }
+
 
     [HttpPost("{bookId}/approve")]
     public async Task<IActionResult> ApproveBook(Guid bookId)

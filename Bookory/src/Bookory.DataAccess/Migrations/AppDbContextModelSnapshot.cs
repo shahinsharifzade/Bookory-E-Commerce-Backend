@@ -223,8 +223,10 @@ namespace Bookory.DataAccess.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<decimal?>("Rating")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Rating")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<int>("SoldQuantity")
                         .ValueGeneratedOnAdd()
@@ -423,8 +425,10 @@ namespace Bookory.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Rating")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Rating")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<int?>("Status")
                         .HasColumnType("int");
