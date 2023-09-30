@@ -13,6 +13,7 @@ using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Net;
 using System.Security.Claims;
 
@@ -174,6 +175,7 @@ public class BookService : IBookService
     public async Task<BookPageResponseDto> GetPageOfBooksAsync(int pageNumber, int pageSize, BookFiltersDto filters)
     {
         var booksQuery = _bookRepository.GetFiltered(b => b.Status == BookStatus.Approved, includes);
+        booksQuery = booksQuery.OrderByDescending(b => b.Rating);
 
         if (filters.Authors != null && filters.Authors.Any())
             booksQuery = booksQuery.Where(b => filters.Authors.Any(a => a == b.AuthorId));
@@ -183,6 +185,34 @@ public class BookService : IBookService
 
         if (filters.MinPrice != 0 && filters.MaxPrice != 0)
             booksQuery = booksQuery.Where(b => (b.Price > filters.MinPrice && b.Price < filters.MaxPrice));
+
+        if (filters.Rating != 0 && filters.Rating != null)
+            booksQuery = booksQuery.Where(b => b.Rating == filters.Rating);
+        
+        if(filters.SortBy != null)
+        {
+            switch (filters.SortBy)
+            {
+                case "priceLowToHigh":
+                    booksQuery = booksQuery.OrderBy(b => b.Price);
+                    break;
+                case "priceHighToLow":
+                    booksQuery = booksQuery.OrderByDescending(b => b.Price);
+                    break;
+                case "averageRating":
+                    booksQuery = booksQuery.OrderByDescending(b => b.Rating);
+                    break;
+                case "newest":
+                    booksQuery = booksQuery.OrderByDescending(b => b.CreatedAt);
+                    break;
+                case "popularity":
+                    booksQuery = booksQuery.OrderByDescending(b => b.SoldQuantity);
+                    break;
+                default:
+                    booksQuery = booksQuery.OrderByDescending(b => b.Rating);
+                    break;
+            }
+        }
 
         decimal totalCount = await booksQuery.CountAsync();
 

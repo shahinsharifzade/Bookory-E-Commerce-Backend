@@ -153,20 +153,14 @@ public class WishlistService : IWishlistService
 
     private WishlistGetResponseDto GetWishlistItemsFromCookieAsync()
     {
-        // Get the list of book IDs from the cookie
         var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_WISHLIST_ITEM_KEY];
         List<string> wishlistIds;
 
         if (cookie != null)
-        {
             wishlistIds = JsonConvert.DeserializeObject<List<string>>(cookie);
-        }
         else
-        {
             wishlistIds = new List<string>();
-        }
 
-        // Create a WishlistGetResponseDto and populate the Books property with book details
         WishlistGetResponseDto wishlistDto = new WishlistGetResponseDto
         {
             Books = new List<BookGetResponseDto>()
@@ -174,8 +168,7 @@ public class WishlistService : IWishlistService
 
         foreach (var bookId in wishlistIds)
         {
-            // Find the book details by ID and add it to the wishlist
-            var book = _bookService.GetBookByIdAsync(Guid.Parse(bookId)).Result; // Assuming GetBookByIdAsync is a method to get book details by ID
+            var book = _bookService.GetBookByIdAsync(Guid.Parse(bookId)).Result; 
             if (book != null)
             {
                 var bookDto = _mapper.Map<BookGetResponseDto>(book);
