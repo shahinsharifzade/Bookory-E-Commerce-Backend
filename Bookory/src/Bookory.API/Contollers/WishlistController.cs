@@ -21,8 +21,8 @@ public class WishlistController : ControllerBase
         return Ok(await _wishlistService.GetAllWishlistAsync());
     }
 
-    [HttpPost("{id}")]
-    public async Task<IActionResult> Post(WishlistPostDto wishlistPostDto)
+    [HttpPost]
+    public async Task<IActionResult> Post([FromQuery] WishlistPostDto wishlistPostDto)
     {
         var response = await _wishlistService.AddItemToWishlist(wishlistPostDto);
         return Ok(response);
