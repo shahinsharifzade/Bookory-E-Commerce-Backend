@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "f/ZHO/2oIAmOZMXugIWUSTaQFOmm4oG7UTCcrfcshJY=",
+  "Hash": "4hRoPrSSSDgnGhQo1jtxdGjeXr1zwCwuyQcwxffI+Rg=",
   "Source": "Bookory.API",
   "BasePath": "_content/Bookory.API",
   "Mode": "Default",
@@ -714,6 +714,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\images\\books\\f8be4cb1-8e50-46fa-9b13-76fb0703769f-ringShout.jpg"
     },
     {
+      "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\04a204a2-4b3e-4928-ae64-8ee04030b151-Hippie 2.jpeg",
+      "SourceId": "Bookory.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\",
+      "BasePath": "_content/Bookory.API",
+      "RelativePath": "assets/images/companies/04a204a2-4b3e-4928-ae64-8ee04030b151-Hippie 2.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\images\\companies\\04a204a2-4b3e-4928-ae64-8ee04030b151-Hippie 2.jpeg"
+    },
+    {
       "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\229e362c-66e7-437c-86be-f2fa6f92af2d-money-wp2.jpg",
       "SourceId": "Bookory.API",
       "SourceType": "Discovered",
@@ -848,6 +865,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\images\\companies\\9ce48727-5d73-48d0-9abd-755eeb6d4274-error.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\9e4e16cc-b6f0-48e9-84f2-4f8ed759b20b-Hippie 2.jpeg",
+      "SourceId": "Bookory.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\",
+      "BasePath": "_content/Bookory.API",
+      "RelativePath": "assets/images/companies/9e4e16cc-b6f0-48e9-84f2-4f8ed759b20b-Hippie 2.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\images\\companies\\9e4e16cc-b6f0-48e9-84f2-4f8ed759b20b-Hippie 2.jpeg"
     },
     {
       "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\a08f7a2e-d6a8-4b66-92db-4c139785d95f-error.jpg",

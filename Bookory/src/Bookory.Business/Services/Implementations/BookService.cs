@@ -13,7 +13,6 @@ using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using System.Net;
 using System.Security.Claims;
 
@@ -183,7 +182,7 @@ public class BookService : IBookService
         if (filters.Genres != null && filters.Genres.Any())
             booksQuery = booksQuery.Where(b => b.BookGenres.Any(bg => filters.Genres.Contains(bg.Genre.Id)));
 
-        if (filters.MinPrice != 0 && filters.MaxPrice != 0)
+        if (filters.MinPrice != null && filters.MaxPrice != null)
             booksQuery = booksQuery.Where(b => (b.Price > filters.MinPrice && b.Price < filters.MaxPrice));
 
         if (filters.Rating != 0 && filters.Rating != null)
@@ -331,6 +330,7 @@ public class BookService : IBookService
     nameof(Book.Images),
     nameof(Book.Author),
     nameof(Book.Company),
+     $"{nameof(Book.Company)}.{nameof(Company.User)}",
     $"{nameof(Book.Author)}.{nameof(Author.Images)}",
     $"{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}"};
 }

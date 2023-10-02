@@ -119,17 +119,22 @@ public class WishlistService : IWishlistService
 
     public async Task<ResponseDto> TransferCookieWishlistToDatabaseAsync(string userId)
     {
-        var cookieWishlist =  GetWishlistItemsFromCookieAsync();
+        var cookieWishlist = GetWishlistItemsFromCookieAsync();
 
         if (cookieWishlist.Books is null || !cookieWishlist.Books.Any())
             return new ResponseDto((int)HttpStatusCode.OK, "No items found in the cookie wishlist to transfer");
 
         Wishlist wishlist = await _wishlistRepository.GetSingleAsync(wl => wl.UserId == userId, nameof(Wishlist.Books));
 
-        wishlist ??= new()
+        if (wishlist == null)
         {
-            UserId = userId
-        };
+            // Create a new wishlist if it doesn't exist for the user
+            wishlist = new Wishlist
+            {
+                UserId = userId,
+                Books = new List<Book>()
+            };
+        }
 
         foreach (var cookieBook in cookieWishlist.Books)
         {
@@ -141,7 +146,7 @@ public class WishlistService : IWishlistService
             }
         }
 
-        await _wishlistRepository.CreateAsync(wishlist);
+        _wishlistRepository.Update(wishlist); // Update the existing or newly created wishlist
         await _wishlistRepository.SaveAsync();
         ClearCookieBasket();
 

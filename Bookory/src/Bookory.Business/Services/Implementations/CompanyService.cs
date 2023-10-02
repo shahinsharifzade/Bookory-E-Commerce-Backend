@@ -40,7 +40,7 @@ public class CompanyService : ICompanyService
     }
 
     public async Task<ResponseDto> CreateCompanyAsync(CompanyPostDto companyPostDto)
-    {
+    {   
         var userDetails = await _userService.GetUserByUsernameAsync(companyPostDto.Username);
 
         if (userDetails.Role != Roles.Vendor.ToString()) throw new CompanyCreationException("Failed to create a company because the user is not a vendor.");
@@ -50,6 +50,7 @@ public class CompanyService : ICompanyService
         var company = _mapper.Map<Company>(companyPostDto);
         company.UserId = userDetails.User.Id;
         company.Status = CompanyStatus.PendingApproval;
+        company.User = userDetails.User;
 
         await _companyRepository.CreateAsync(company);
         await _companyRepository.SaveAsync();
@@ -162,6 +163,7 @@ public class CompanyService : ICompanyService
     }
 
     private static readonly string[] includes ={
+        nameof(Company.User),
         nameof(Company.Books),
         $"{nameof(Company.Books)}.{nameof(Book.Author)}",
         $"{nameof(Company.Books)}.{nameof(Book.Images)}",
