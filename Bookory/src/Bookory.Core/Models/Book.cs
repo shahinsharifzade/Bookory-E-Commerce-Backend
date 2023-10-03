@@ -9,7 +9,10 @@ public class Book : BaseEntity
     public int StockQuantity { get; set; }
     public decimal Price { get; set; }
     public decimal? DiscountPrice { get; set; }
+
     public decimal Rating { get; set; }
+    public int NumberOfRatings { get; set; }
+
     public int SoldQuantity { get; set; }
 
     public Guid AuthorId { get; set; }

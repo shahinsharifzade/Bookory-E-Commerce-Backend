@@ -325,6 +325,11 @@ public class BookService : IBookService
         await _mailService.SendEmailAsync(mailRequestDto);
     }
 
+    public void UpdateBookByEntity(Book book)
+    {
+        _bookRepository.Update(book);
+    }
+
     private static readonly string[] includes = {
     nameof(Book.BasketItems),
     nameof(Book.Images),

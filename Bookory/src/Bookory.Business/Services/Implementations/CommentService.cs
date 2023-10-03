@@ -9,6 +9,7 @@ using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Cryptography;
 using System.Net;
 using System.Security.Claims;
 
@@ -19,16 +20,18 @@ public class CommentService : ICommentService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ICommentRepository _commentRepository;
     private readonly IUserService _userService;
+    private readonly IBookService _bookService;
     private readonly bool _isAuthenticated;
     private readonly IMapper _mapper;
 
-    public CommentService(IMapper mapper, IHttpContextAccessor httpContextAccessor, ICommentRepository commentRepository, IUserService userService)
+    public CommentService(IMapper mapper, IHttpContextAccessor httpContextAccessor, ICommentRepository commentRepository, IUserService userService, IBookService bookService)
     {
         _mapper = mapper;
         _httpContextAccessor = httpContextAccessor;
         _commentRepository = commentRepository;
         _userService = userService;
         _isAuthenticated = _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+        _bookService = bookService;
     }
 
     public async Task<ResponseDto> CreateCommentAsync(CommentPostDto commentPostDto) 
@@ -41,8 +44,15 @@ public class CommentService : ICommentService
         var comment = _mapper.Map<Comment>(commentPostDto);
         comment.UserId = userId;
 
+        var book = await _bookService.GetBookAllDetailsByIdAsync(commentPostDto.EntityId);
+
+        var previousSumRating = book.Rating * book.NumberOfRatings;
+        book.Rating = (previousSumRating + comment.Rating) / (book.NumberOfRatings + 1);
+        book.NumberOfRatings += 1;
+
         await _commentRepository.CreateAsync(comment);
         await _commentRepository.SaveAsync();
+        _bookService.UpdateBookByEntity(book);
 
         return new ResponseDto((int)HttpStatusCode.Created, "Comment successfully created");
     }

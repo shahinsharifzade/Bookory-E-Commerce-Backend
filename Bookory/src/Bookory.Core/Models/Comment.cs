@@ -16,6 +16,8 @@ public class Comment : BaseEntity
     public Guid EntityId { get; set; }
     public string EntityType { get; set; }
 
+    public int Rating { get; set; }
+
     public ICollection<Comment> Replies { get; set; }
     public Comment()
     {

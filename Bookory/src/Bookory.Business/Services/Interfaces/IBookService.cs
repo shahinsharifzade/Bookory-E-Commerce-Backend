@@ -21,6 +21,7 @@ public interface IBookService
     Task<ResponseDto> ApproveOrRejectBookAsync(Guid bookId, BookStatus status);
     Task<List<BookGetResponseDto>> GetBooksPendingApprovalOrRejectedAsync();
 
+    void UpdateBookByEntity(Book book);
     Task<Book> IncludeBookAsync(Guid id);
     Task<bool> BookIsExistAsync(Guid id);
 }
