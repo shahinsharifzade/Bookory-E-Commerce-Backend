@@ -215,12 +215,11 @@ public class BasketService : IBasketService
             basketItems = new List<BasketItem> { basketItem };
 
         _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems),
-            new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true });
+            new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.UtcNow.AddMonths(1) });
 
 
         return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
     }
-
     private async Task<ResponseDto> UpdateCookieBasketItemAsync(BasketPutDto basketPutDto)
     {
         List<BasketItem> basketItems = GetBasketItemsFromCookie();

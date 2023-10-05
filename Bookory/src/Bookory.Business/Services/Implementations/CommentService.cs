@@ -2,14 +2,12 @@
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.CommentDtos;
 using Bookory.Business.Utilities.DTOs.Common;
-using Bookory.Business.Utilities.Exceptions;
 using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.CommentExceptions;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using MimeKit.Cryptography;
 using System.Net;
 using System.Security.Claims;
 

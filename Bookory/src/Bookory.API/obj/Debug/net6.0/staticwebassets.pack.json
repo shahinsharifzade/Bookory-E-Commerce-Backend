@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\assets\\images\\authors\\800998b7-3a14-410f-a65a-eba55d1ba776-Adam Fawer.jpeg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\authors\\c33a1713-6e25-4b5d-8c23-cdd374aff3ad-jamesClear.webp",
+      "PackagePath": "staticwebassets\\assets\\images\\authors\\c33a1713-6e25-4b5d-8c23-cdd374aff3ad-jamesClear.webp"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\authors\\db3d38e5-05d7-4400-ae7f-637733fb52c2-Albert Camus.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\authors\\db3d38e5-05d7-4400-ae7f-637733fb52c2-Albert Camus.jpg"
     },
@@ -125,8 +129,16 @@
       "PackagePath": "staticwebassets\\assets\\images\\books\\8d54bfe4-c26b-4a9c-ab95-768f64bc8373-ringShout.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\8e073bd1-717c-4de2-9072-cbee75c3d257-atomic habits.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\8e073bd1-717c-4de2-9072-cbee75c3d257-atomic habits.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\9a271b38-452b-4091-842f-d1d5cb5d6077-van gogh.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\books\\9a271b38-452b-4091-842f-d1d5cb5d6077-van gogh.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\a5c7a01d-6807-4f50-a247-95e2a50d1f7a-atomic habits.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\a5c7a01d-6807-4f50-a247-95e2a50d1f7a-atomic habits.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\ac9942a2-4ff2-45ea-818f-755c2d99a9b2-Adam Fawer - Imporable.jpg",
@@ -143,6 +155,10 @@
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\c161de37-14a7-4354-9e4e-38d7805603ee-error.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\books\\c161de37-14a7-4354-9e4e-38d7805603ee-error.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\cf06c5f6-7f8a-4060-a71c-2a30a9e3667f-atomic habits.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\cf06c5f6-7f8a-4060-a71c-2a30a9e3667f-atomic habits.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\d802cf75-b850-4012-8b7d-86f084f58d9c-ringShout.jpg",
@@ -165,20 +181,48 @@
       "PackagePath": "staticwebassets\\assets\\images\\books\\f8be4cb1-8e50-46fa-9b13-76fb0703769f-ringShout.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\013e5e00-dfce-491d-ab31-4db99e341024-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\013e5e00-dfce-491d-ab31-4db99e341024-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\04a204a2-4b3e-4928-ae64-8ee04030b151-Hippie 2.jpeg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\04a204a2-4b3e-4928-ae64-8ee04030b151-Hippie 2.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\0eb34fe3-49f1-4ece-957c-f96adfa890bb-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\0eb34fe3-49f1-4ece-957c-f96adfa890bb-BookStoreBanner.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\229e362c-66e7-437c-86be-f2fa6f92af2d-money-wp2.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\229e362c-66e7-437c-86be-f2fa6f92af2d-money-wp2.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\35f33141-919b-4d74-8446-bf6f8abb8846-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\35f33141-919b-4d74-8446-bf6f8abb8846-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\3724f726-0c0c-4f41-a102-9474b61b4383-JS.png",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\3724f726-0c0c-4f41-a102-9474b61b4383-JS.png"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\3b8daed5-d42c-451d-ac07-8adb19a6bbac-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\3b8daed5-d42c-451d-ac07-8adb19a6bbac-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\3d9a31e8-115d-452b-914e-ea8665f9a012-error.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\3d9a31e8-115d-452b-914e-ea8665f9a012-error.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\498cb75b-c9b8-446f-b0ef-7d6c000e5b50-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\498cb75b-c9b8-446f-b0ef-7d6c000e5b50-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\519ebdd3-140e-464a-a04f-8b64e7c6244b-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\519ebdd3-140e-464a-a04f-8b64e7c6244b-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\5282b7ab-de79-4f8c-abd8-c34e34346c10-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\5282b7ab-de79-4f8c-abd8-c34e34346c10-BookStoreBanner.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\544d2ce8-2a41-41d0-a2eb-8b48bf769327-money-wp2.jpg",
@@ -191,6 +235,14 @@
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\765c6d38-85ba-460e-81c4-272372b8b539-JS.png",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\765c6d38-85ba-460e-81c4-272372b8b539-JS.png"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\8b1b13a6-ebd4-4945-b3bc-bb1e386fa0c7-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\8b1b13a6-ebd4-4945-b3bc-bb1e386fa0c7-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\96562fd7-fdaa-4e64-83e1-f8a66e0a4317-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\96562fd7-fdaa-4e64-83e1-f8a66e0a4317-BookStoreBanner.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\9b9bd0ee-04a4-4ce9-8514-6c399095fad0-money-wp.jpg",
@@ -213,6 +265,18 @@
       "PackagePath": "staticwebassets\\assets\\images\\companies\\a658e882-c2e4-44c6-9aba-928b17a8f960-error.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\a76855ae-e09a-4d3c-9399-f1f5e1efb677-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\a76855ae-e09a-4d3c-9399-f1f5e1efb677-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\ac68f52c-1db6-4713-8cdf-c3a786c80867-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\ac68f52c-1db6-4713-8cdf-c3a786c80867-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\b2be3250-df86-4ef9-8264-0f8009b0f381-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\b2be3250-df86-4ef9-8264-0f8009b0f381-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\b2fbe2ad-4d16-4f27-af1f-edc85800bf9a-money-wp.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\b2fbe2ad-4d16-4f27-af1f-edc85800bf9a-money-wp.jpg"
     },
@@ -221,12 +285,36 @@
       "PackagePath": "staticwebassets\\assets\\images\\companies\\c2cbbb55-7a98-473a-8f17-ce01093529cf-error.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\c2ec1373-837d-424b-bc41-d82fac709d6f-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\c2ec1373-837d-424b-bc41-d82fac709d6f-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\c506ec27-563c-49ca-8567-2db188b8f33c-error.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\c506ec27-563c-49ca-8567-2db188b8f33c-error.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\cde9c344-96fb-4ac0-953f-f751df96e839-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\cde9c344-96fb-4ac0-953f-f751df96e839-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\e4cd1829-27c4-4996-be40-2d76cd8c3f0f-error.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\e4cd1829-27c4-4996-be40-2d76cd8c3f0f-error.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\ee41be57-3b6d-46ce-bfe0-667e9bb6d806-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\ee41be57-3b6d-46ce-bfe0-667e9bb6d806-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\f0a7ad8b-e0d9-4a8b-b037-c56b15ab4282-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\f0a7ad8b-e0d9-4a8b-b037-c56b15ab4282-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\f2628c0e-6c2c-47a3-a3a4-1aaeccce8856-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\f2628c0e-6c2c-47a3-a3a4-1aaeccce8856-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\f69904e5-fe77-443f-93f0-6db0c9561eaa-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\f69904e5-fe77-443f-93f0-6db0c9561eaa-BookStoreBanner.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.Bookory.API.Microsoft.AspNetCore.StaticWebAssets.props",

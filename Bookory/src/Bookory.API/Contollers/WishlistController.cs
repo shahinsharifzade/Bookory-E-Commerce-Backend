@@ -34,4 +34,12 @@ public class WishlistController : ControllerBase
         var response = await _wishlistService.RemoveWishlistItem(id);
         return Ok(response);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> IsExist (Guid id)
+    {
+        var response =await _wishlistService.CheckItemExistsInWishlistAsync(id);
+
+        return Ok(response);
+    }
 }

@@ -1,8 +1,5 @@
 ﻿using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.UserDtos;
-using Bookory.Business.Utilities.Enums;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;

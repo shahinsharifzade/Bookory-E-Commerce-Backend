@@ -8,6 +8,7 @@ using Bookory.Business.Utilities.Exceptions.WishlistExceptions;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net;
 using System.Security.Claims;
@@ -39,7 +40,7 @@ public class WishlistService : IWishlistService
     {
         if (!isAuthenticated)
         {
-            WishlistGetResponseDto wishlistDto =  GetWishlistItemsFromCookieAsync();
+            WishlistGetResponseDto wishlistDto =  GetWishlistItemsFromCookie();
             return wishlistDto;
         }
 
@@ -98,7 +99,7 @@ public class WishlistService : IWishlistService
 
         if (!isAuthenticated)
         {
-            var response = await DeleteWishlistItemFromCookie(bookToDelete);
+            var response =  DeleteWishlistItemFromCookie(bookToDelete);
             return new ResponseDto(response.StatusCode, response.Message);
         }
 
@@ -119,7 +120,7 @@ public class WishlistService : IWishlistService
 
     public async Task<ResponseDto> TransferCookieWishlistToDatabaseAsync(string userId)
     {
-        var cookieWishlist = GetWishlistItemsFromCookieAsync();
+        var cookieWishlist = GetWishlistItemsFromCookie();
 
         if (cookieWishlist.Books is null || !cookieWishlist.Books.Any())
             return new ResponseDto((int)HttpStatusCode.OK, "No items found in the cookie wishlist to transfer");
@@ -156,7 +157,7 @@ public class WishlistService : IWishlistService
 
     #region Cookie Wishlist Mehtods
 
-    private WishlistGetResponseDto GetWishlistItemsFromCookieAsync()
+    private WishlistGetResponseDto GetWishlistItemsFromCookie()
     {
         var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_WISHLIST_ITEM_KEY];
         List<string> wishlistIds;
@@ -202,28 +203,54 @@ public class WishlistService : IWishlistService
 
         wishlistIds.Add(book.Id.ToString());
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistIds), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.UtcNow.AddMonths(1) }
-        );
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistIds), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.UtcNow.AddMonths(1) });
 
         return new ResponseDto((int)HttpStatusCode.Created, "The book has been successfully added.");
     }
 
-
-    private async Task<ResponseDto> DeleteWishlistItemFromCookie(BookGetResponseDto book)
+    private ResponseDto DeleteWishlistItemFromCookie(BookGetResponseDto book)
     {
-        var wishlistItem =  GetWishlistItemsFromCookieAsync();
-        if (!wishlistItem.Books.Any(wl => wl.Id == book.Id)) throw new WishlistItemNotFoundException($"No item found in the wishlist by ID {book.Id}");
+        var cookie = _httpContextAccessor.HttpContext.Request.Cookies[COOKIE_WISHLIST_ITEM_KEY];
+        List<string> wishlistIds;
 
-        var bookToDelete = wishlistItem.Books.FirstOrDefault(wl => wl.Id == book.Id);
-        wishlistItem.Books.Remove(bookToDelete);
+        if (cookie != null)
+            wishlistIds = JsonConvert.DeserializeObject<List<string>>(cookie);
+        else
+            throw new WishlistItemNotFoundException($"No item found in the wishlist by ID {book.Id}");
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistItem.Books));
+        if (!wishlistIds.Contains(book.Id.ToString())) throw new WishlistItemNotFoundException($"No item found in the wishlist by ID {book.Id}");
+
+        wishlistIds.Remove(book.Id.ToString());
+
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_WISHLIST_ITEM_KEY, JsonConvert.SerializeObject(wishlistIds), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true });
+
         return new ResponseDto((int)HttpStatusCode.OK, "The item has been successfully removed");
     }
 
+
     private void ClearCookieBasket()
     {
-        _httpContextAccessor.HttpContext.Response.Cookies.Delete(COOKIE_WISHLIST_ITEM_KEY);
+        _httpContextAccessor.HttpContext.Response.Cookies.Delete(COOKIE_WISHLIST_ITEM_KEY, new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true});
+    }
+
+    public async Task<ResponseDto> CheckItemExistsInWishlistAsync(Guid id)
+    {
+        if (!isAuthenticated)
+        {
+            var wishlistDto = GetWishlistItemsFromCookie();
+            var isExist = wishlistDto.Books.Any(b => b.Id == id);
+
+            if (!isExist) throw new WishlistItemNotFoundException("The wishlist is empty. No wishlist items exist");
+
+            return new ResponseDto((int)HttpStatusCode.OK, $"Item found in the wishlist by ID {id}");
+        }
+
+        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var wishlist =await _wishlistRepository.GetFiltered(w => w.UserId == userId, nameof(Wishlist.Books)).ToListAsync();
+
+        if(wishlist == null) throw new WishlistItemNotFoundException("The wishlist is empty. No wishlist items exist");
+
+        return new ResponseDto((int)HttpStatusCode.OK, $"Item found in the wishlist by ID {id}");
     }
 
     #endregion

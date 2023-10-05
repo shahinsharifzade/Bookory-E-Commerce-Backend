@@ -1,4 +1,6 @@
-﻿using Bookory.Business.Services.Interfaces;
+﻿using Bookory.Business.Services.Implementations;
+using Bookory.Business.Services.Interfaces;
+using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.CompanyDtos;
 using Bookory.Business.Utilities.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,12 @@ public class CompanyController : ControllerBase
     {
         var companies = await _companyService.GetAllCompaniesAsync(search);
         return Ok(companies);
+    }
+
+    [HttpGet("paged")]
+    public async Task<IActionResult> GetAll([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] CompanyFiltersDto filters)
+    {
+        return Ok(await _companyService.GetPageOfCompaniesAsync(pageNumber, pageSize, filters));
     }
 
     [HttpPost]

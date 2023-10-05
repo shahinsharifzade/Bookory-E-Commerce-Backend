@@ -6,6 +6,7 @@ using Bookory.Business.Utilities.DTOs.CompanyDtos;
 using Bookory.Business.Utilities.DTOs.MailDtos;
 using Bookory.Business.Utilities.Email;
 using Bookory.Business.Utilities.Enums;
+using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.BookExceptions;
 using Bookory.Business.Utilities.Exceptions.CompanyExceptions;
 using Bookory.Business.Utilities.Extension.FileExtensions.Common;
@@ -14,7 +15,6 @@ using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
 using System.Net;
 
 namespace Bookory.Business.Services.Implementations;
@@ -138,8 +138,18 @@ public class CompanyService : ICompanyService
         if (status != CompanyStatus.Approved && status != CompanyStatus.Rejected)
             throw new CompanyStatusException("Invalid company status. Only 'Approved' or 'Rejected' are allowed.");
 
+        var userDetails = await _userService.GetUserAllDetailsByIdAsync(company.UserId);
+        if (userDetails.User is null)
+            throw new UserNotFoundException($"User not found with Id: {company.User}");
+
+        if (CompanyStatus.Approved == status)
+            userDetails.User.IsVendorRegistrationComplete = true;
+
+
         company.Status = status;
         _companyRepository.Update(company);
+
+        _userService.UpdateUserAsync(userDetails.User);
         await _companyRepository.SaveAsync();
         await SendStatusInformationMailAsync(status, company);
 
@@ -160,6 +170,48 @@ public class CompanyService : ICompanyService
         null);
 
         await _mailService.SendEmailAsync(mailRequestDto);
+    }
+
+    public async Task<CompanyPageResponseDto> GetPageOfCompaniesAsync(int pageNumber, int pageSize, CompanyFiltersDto filters)
+    {
+        var companiesQuery = _companyRepository.GetFiltered(c => (string.IsNullOrEmpty(filters.Search) || c.Name.ToLower().Contains(filters.Search.Trim().ToLower())) && c.Status == CompanyStatus.Approved, includes);
+        companiesQuery = companiesQuery.OrderByDescending(c => c.Rating);
+
+        if (filters.SortBy != null)
+        {
+            switch (filters.SortBy)
+            {
+                case "averageRating":
+                    companiesQuery = companiesQuery.OrderByDescending(b => b.Rating);
+                    break;
+                case "newest":
+                    companiesQuery = companiesQuery.OrderByDescending(b => b.CreatedAt);
+                    break;
+                case "popularity":
+                    companiesQuery = companiesQuery.OrderByDescending(b => b.Books.Sum(b=>b.SoldQuantity));
+                    break;
+            }
+        }
+
+        decimal totalCount = await companiesQuery.CountAsync();
+
+        if (pageSize != 0)
+        {
+            totalCount = Math.Ceiling((decimal)await companiesQuery.CountAsync() / pageSize);
+        }
+
+        int itemsToSkip = (pageNumber - 1) * pageSize;
+        companiesQuery = companiesQuery.Skip(itemsToSkip).Take(pageSize);
+
+        var companies = await companiesQuery.ToListAsync();
+
+        if (companies is null || companies.Count == 0)
+            throw new BookNotFoundException("No Companies were found matching the provided criteria.");
+
+        var companiesGetResponseDto = _mapper.Map<List<CompanyGetResponseDto>>(companies);
+
+        CompanyPageResponseDto companiesDtos = new(companiesGetResponseDto, totalCount);
+        return companiesDtos;
     }
 
     private static readonly string[] includes ={

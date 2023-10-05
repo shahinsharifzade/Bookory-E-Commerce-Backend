@@ -8,6 +8,7 @@ public interface IUserService
 {
     Task<List<UserGetResponseDto>> GetAllUsersAsync(string? search);
     Task<UserRoleGetResponseDto> GetUserByIdAsync(string id);
+    Task<UserAllDetailsGetResponseDto> GetUserAllDetailsByIdAsync(string id);
     Task<UserAllDetailsGetResponseDto> GetUserByUsernameAsync(string username);
     Task<ResponseDto> CreateUserAsync(RegisterDto userPostDto);
     Task<ResponseDto> ChangeUserRoleAsync(Guid userId , Guid roleId);

@@ -164,4 +164,17 @@ public class UserService : IUserService
         await _usermanager.UpdateAsync(user);
         return new ResponseDto((int)HttpStatusCode.Created, "User update successfully.");
     }
+
+    public async Task<UserAllDetailsGetResponseDto> GetUserAllDetailsByIdAsync(string id)
+    {
+        var user = await _usermanager.FindByIdAsync(id);
+
+        if (user is null)
+            throw new UserNotFoundException($"No user was found with the specified Id: {id}");
+
+        var userRoles = await _usermanager.GetRolesAsync(user);
+
+        UserAllDetailsGetResponseDto userRoleDto = new(user, userRoles.FirstOrDefault()!);
+        return userRoleDto;
+    }
 }

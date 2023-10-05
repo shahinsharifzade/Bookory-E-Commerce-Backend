@@ -9,4 +9,5 @@ public interface IWishlistService
     Task<ResponseDto> AddItemToWishlist(WishlistPostDto wishlistPostDto);
     Task<ResponseDto> RemoveWishlistItem(Guid id);
     Task<ResponseDto> TransferCookieWishlistToDatabaseAsync(string userId);
+    Task<ResponseDto> CheckItemExistsInWishlistAsync(Guid id);
 }
