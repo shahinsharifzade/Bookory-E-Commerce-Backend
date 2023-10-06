@@ -37,6 +37,7 @@ public static class BusinessConfigurationServices
         services.AddScoped<IWishlistService, WishlistService>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<ICategoryService, CategoryService>();
 
         services.AddScoped<IStripeService, StripeService>();
 

@@ -30,6 +30,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<BookGenre> BookGenres { get; set; } = null!;
 
     public DbSet<Blog> Blogs { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
 
     public DbSet<BasketItem> BasketItems { get; set; } = null!;
     public DbSet<ShoppingSession> ShoppingSessions { get; set; } = null!;
@@ -50,6 +51,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<Genre>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<BookGenre>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<Blog>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<Category>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<AuthorImage>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<BookImage>().HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<BasketItem>().HasQueryFilter(x => !x.IsDeleted);

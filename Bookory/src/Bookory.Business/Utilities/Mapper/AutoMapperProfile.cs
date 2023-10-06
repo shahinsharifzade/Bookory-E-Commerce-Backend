@@ -4,6 +4,7 @@ using Bookory.Business.Utilities.DTOs.AuthorImageDtos;
 using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.BookImageDtos;
+using Bookory.Business.Utilities.DTOs.CategoryDtos;
 using Bookory.Business.Utilities.DTOs.CommentDtos;
 using Bookory.Business.Utilities.DTOs.CompanyDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
@@ -162,6 +163,14 @@ public class AutoMapperProfile : Profile
 
         CreateMap<Company, CompanyGetResponseDto>();
         CreateMap<Company, CompanyGetResponseDtoInclude>();
+
+        #endregion
+
+        #region Category
+
+        CreateMap<CategoryGetReponseDto, Category>().ReverseMap();
+        CreateMap<CategoryPostDto, Category>();
+        CreateMap<CategoryPutDto , Category>();
 
         #endregion
     }

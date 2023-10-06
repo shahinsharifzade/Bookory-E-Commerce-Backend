@@ -22,6 +22,21 @@ namespace Bookory.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BlogCategory", b =>
+                {
+                    b.Property<Guid>("BlogsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoriesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BlogsId", "CategoriesId");
+
+                    b.HasIndex("CategoriesId");
+
+                    b.ToTable("BlogCategories", (string)null);
+                });
+
             modelBuilder.Entity("Bookory.Core.Models.Author", b =>
                 {
                     b.Property<Guid>("Id")
@@ -169,9 +184,6 @@ namespace Bookory.DataAccess.Migrations
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PublishedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -325,6 +337,36 @@ namespace Bookory.DataAccess.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("BookImages");
+                });
+
+            modelBuilder.Entity("Bookory.Core.Models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Comment", b =>
@@ -956,6 +998,21 @@ namespace Bookory.DataAccess.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BlogCategory", b =>
+                {
+                    b.HasOne("Bookory.Core.Models.Blog", null)
+                        .WithMany()
+                        .HasForeignKey("BlogsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bookory.Core.Models.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.AuthorImage", b =>

@@ -27,6 +27,10 @@ public static class DataAccessConfigurationServices
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
 
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IBlogRepository, BlogRepository>();
+
+
         return services;
     }
 

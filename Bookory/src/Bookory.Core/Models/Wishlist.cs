@@ -8,12 +8,10 @@ public class Wishlist : BaseEntity
     public string? UserId { get; set; }
     public AppUser User { get; set; }
 
-
     public ICollection<Book> Books { get; set; }
         
     public Wishlist()
     {
         Books = new List<Book>();
     }
-
 }

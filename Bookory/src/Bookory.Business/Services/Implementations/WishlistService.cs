@@ -227,7 +227,6 @@ public class WishlistService : IWishlistService
         return new ResponseDto((int)HttpStatusCode.OK, "The item has been successfully removed");
     }
 
-
     private void ClearCookieBasket()
     {
         _httpContextAccessor.HttpContext.Response.Cookies.Delete(COOKIE_WISHLIST_ITEM_KEY, new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true});
