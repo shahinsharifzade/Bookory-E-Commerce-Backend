@@ -1,10 +1,7 @@
-﻿using Bookory.Business.Services.Implementations;
-using Bookory.Business.Services.Interfaces;
-using Bookory.Business.Utilities.DTOs.BookDtos;
+﻿using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.CompanyDtos;
 using Bookory.Business.Utilities.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
 
 namespace Bookory.API.Contollers;
 
@@ -32,6 +29,12 @@ public class CompanyController : ControllerBase
         return Ok(await _companyService.GetPageOfCompaniesAsync(pageNumber, pageSize, filters));
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        return (Ok(await _companyService.GetCompanyByIdAsync(id)));
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] CompanyPostDto companyPostDto)
     {
@@ -39,12 +42,18 @@ public class CompanyController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromForm]CompanyPutDto companyPutDto)
-    {
-        var dto = new CompanyPutDto(id,companyPutDto.Name, companyPutDto.Description, companyPutDto.Logo, companyPutDto.BannerImage, companyPutDto.ContactPhone, companyPutDto.ContactPhone, companyPutDto.Address);
+    [HttpPost("email")]
+    public async Task<IActionResult> SendEmail([FromForm] CompanyMessagePostDto companyMessagePostDto)
+        {
+        return Ok(await _companyService.SendMessageAsync(companyMessagePostDto));
+    }
 
-        var response =await _companyService.UpdateCompanyAsync(dto);
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(Guid id, [FromForm] CompanyPutDto companyPutDto)
+    {
+        var dto = new CompanyPutDto(id, companyPutDto.Name, companyPutDto.Description, companyPutDto.Logo, companyPutDto.BannerImage, companyPutDto.ContactPhone, companyPutDto.ContactPhone, companyPutDto.Address);
+
+        var response = await _companyService.UpdateCompanyAsync(dto);
         return Ok(response);
     }
 

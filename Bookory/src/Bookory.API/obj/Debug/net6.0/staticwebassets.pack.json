@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\assets\\images\\authors\\800998b7-3a14-410f-a65a-eba55d1ba776-Adam Fawer.jpeg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\authors\\874b2589-2f48-48c4-a3cf-59475c5761fd-agatha Christie.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\authors\\874b2589-2f48-48c4-a3cf-59475c5761fd-agatha Christie.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\authors\\c33a1713-6e25-4b5d-8c23-cdd374aff3ad-jamesClear.webp",
       "PackagePath": "staticwebassets\\assets\\images\\authors\\c33a1713-6e25-4b5d-8c23-cdd374aff3ad-jamesClear.webp"
     },
@@ -97,6 +101,10 @@
       "PackagePath": "staticwebassets\\assets\\images\\books\\52d9b7cc-3f6f-4ee0-b3e6-51864c325c8a-ringShout.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\658ccbc2-9639-4f3a-8e2a-fe1679027f97-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\658ccbc2-9639-4f3a-8e2a-fe1679027f97-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\6954c9a3-6df0-4638-91e5-f3ccce58d690-ringShout.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\books\\6954c9a3-6df0-4638-91e5-f3ccce58d690-ringShout.jpg"
     },
@@ -125,12 +133,20 @@
       "PackagePath": "staticwebassets\\assets\\images\\books\\811ddcd2-59b4-4c93-9c84-ae237459f153-hannibal.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\84671480-68f3-44c5-b688-08c21aca4166-Albert Camus.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\84671480-68f3-44c5-b688-08c21aca4166-Albert Camus.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\8d54bfe4-c26b-4a9c-ab95-768f64bc8373-ringShout.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\books\\8d54bfe4-c26b-4a9c-ab95-768f64bc8373-ringShout.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\8e073bd1-717c-4de2-9072-cbee75c3d257-atomic habits.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\books\\8e073bd1-717c-4de2-9072-cbee75c3d257-atomic habits.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\9356259a-ed09-4384-81d8-fd30d9cc091e-Hallowe'en Party.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\9356259a-ed09-4384-81d8-fd30d9cc091e-Hallowe'en Party.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\9a271b38-452b-4091-842f-d1d5cb5d6077-van gogh.jpg",
@@ -157,12 +173,20 @@
       "PackagePath": "staticwebassets\\assets\\images\\books\\c161de37-14a7-4354-9e4e-38d7805603ee-error.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\ce2938af-8554-4934-ae17-c53a68465f59-Murder on the Orient Express.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\ce2938af-8554-4934-ae17-c53a68465f59-Murder on the Orient Express.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\cf06c5f6-7f8a-4060-a71c-2a30a9e3667f-atomic habits.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\books\\cf06c5f6-7f8a-4060-a71c-2a30a9e3667f-atomic habits.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\d802cf75-b850-4012-8b7d-86f084f58d9c-ringShout.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\books\\d802cf75-b850-4012-8b7d-86f084f58d9c-ringShout.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\daf72d93-06b8-47a5-8154-ecc2b61aeca9-And Then There Were None.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\books\\daf72d93-06b8-47a5-8154-ecc2b61aeca9-And Then There Were None.jpg"
     },
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\dd94006b-8e51-457c-af84-88c78e499d3d-ringShout.jpg",

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Bookory.Business.Services.Interfaces;
-using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
 using Bookory.Business.Utilities.DTOs.CompanyDtos;
 using Bookory.Business.Utilities.DTOs.MailDtos;
@@ -13,7 +12,6 @@ using Bookory.Business.Utilities.Extension.FileExtensions.Common;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -21,18 +19,15 @@ namespace Bookory.Business.Services.Implementations;
 
 public class CompanyService : ICompanyService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly ICompanyRepository _companyRepository;
-    private readonly IBookService _bookService;
     private readonly IUserService _userService;
     private readonly IMailService _mailService;
     private readonly IMapper _mapper;
 
-    public CompanyService(IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, ICompanyRepository companyRepository, IWebHostEnvironment webHostEnvironment, IMailService mailService)
+    public CompanyService(IMapper mapper, IUserService userService, ICompanyRepository companyRepository, IWebHostEnvironment webHostEnvironment, IMailService mailService)
     {
         _mapper = mapper;
-        _httpContextAccessor = httpContextAccessor;
         _userService = userService;
         _companyRepository = companyRepository;
         _webHostEnvironment = webHostEnvironment;
@@ -40,7 +35,7 @@ public class CompanyService : ICompanyService
     }
 
     public async Task<ResponseDto> CreateCompanyAsync(CompanyPostDto companyPostDto)
-    {   
+    {
         var userDetails = await _userService.GetUserByUsernameAsync(companyPostDto.Username);
 
         if (userDetails.Role != Roles.Vendor.ToString()) throw new CompanyCreationException("Failed to create a company because the user is not a vendor.");
@@ -103,10 +98,10 @@ public class CompanyService : ICompanyService
             throw new CompanyNotFoundException($"Unable to update the company. No company was found with the ID {companyPutDto.Id}");
 
         if (companyPutDto.Logo != null)
-            FileHelper.DeleteFile(new string[] { _webHostEnvironment.WebRootPath, "assets", "images", "companies", company.Logo });
+            FileHelper.DeleteFile(new string[] { _webHostEnvironment.WebRootPath, "assets", "images", "companies", "logo", company.Logo });
 
         if (companyPutDto.BannerImage != null)
-            FileHelper.DeleteFile(new string[] { _webHostEnvironment.WebRootPath, "assets", "images", "companies", company.BannerImage });
+            FileHelper.DeleteFile(new string[] { _webHostEnvironment.WebRootPath, "assets", "images", "companies", "banner", company.BannerImage });
 
         Company newCompany = _mapper.Map(companyPutDto, company);
 
@@ -124,7 +119,7 @@ public class CompanyService : ICompanyService
         if (companies is null || companies.Count == 0)
             throw new CompanyNotFoundException("No companies pending approval or rejected were found");
 
-            var companyDtos = _mapper.Map<List<CompanyGetResponseDto>>(companies);
+        var companyDtos = _mapper.Map<List<CompanyGetResponseDto>>(companies);
         return companyDtos;
     }
 
@@ -136,7 +131,7 @@ public class CompanyService : ICompanyService
             throw new CompanyNotFoundException($"No company was found with the ID {companyId}");
 
         if (status != CompanyStatus.Approved && status != CompanyStatus.Rejected)
-            throw new CompanyStatusException("Invalid company status. Only 'Approved' or 'Rejected' are allowed.");
+            throw new CompanyStatusException("Invalid company status. Only 'Approved' or 'Rejected' are allowed");
 
         var userDetails = await _userService.GetUserAllDetailsByIdAsync(company.UserId);
         if (userDetails.User is null)
@@ -161,7 +156,7 @@ public class CompanyService : ICompanyService
         string emailSubject = $"Company {status}";
         string emailBody = status == CompanyStatus.Approved
         ? "Your company has been approved. Congratulations!"
-        : "Your company has been rejected. We apologize for any inconvenience.";
+        : "Your company has been rejected. We apologize for any inconvenience";
 
         MailRequestDto mailRequestDto = new(
         company.ContactEmail,
@@ -188,7 +183,7 @@ public class CompanyService : ICompanyService
                     companiesQuery = companiesQuery.OrderByDescending(b => b.CreatedAt);
                     break;
                 case "popularity":
-                    companiesQuery = companiesQuery.OrderByDescending(b => b.Books.Sum(b=>b.SoldQuantity));
+                    companiesQuery = companiesQuery.OrderByDescending(b => b.Books.Sum(b => b.SoldQuantity));
                     break;
             }
         }
@@ -206,12 +201,39 @@ public class CompanyService : ICompanyService
         var companies = await companiesQuery.ToListAsync();
 
         if (companies is null || companies.Count == 0)
-            throw new BookNotFoundException("No Companies were found matching the provided criteria.");
+            throw new BookNotFoundException("No Companies were found matching the provided criteria");
 
         var companiesGetResponseDto = _mapper.Map<List<CompanyGetResponseDto>>(companies);
 
         CompanyPageResponseDto companiesDtos = new(companiesGetResponseDto, totalCount);
         return companiesDtos;
+    }
+
+    public async Task ModifyCompanyAsync(Company company)
+    {
+        _companyRepository.Update(company);
+        await _companyRepository.SaveAsync();
+    }
+
+    public async Task<ResponseDto> SendMessageAsync(CompanyMessagePostDto messageDto)
+    {
+        var company = await _companyRepository.GetSingleAsync(c => c.Id == messageDto.CompanyId, includes);
+
+        if (company is null) throw new CompanyNotFoundException($"Company with ID '{messageDto.CompanyId}' was not found");
+
+        string emailSubject = $"New Message from {messageDto.Name} ({messageDto.Email})";
+        string emailBody = $"Message Content:\n\n{messageDto.Message}";
+
+
+        MailRequestDto mailRequestDto = new(
+        company.ContactEmail,
+        emailSubject,
+        emailBody,
+        null);
+
+        await _mailService.SendEmailAsync(mailRequestDto);
+
+        return new ResponseDto((int) HttpStatusCode.OK , "Message sent successfully");
     }
 
     private static readonly string[] includes ={

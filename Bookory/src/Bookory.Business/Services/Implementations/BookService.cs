@@ -173,7 +173,7 @@ public class BookService : IBookService
 
     public async Task<BookPageResponseDto> GetPageOfBooksAsync(int pageNumber, int pageSize, BookFiltersDto filters)
     {
-        var booksQuery = _bookRepository.GetFiltered(b => b.Status == BookStatus.Approved, includes);
+        var booksQuery = _bookRepository.GetFiltered(b => (string.IsNullOrEmpty(filters.Search) || b.Title.ToLower().Contains(filters.Search.Trim().ToLower())) && b.Status == BookStatus.Approved, includes);
         booksQuery = booksQuery.OrderByDescending(b => b.Rating);
 
         if (filters.Authors != null && filters.Authors.Any())
@@ -187,6 +187,9 @@ public class BookService : IBookService
 
         if (filters.Rating != 0 && filters.Rating != null)
             booksQuery = booksQuery.Where(b => b.Rating == filters.Rating);
+
+        if(filters.CompanyId!= null )
+            booksQuery = booksQuery.Where(b=>b.CompanyId == filters.CompanyId); 
 
         if (filters.SortBy != null)
         {

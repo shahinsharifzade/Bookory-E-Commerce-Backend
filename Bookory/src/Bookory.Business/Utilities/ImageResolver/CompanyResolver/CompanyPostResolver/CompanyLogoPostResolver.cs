@@ -17,7 +17,7 @@ public class CompanyLogoPostResolver : IValueResolver<CompanyPostDto, Company, s
 
     public string Resolve(CompanyPostDto source, Company destination, string destMember, ResolutionContext context)
     {
-        string basePath = Path.Combine(_webHostEnvironment.WebRootPath, "assets", "images", "companies");
+        string basePath = Path.Combine(_webHostEnvironment.WebRootPath, "assets", "images", "companies", "logo");
         return FileHelper.SaveFileAsync(source.BannerImage, basePath).GetAwaiter().GetResult();
     }
 }

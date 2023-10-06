@@ -27,7 +27,8 @@
 	<ItemGroup>
 		<Folder Include="wwwroot\assets\images\books\" />
 		<Folder Include="wwwroot\assets\images\authors\" />
-		<Folder Include="wwwroot\assets\images\companies\" />
+		<Folder Include="wwwroot\assets\images\companies\logo\" />
+		<Folder Include="wwwroot\assets\images\companies\banner\" />
 	</ItemGroup>
 
 </Project>

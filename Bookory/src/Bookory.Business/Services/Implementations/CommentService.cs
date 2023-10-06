@@ -17,12 +17,13 @@ public class CommentService : ICommentService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ICommentRepository _commentRepository;
+    private readonly ICompanyService _companyService;
     private readonly IUserService _userService;
     private readonly IBookService _bookService;
     private readonly bool _isAuthenticated;
     private readonly IMapper _mapper;
 
-    public CommentService(IMapper mapper, IHttpContextAccessor httpContextAccessor, ICommentRepository commentRepository, IUserService userService, IBookService bookService)
+    public CommentService(IMapper mapper, IHttpContextAccessor httpContextAccessor, ICommentRepository commentRepository, IUserService userService, IBookService bookService, ICompanyService companyService)
     {
         _mapper = mapper;
         _httpContextAccessor = httpContextAccessor;
@@ -30,9 +31,10 @@ public class CommentService : ICommentService
         _userService = userService;
         _isAuthenticated = _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
         _bookService = bookService;
+        _companyService = companyService;
     }
 
-    public async Task<ResponseDto> CreateCommentAsync(CommentPostDto commentPostDto) 
+    public async Task<ResponseDto> CreateCommentAsync(CommentPostDto commentPostDto)
     {
         if (!_isAuthenticated)
             throw new AuthenticationFailedException("Authentication required. Please log in.");
@@ -47,6 +49,12 @@ public class CommentService : ICommentService
         var previousSumRating = book.Rating * book.NumberOfRatings;
         book.Rating = (previousSumRating + comment.Rating) / (book.NumberOfRatings + 1);
         book.NumberOfRatings += 1;
+
+        if (book.Company != null)
+        {
+            book.Company.Rating = book.Company.Books.Sum(a => a.Rating) / book.Company.Books.Count;
+            await _companyService.ModifyCompanyAsync(book.Company);
+        }
 
         await _commentRepository.CreateAsync(comment);
         await _commentRepository.SaveAsync();
@@ -73,7 +81,7 @@ public class CommentService : ICommentService
         var replies = new List<CommentGetResponseDto>();
 
         // Check any comment exist which Reference Id equal to ParentId (Reply's id)
-        var parentComment = _commentRepository.GetFiltered(comment => comment.RefId == parentId, nameof(Comment.Replies)).ToList(); 
+        var parentComment = _commentRepository.GetFiltered(comment => comment.RefId == parentId, nameof(Comment.Replies)).ToList();
 
         if (parentComment != null && parentComment.Count > 0)
         {

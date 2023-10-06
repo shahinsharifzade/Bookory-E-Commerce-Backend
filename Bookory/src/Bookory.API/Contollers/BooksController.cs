@@ -1,10 +1,7 @@
-﻿using Bookory.Business.Services.Implementations;
-using Bookory.Business.Services.Interfaces;
+﻿using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.Enums;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Specialized;
 
 namespace Bookory.API.Contollers;
 

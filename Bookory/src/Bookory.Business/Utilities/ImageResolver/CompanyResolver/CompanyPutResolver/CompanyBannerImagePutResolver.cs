@@ -17,7 +17,7 @@ public class CompanyBannerImagePutResolver : IValueResolver<CompanyPutDto, Compa
 
     public string Resolve(CompanyPutDto source, Company destination, string destMember, ResolutionContext context)
     {
-        string basePath = Path.Combine(_webHostEnvironment.WebRootPath, "assets", "images", "companies");
+        string basePath = Path.Combine(_webHostEnvironment.WebRootPath, "assets", "images", "companies", "banner");
         return FileHelper.SaveFileAsync(source.BannerImage, basePath).GetAwaiter().GetResult();
     }
 }
