@@ -29,6 +29,7 @@
 		<Folder Include="wwwroot\assets\images\authors\" />
 		<Folder Include="wwwroot\assets\images\companies\logo\" />
 		<Folder Include="wwwroot\assets\images\companies\banner\" />
+		<Folder Include="wwwroot\assets\images\blogs\" />
 	</ItemGroup>
 
 </Project>

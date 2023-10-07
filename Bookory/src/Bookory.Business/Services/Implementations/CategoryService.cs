@@ -88,4 +88,14 @@ public class CategoryService : ICategoryService
         await _categoryRepository.SaveAsync();
         return new((int)HttpStatusCode.OK, "Category successfully deleted");
     }
+
+    public async Task<Category> CategoryAllDetailsGetByIdAsync(Guid id)
+    {
+        var category = await _categoryRepository.GetSingleAsync(g => g.Id == id);
+
+        if (category is null)
+            throw new CategoryNotFoundException($"Category with the specified ID '{id}' was not found");
+
+        return category;
+    }
 }

@@ -7,4 +7,9 @@ public class Blog : BaseEntity
     public string Title { get; set; }
     public string Content { get; set; }
     public ICollection<Category> Categories { get; set; }
+
+    public Blog()
+    {
+        Categories= new List<Category>();
+    }
 }

@@ -2,6 +2,7 @@
 using Bookory.Business.Utilities.DTOs.AuthorDtos;
 using Bookory.Business.Utilities.DTOs.AuthorImageDtos;
 using Bookory.Business.Utilities.DTOs.BasketDtos;
+using Bookory.Business.Utilities.DTOs.BlogDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.BookImageDtos;
 using Bookory.Business.Utilities.DTOs.CategoryDtos;
@@ -16,6 +17,7 @@ using Bookory.Business.Utilities.DTOs.UserDtos;
 using Bookory.Business.Utilities.DTOs.WishlistDtos;
 using Bookory.Business.Utilities.Extension.FileExtensions;
 using Bookory.Business.Utilities.ImageResolver.AuthorResolver;
+using Bookory.Business.Utilities.ImageResolver.BlogResolver;
 using Bookory.Business.Utilities.ImageResolver.BookResolver;
 using Bookory.Business.Utilities.ImageResolver.CompanyResolver.CompanyPostResolver;
 using Bookory.Business.Utilities.ImageResolver.CompanyResolver.CompanyPutResolver;
@@ -30,7 +32,7 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
 
-        #region Book Mapper
+        #region Book 
 
         CreateMap<BookImage, BookImageGetResponseDtoInclude>().ReverseMap();
 
@@ -55,7 +57,7 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-        #region Author Mapper
+        #region Author 
 
         CreateMap<AuthorImage, AuthorImageGetResponseDtoInclude>().ReverseMap();
 
@@ -75,7 +77,7 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-        #region Genre Mapper
+        #region Genre 
 
         CreateMap<Genre, GenreGetResponseDtoInclude>();
         CreateMap<Genre, GenreGetResponeDto>()
@@ -86,7 +88,7 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-        #region User Mapper
+        #region User 
 
         CreateMap<RegisterDto, AppUser>();
         CreateMap<AppUser, UserGetResponseDto>().ReverseMap();
@@ -94,7 +96,7 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-        #region Basket Mapper
+        #region Basket 
 
         CreateMap<Book, BasketItem>();
         CreateMap<BasketItem, BasketGetResponseDto>()
@@ -104,7 +106,7 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-        #region UserAddress Mapper
+        #region UserAddress 
 
         CreateMap<UserAddress, UserAddressGetReponseDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId)).ReverseMap();
@@ -115,14 +117,14 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-        #region Payment Detail Mapper
+        #region Payment Detail 
 
         CreateMap<PaymentDetail, PaymentDetailGetResponseDto>().ReverseMap();
         CreateMap<PaymentDetailPostDto, PaymentDetail>();
 
         #endregion
 
-        #region Order Detail Mapper
+        #region Order Detail 
 
         CreateMap<OrderDetailPostDto, OrderDetail>();
 
@@ -131,30 +133,30 @@ public class AutoMapperProfile : Profile
 
         #endregion
 
-        #region Order Item Mapper
+        #region Order Item 
 
         CreateMap<OrderItem, OrderItemGetResponseDto>().ReverseMap();
         CreateMap<OrderItemPostDto, OrderItem>();
 
         #endregion
 
-        #region Wishlist Mapper
+        #region Wishlist 
 
         CreateMap<Wishlist, WishlistGetResponseDto>();
 
         #endregion
 
-        #region Comment Mapper
+        #region Comment 
 
         CreateMap<CommentPostDto, Comment>();
         CreateMap<Comment, CommentGetResponseDto>().ReverseMap();
 
         #endregion
 
-        #region Company Mapper
+        #region Company 
 
         CreateMap<CompanyPostDto, Company>()
-            .ForMember(dest => dest.Logo , opt => opt.MapFrom<CompanyLogoPostResolver>())
+            .ForMember(dest => dest.Logo, opt => opt.MapFrom<CompanyLogoPostResolver>())
             .ForMember(dest => dest.BannerImage, opt => opt.MapFrom<CompanyBannerImagePostResolver>());
 
         CreateMap<CompanyPutDto, Company>()
@@ -170,7 +172,18 @@ public class AutoMapperProfile : Profile
 
         CreateMap<CategoryGetReponseDto, Category>().ReverseMap();
         CreateMap<CategoryPostDto, Category>();
-        CreateMap<CategoryPutDto , Category>();
+        CreateMap<CategoryPutDto, Category>();
+
+        #endregion
+
+        #region Blog
+
+        CreateMap<BlogGetResponseDto, Blog>().ReverseMap();
+
+        CreateMap<BlogPutDto, Blog>()
+            .ForMember(src => src.Image , opt => opt.MapFrom<BlogPutImageResolver>());
+        CreateMap<BlogPostDto, Blog>()
+            .ForMember(src => src.Image , opt => opt.MapFrom<BlogPostImageResolver>());
 
         #endregion
     }
