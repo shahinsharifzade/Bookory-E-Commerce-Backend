@@ -125,9 +125,8 @@ public class BlogService : IBlogService
         var blogsQuery = _blogRepository.GetFiltered(b => (string.IsNullOrEmpty(filters.Search) || b.Title.ToLower().Contains(filters.Search.Trim().ToLower())), nameof(Blog.Categories));
 
         blogsQuery = blogsQuery.OrderByDescending(b => b.CreatedAt);
-        var blogs2 = await blogsQuery.ToListAsync();
 
-        if (filters.Categories != null && filters.Categories.Any())
+        if (filters.Categories != null && filters.Categories.Any() )
             blogsQuery = blogsQuery.Where(b => b.Categories.Any(c => filters.Categories.Contains(c.Id)));
 
         if (filters.SortBy != null)

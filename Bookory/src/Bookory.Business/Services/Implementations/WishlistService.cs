@@ -245,9 +245,15 @@ public class WishlistService : IWishlistService
         }
 
         var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var wishlist =await _wishlistRepository.GetFiltered(w => w.UserId == userId, nameof(Wishlist.Books)).ToListAsync();
 
-        if(wishlist == null) throw new WishlistItemNotFoundException("The wishlist is empty. No wishlist items exist");
+        var wishlist = await _wishlistRepository.GetSingleAsync(wl => wl.User.Id == userId,
+            nameof(Wishlist.Books),
+            $"{nameof(Wishlist.Books)}.{nameof(Book.Images)}",
+            $"{nameof(Wishlist.Books)}.{nameof(Book.Author)}",
+            $"{nameof(Wishlist.Books)}.{nameof(Book.Author)}.{nameof(Author.Images)}",
+            $"{nameof(Wishlist.Books)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
+
+        if (!wishlist.Books.Any(b => b.Id == id)) throw new WishlistItemNotFoundException("The wishlist is empty. No wishlist items exist");
 
         return new ResponseDto((int)HttpStatusCode.OK, $"Item found in the wishlist by ID {id}");
     }

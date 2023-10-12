@@ -1,5 +1,4 @@
 ﻿using Bookory.Core.Models;
-using Bookory.Core.Models.Common;
 using Bookory.Core.Models.Identity;
 using ECommerce.DataAccessLayer.Persistance.Interceptors;
 using Microsoft.AspNetCore.Http;

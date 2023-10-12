@@ -16,7 +16,7 @@ public class BlogPutImageResolver : IValueResolver<BlogPutDto, Blog, string>
 
     public string Resolve(BlogPutDto source, Blog destination, string destMember, ResolutionContext context)
     {
-          if (!string.IsNullOrEmpty(destination.Image))
+        if (!string.IsNullOrEmpty(destination.Image))
         {
             string previousImagePath = Path.Combine(_webHostEnvironment.WebRootPath, "assets", "images", "blogs", destination.Image);
 

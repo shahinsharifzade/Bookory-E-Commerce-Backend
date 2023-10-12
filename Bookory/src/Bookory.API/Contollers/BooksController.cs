@@ -47,7 +47,7 @@ public class BooksController : ControllerBase
     [HttpGet("paged")]
     public async Task<IActionResult> GetAll([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] BookFiltersDto filters)
     {
-        return Ok(await _bookService.GetPageOfBooksAsync( pageNumber, pageSize , filters));
+        return Ok(await _bookService.GetPageOfBooksAsync(pageNumber, pageSize, filters));
     }
 
     [HttpPost]
