@@ -30,7 +30,7 @@ public class CompanyService : ICompanyService
         _mapper = mapper;
         _userService = userService;
         _companyRepository = companyRepository;
-        _webHostEnvironment = webHostEnvironment;
+        _webHostEnvironment = webHostEnvironment; 
         _mailService = mailService;
     }
 
@@ -144,7 +144,7 @@ public class CompanyService : ICompanyService
         company.Status = status;
         _companyRepository.Update(company);
 
-        _userService.UpdateUserAsync(userDetails.User);
+        await _userService.UpdateUserAsync(userDetails.User);
         await _companyRepository.SaveAsync();
         await SendStatusInformationMailAsync(status, company);
 

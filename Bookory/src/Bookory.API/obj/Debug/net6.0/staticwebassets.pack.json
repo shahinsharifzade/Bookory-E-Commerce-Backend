@@ -345,6 +345,18 @@
       "PackagePath": "staticwebassets\\assets\\images\\companies\\b2fbe2ad-4d16-4f27-af1f-edc85800bf9a-money-wp.jpg"
     },
     {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\banner\\4f8590fa-d57b-45e2-bf5a-20d61289a4d7-Fight Club.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\banner\\4f8590fa-d57b-45e2-bf5a-20d61289a4d7-Fight Club.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\banner\\c0677808-ef7d-49ec-b0f2-6a16ec97d51a-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\banner\\c0677808-ef7d-49ec-b0f2-6a16ec97d51a-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\banner\\d5871145-ae0c-4028-a396-b0afb686690b-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\banner\\d5871145-ae0c-4028-a396-b0afb686690b-BookStoreBanner.jpg"
+    },
+    {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\c2cbbb55-7a98-473a-8f17-ce01093529cf-error.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\c2cbbb55-7a98-473a-8f17-ce01093529cf-error.jpg"
     },
@@ -379,6 +391,18 @@
     {
       "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\f69904e5-fe77-443f-93f0-6db0c9561eaa-BookStoreBanner.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\companies\\f69904e5-fe77-443f-93f0-6db0c9561eaa-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\logo\\13825a12-a2ad-4f6f-8744-3d8e857a13e3-Fight Club.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\logo\\13825a12-a2ad-4f6f-8744-3d8e857a13e3-Fight Club.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\logo\\440b0116-63b7-46c9-b0c9-21f3abdd6fed-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\logo\\440b0116-63b7-46c9-b0c9-21f3abdd6fed-BookStoreBanner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\companies\\logo\\8bb2917a-9dbb-4c6d-ba0e-b704a0cd20ca-BookStoreBanner.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\companies\\logo\\8bb2917a-9dbb-4c6d-ba0e-b704a0cd20ca-BookStoreBanner.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.Bookory.API.Microsoft.AspNetCore.StaticWebAssets.props",

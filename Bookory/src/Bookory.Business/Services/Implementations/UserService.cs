@@ -58,6 +58,7 @@ public class UserService : IUserService
         {
             await _usermanager.AddToRoleAsync(newUser, Roles.Vendor.ToString());
             newUser.IsVendorRegistrationComplete = false;
+            await _usermanager.UpdateAsync(newUser);
         }
         else
             await _usermanager.AddToRoleAsync(newUser, Roles.Member.ToString());

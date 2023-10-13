@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPut("[action]")]
-    public async Task<IActionResult> ChangePassword(ChangePasswordDto resetPasswordDto, string token, string email)
+    public async Task<IActionResult> ChangePassword(ChangePasswordDto resetPasswordDto, [FromQuery] string token, [FromQuery] string email)
     {
         var response = await _authService.ResetPasswordAsync(resetPasswordDto, token, email);
         return Ok(response);

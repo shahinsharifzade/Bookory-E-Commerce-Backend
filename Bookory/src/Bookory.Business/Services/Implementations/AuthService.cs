@@ -69,8 +69,9 @@ public class AuthService : IAuthService
 
         var result = await _userManager.ConfirmEmailAsync(user, token);
         if (!result.Succeeded) throw new UserUpdateFailedException($"Failed to confirm email: {string.Join(", ", result.Errors.Select(e => e.Description))}");
-        user.IsActive = true;
 
+        user.IsActive = true;
+        await _userManager.UpdateAsync(user);
         return new ResponseDto((int)HttpStatusCode.OK, "Email has been successfully confirmed");
     }
 
@@ -82,7 +83,7 @@ public class AuthService : IAuthService
         var httpContext = _httpContextAccessor.HttpContext;
         var request = httpContext.Request;
         string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        string url = _linkGenerator.GetUriByAction(httpContext, "ResetPassword", "Auth", new { token = token, email = forgotPasswordDto.Email }, scheme: request.Scheme, host: request.Host)!;
+        string url = _linkGenerator.GetUriByAction(httpContext, "ChangePassword", "Auth", new { token = token, email = forgotPasswordDto.Email }, scheme: request.Scheme, host: new HostString("localhost", 3000))!;
 
         string emailSubject = "Password Reset Request";
         string emailBody = $@"
@@ -110,19 +111,20 @@ public class AuthService : IAuthService
     public async Task<ResponseDto> ResetPasswordAsync(ChangePasswordDto resetPasswordDto, string token, string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
+
         if (user is null)
             throw new UserNotFoundException($"User not found with the email: {email}");
 
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
-            throw new NullOrWhitespaceArgumentException("Email or token cannot be null or empty.");
+            throw new NullOrWhitespaceArgumentException("Email or token cannot be null or empty");        
 
         if (resetPasswordDto.Password != resetPasswordDto.ConfirmPassword)
-            throw new UserCreateFailedException("Passwords do not match.");
+            throw new UserCreateFailedException("Passwords do not match");
 
         var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.Password);
         if (!result.Succeeded)
             throw new UserCreateFailedException("Failed to reset password. Please check the following errors: " + string.Join(", ", result.Errors.Select(e => e.Description)));
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Password updated successfully.");
+        return new ResponseDto((int)HttpStatusCode.OK, "Password updated successfully");
     }
 }

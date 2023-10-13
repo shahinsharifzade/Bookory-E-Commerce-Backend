@@ -253,6 +253,8 @@ public class WishlistService : IWishlistService
             $"{nameof(Wishlist.Books)}.{nameof(Book.Author)}.{nameof(Author.Images)}",
             $"{nameof(Wishlist.Books)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}");
 
+        if (wishlist is null) throw new WishlistItemNotFoundException("The wishlist is empty. No wishlist items exist");
+
         if (!wishlist.Books.Any(b => b.Id == id)) throw new WishlistItemNotFoundException("The wishlist is empty. No wishlist items exist");
 
         return new ResponseDto((int)HttpStatusCode.OK, $"Item found in the wishlist by ID {id}");
