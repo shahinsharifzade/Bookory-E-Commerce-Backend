@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bookory.DataAccess.Persistance.Configurations;
 
-internal class BlogConfiguration : IEntityTypeConfiguration<Blog>
+public class BlogConfiguration : IEntityTypeConfiguration<Blog>
 {
     public void Configure(EntityTypeBuilder<Blog> builder)
     {
