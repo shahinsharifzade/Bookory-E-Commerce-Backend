@@ -38,6 +38,7 @@ public static class BusinessConfigurationServices
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IContactService, ContactService>();
         services.AddScoped<IBlogService, BlogService>();
 
         services.AddScoped<IStripeService, StripeService>();

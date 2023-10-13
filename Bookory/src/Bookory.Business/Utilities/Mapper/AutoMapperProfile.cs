@@ -8,6 +8,7 @@ using Bookory.Business.Utilities.DTOs.BookImageDtos;
 using Bookory.Business.Utilities.DTOs.CategoryDtos;
 using Bookory.Business.Utilities.DTOs.CommentDtos;
 using Bookory.Business.Utilities.DTOs.CompanyDtos;
+using Bookory.Business.Utilities.DTOs.ContactDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
 using Bookory.Business.Utilities.DTOs.OrderDetailDtos;
 using Bookory.Business.Utilities.DTOs.OrderItemDtos;
@@ -184,6 +185,13 @@ public class AutoMapperProfile : Profile
             .ForMember(src => src.Image , opt => opt.MapFrom<BlogPutImageResolver>());
         CreateMap<BlogPostDto, Blog>()
             .ForMember(src => src.Image , opt => opt.MapFrom<BlogPostImageResolver>());
+
+        #endregion
+
+        #region Contact
+
+        CreateMap<ContactGetResponseDto, Contact>().ReverseMap();
+        CreateMap<ContactPostDto, Contact>();
 
         #endregion
     }

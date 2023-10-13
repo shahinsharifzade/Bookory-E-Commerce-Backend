@@ -26,6 +26,7 @@ public static class DataAccessConfigurationServices
         services.AddScoped<IWishlistRepository, WishlistRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
 
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IBlogRepository, BlogRepository>();

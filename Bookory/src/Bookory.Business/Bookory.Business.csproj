@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Bookory.DataAccess\Bookory.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\Validators\CompanyValidators\" />
+  </ItemGroup>
+
 </Project>
