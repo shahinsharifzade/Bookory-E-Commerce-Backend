@@ -149,7 +149,7 @@ public class WishlistService : IWishlistService
 
         _wishlistRepository.Update(wishlist); // Update the existing or newly created wishlist
         await _wishlistRepository.SaveAsync();
-        ClearCookieBasket();
+        ClearCookieWishlist();
 
         return new ResponseDto((int)HttpStatusCode.OK, "Cookie wishlist successfully transferred to the database");
     }
@@ -227,7 +227,7 @@ public class WishlistService : IWishlistService
         return new ResponseDto((int)HttpStatusCode.OK, "The item has been successfully removed");
     }
 
-    private void ClearCookieBasket()
+    private void ClearCookieWishlist()
     {
         _httpContextAccessor.HttpContext.Response.Cookies.Delete(COOKIE_WISHLIST_ITEM_KEY, new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true});
     }

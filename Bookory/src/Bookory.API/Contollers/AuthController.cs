@@ -22,9 +22,9 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Verify(string token, string email)
-    {
+    {  
         var response = await _authService.ConfirmEmailAsync(token, email);
         return Ok(response);
     }

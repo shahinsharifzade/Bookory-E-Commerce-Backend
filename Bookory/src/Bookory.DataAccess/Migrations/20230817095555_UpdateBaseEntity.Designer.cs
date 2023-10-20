@@ -170,7 +170,7 @@ namespace Bookory.DataAccess.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<decimal?>("DiscountPrice")
+                    b.Property<decimal?>("DiscountPercentage")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<bool>("IsDeleted")

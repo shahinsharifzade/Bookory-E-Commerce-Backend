@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Cryptography;
 using System.Net;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -83,7 +84,7 @@ public class UserService : IUserService
         string token = await _usermanager.GenerateEmailConfirmationTokenAsync(newUser);
         var httpContext = _httpContext.HttpContext;
         var request = httpContext.Request;
-        string url = _linkGenerator.GetUriByAction(httpContext, "Verify", "Auth", new { token = token, email = userPostDto.Email }, scheme: request.Scheme, host: request.Host)!;
+        string url = _linkGenerator.GetUriByAction(httpContext, "Verify", "Auth", new { token = token, email = userPostDto.Email }, scheme: request.Scheme, host: new HostString("localhost", 3000))!;
 
         MailRequestDto mailRequestDto = new(
             newUser.Email,
@@ -115,7 +116,6 @@ public class UserService : IUserService
         var userRoles = await _usermanager.GetRolesAsync(user);
 
         UserRoleGetResponseDto userRoleDto = new(userDto, userRoles.FirstOrDefault()!, user.IsVendorRegistrationComplete);
-
         return userRoleDto;
     }
 
@@ -146,7 +146,21 @@ public class UserService : IUserService
         await _usermanager.RemoveFromRolesAsync(user, userRoles);
 
         var newRole = await _roleManager.FindByIdAsync(roleId.ToString());
+        if (newRole is null) throw new RoleNotFoundException($"Role with ID {roleId} not found.");
+
         await _usermanager.AddToRoleAsync(user, newRole.ToString());
+
+        // Update claims with the new role
+        var userClaims = await _usermanager.GetClaimsAsync(user);
+        var roleClaim = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+
+        if (roleClaim != null)
+        {
+            await _usermanager.RemoveClaimAsync(user, roleClaim);
+        }
+
+        // Add the new role as a claim
+        await _usermanager.AddClaimAsync(user, new Claim(ClaimTypes.Role, newRole.Name));
 
         return new((int)HttpStatusCode.OK, "User role changed successfully.");
     }
@@ -177,5 +191,15 @@ public class UserService : IUserService
 
         UserAllDetailsGetResponseDto userRoleDto = new(user, userRoles.FirstOrDefault()!);
         return userRoleDto;
+    }
+
+    public async Task<UserGetResponseDto> GetActiveUser()
+    {
+        var userId = _httpContext.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _usermanager.FindByIdAsync(userId);
+
+        var userDto = _mapper.Map<UserGetResponseDto>(user);
+
+        return userDto;
     }
 }

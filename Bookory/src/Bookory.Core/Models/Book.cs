@@ -8,7 +8,7 @@ public class Book : BaseEntity
     public string Description { get; set; } = null!;
     public int StockQuantity { get; set; }
     public decimal Price { get; set; }
-    public decimal? DiscountPrice { get; set; }
+    public decimal? DiscountPercentage { get; set; }
 
     public decimal Rating { get; set; }
     public int NumberOfRatings { get; set; }
@@ -24,7 +24,7 @@ public class Book : BaseEntity
 
     public ICollection<BookGenre> BookGenres { get; set; } = null!;
     public ICollection<BookImage> Images { get; set; } = null!;
-    public ICollection<BasketItem>? BasketItems { get; set; } 
+    public ICollection<BasketItem>? BasketItems { get; set; }
     public ICollection<Wishlist>? Wishlists { get; set; }
     public Book()
     {

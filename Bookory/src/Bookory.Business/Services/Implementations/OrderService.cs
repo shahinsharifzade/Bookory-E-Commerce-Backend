@@ -69,12 +69,12 @@ public class OrderService : IOrderService
         {
             if (basketItem.Quantity < basketItem.BasketBook.StockQuantity)
             {
-                decimal discountPrice = basketItem.BasketBook.Price - basketItem.BasketBook.DiscountPrice;
+                decimal discountPrice = basketItem.BasketBook.Price - ((basketItem.BasketBook.Price * basketItem.BasketBook.DiscountPercentage) / 100);
 
                 totalPrice += (discountPrice * basketItem.Quantity);
             }
             else
-                throw new BasketItemQuantityNotEnoughException("Basket item quantity is not sufficient");
+                throw new BasketItemQuantityNotEnoughException($"Basket item quantity `{basketItem.BasketBook.Title}` is not sufficient ");
         }
 
         string transactionId = await _stripeService.ChargeAsync(orderPostDto.StripeEmail, orderPostDto.StripeToken, totalPrice);
@@ -83,7 +83,7 @@ public class OrderService : IOrderService
 
         var newPayment = await _paymentDetailService.CreatePaymentDetailAsync(new PaymentDetailPostDto(Convert.ToInt64(totalPrice * 100), transactionId));
 
-        var orderDetail = await _orderDetailService.CreateOrderDetailAsync(new OrderDetailPostDto(totalPrice, userId, newPayment.Id));
+        var orderDetail = await _orderDetailService.CreateOrderDetailAsync(new OrderDetailPostDto(totalPrice, userId, newPayment.Id, userAddress.Id));
 
         foreach (var basketItem in basketItems)
         {

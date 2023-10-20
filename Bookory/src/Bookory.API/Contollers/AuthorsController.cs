@@ -44,11 +44,10 @@ public class AuthorsController : ControllerBase
         return StatusCode(response.StatusCode, response.Message);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromForm] AuthorPutDto authorPutDto)
+    [HttpPut]
+    public async Task<IActionResult> Put([FromForm] AuthorPutDto authorPutDto)
     {
-        var updatedAuthor = new AuthorPutDto(id, authorPutDto.Name, authorPutDto.Images, authorPutDto.MainImageIndex, authorPutDto.Biography);
-        var response = await _authorService.UpdateAuthorAsync(updatedAuthor);
+        var response = await _authorService.UpdateAuthorAsync(authorPutDto);
 
         return StatusCode(response.StatusCode, response.Message);
     }

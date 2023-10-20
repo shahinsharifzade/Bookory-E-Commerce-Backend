@@ -65,6 +65,8 @@ public class OrderDetailService : IOrderDetailService
     }
 
     private static readonly string[] includes = {
+        nameof(OrderDetail.User),
+        nameof(OrderDetail.Useraddress),
         nameof(OrderDetail.OrderItems),
         $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}",
         $"{nameof(OrderDetail.OrderItems)}.{nameof(OrderItem.Book)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}",

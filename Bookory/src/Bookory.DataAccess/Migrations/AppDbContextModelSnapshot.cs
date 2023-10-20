@@ -72,7 +72,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.AuthorImage", b =>
@@ -110,7 +110,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("AuthorImages");
+                    b.ToTable("AuthorImages", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.BasketItem", b =>
@@ -152,7 +152,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("SessionId");
 
-                    b.ToTable("BasketItems");
+                    b.ToTable("BasketItems", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Blog", b =>
@@ -192,7 +192,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Book", b =>
@@ -218,7 +218,7 @@ namespace Bookory.DataAccess.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<decimal?>("DiscountPrice")
+                    b.Property<decimal?>("DiscountPercentage")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<bool>("IsDeleted")
@@ -265,7 +265,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.BookGenre", b =>
@@ -298,7 +298,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenres");
+                    b.ToTable("BookGenres", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.BookImage", b =>
@@ -336,7 +336,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookImages");
+                    b.ToTable("BookImages", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Category", b =>
@@ -366,7 +366,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Comment", b =>
@@ -422,7 +422,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Company", b =>
@@ -494,7 +494,7 @@ namespace Bookory.DataAccess.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Contact", b =>
@@ -533,7 +533,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Genre", b =>
@@ -566,7 +566,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Identity.AppUser", b =>
@@ -649,7 +649,6 @@ namespace Bookory.DataAccess.Migrations
             modelBuilder.Entity("Bookory.Core.Models.OrderDetail", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreateBy")
@@ -677,6 +676,9 @@ namespace Bookory.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid>("UseraddressId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentDetailId")
@@ -684,7 +686,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.OrderItem", b =>
@@ -723,7 +725,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("OrderDetailId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.PaymentDetail", b =>
@@ -758,7 +760,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentDetails");
+                    b.ToTable("PaymentDetails", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.ShoppingSession", b =>
@@ -796,7 +798,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingSessions");
+                    b.ToTable("ShoppingSessions", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.UserAddress", b =>
@@ -859,7 +861,7 @@ namespace Bookory.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserAddresses");
+                    b.ToTable("UserAddresses", (string)null);
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.Wishlist", b =>
@@ -892,7 +894,7 @@ namespace Bookory.DataAccess.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Wishlists");
+                    b.ToTable("Wishlists", (string)null);
                 });
 
             modelBuilder.Entity("BookWishlist", b =>
@@ -1165,6 +1167,12 @@ namespace Bookory.DataAccess.Migrations
 
             modelBuilder.Entity("Bookory.Core.Models.OrderDetail", b =>
                 {
+                    b.HasOne("Bookory.Core.Models.UserAddress", "Useraddress")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Bookory.Core.Models.PaymentDetail", "PaymentDetail")
                         .WithOne()
                         .HasForeignKey("Bookory.Core.Models.OrderDetail", "PaymentDetailId")
@@ -1180,6 +1188,8 @@ namespace Bookory.DataAccess.Migrations
                     b.Navigation("PaymentDetail");
 
                     b.Navigation("User");
+
+                    b.Navigation("Useraddress");
                 });
 
             modelBuilder.Entity("Bookory.Core.Models.OrderItem", b =>
@@ -1353,6 +1363,11 @@ namespace Bookory.DataAccess.Migrations
             modelBuilder.Entity("Bookory.Core.Models.ShoppingSession", b =>
                 {
                     b.Navigation("BasketItems");
+                });
+
+            modelBuilder.Entity("Bookory.Core.Models.UserAddress", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

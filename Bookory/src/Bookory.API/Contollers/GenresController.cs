@@ -36,10 +36,9 @@ public class GenresController : ControllerBase
         return StatusCode( response.StatusCode , response.Message );
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id , GenrePutDto genrePutDto)
+    [HttpPut]
+    public async Task<IActionResult> Put(GenrePutDto genrePutDto)
     {
-        var updatedGenre = new GenrePutDto(id, genrePutDto.Name);
         var response = await _genreService.UpdateGenreAsync(genrePutDto);
 
         return StatusCode(response.StatusCode, response.Message);

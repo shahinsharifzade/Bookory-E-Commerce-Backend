@@ -37,11 +37,10 @@ public class CategoriesController : ControllerBase
         return StatusCode(response.StatusCode, response.Message);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, CategoryPutDto categoryPutDto)
+    [HttpPut]
+    public async Task<IActionResult> Put(CategoryPutDto categoryPutDto)
     {
-        var updatedCategory = new CategoryPutDto(id, categoryPutDto.Name);
-        var response = await _categoryService.UpdateCategoryAsync(updatedCategory);
+        var response = await _categoryService.UpdateCategoryAsync(categoryPutDto);
 
         return StatusCode(response.StatusCode, response.Message);
     }

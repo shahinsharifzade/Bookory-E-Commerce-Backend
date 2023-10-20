@@ -9,6 +9,7 @@ public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
     public void Configure(EntityTypeBuilder<OrderDetail> builder)
     {
         builder.HasOne(od => od.User).WithMany( u => u.OrderDetails);
+        builder.HasOne(od => od.Useraddress).WithMany( u => u.OrderDetails).OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(od => od.PaymentDetail).WithOne();
         builder.HasMany(od => od.OrderItems).WithOne(oi => oi.OrderDetail);
     }

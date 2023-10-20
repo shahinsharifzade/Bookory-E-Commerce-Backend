@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.AuthorDtos;
-using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
 using Bookory.Business.Utilities.Exceptions.AuthorExceptions;
 using Bookory.Business.Utilities.Extension.FileExtensions.Common;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Bookory.Business.Services.Implementations;
 
@@ -82,23 +79,23 @@ public class AuthorService : IAuthorService
         return new((int)HttpStatusCode.Created, "Author has been successfully created");
     }
 
-    public async Task<ResponseDto> UpdateAuthorAsync(AuthorPutDto authorPutDto)
-    {
-        bool isExist = await _authorRepository.IsExistAsync(b => b.Name.ToLower().Trim() == authorPutDto.Name.ToLower().Trim() && b.Id != authorPutDto.Id);
-        if (isExist) throw new AuthorAlreadyExistException($"An author with the name '{authorPutDto.Name}' already exists.");
+        public async Task<ResponseDto> UpdateAuthorAsync(AuthorPutDto authorPutDto)     
+        {
+            bool isExist = await _authorRepository.IsExistAsync(b => b.Name.ToLower().Trim() == authorPutDto.Name.ToLower().Trim() && b.Id != authorPutDto.Id);
+            if (isExist) throw new AuthorAlreadyExistException($"An author with the name '{authorPutDto.Name}' already exists.");
 
-        var author = await _authorRepository.GetSingleAsync(b => b.Id == authorPutDto.Id, nameof(Author.Images));
-        if (author is null) throw new AuthorNotFoundException($"Author not found with ID {authorPutDto.Id}");
+            var author = await _authorRepository.GetSingleAsync(b => b.Id == authorPutDto.Id, nameof(Author.Images));
+            if (author is null) throw new AuthorNotFoundException($"Author not found with ID {authorPutDto.Id}");
         
-        DeleteAuthorImage(authorPutDto, author);
+            DeleteAuthorImage(authorPutDto, author);
 
-        var updatedAuthor = _mapper.Map(authorPutDto, author);
+            var updatedAuthor = _mapper.Map(authorPutDto, author);
 
-        _authorRepository.Update(updatedAuthor);
-        await _authorRepository.SaveAsync();
+            _authorRepository.Update(updatedAuthor);
+            await _authorRepository.SaveAsync();
 
-        return new((int)HttpStatusCode.OK, "Author has been successfully updated");
-    }
+            return new((int)HttpStatusCode.OK, "Author has been successfully updated");
+        }
 
     public async Task<ResponseDto> DeleteAuthorAsync(Guid id)
     {

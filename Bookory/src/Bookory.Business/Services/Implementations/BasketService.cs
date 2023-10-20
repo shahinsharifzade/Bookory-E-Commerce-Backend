@@ -3,7 +3,6 @@ using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BasketDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
-using Bookory.Business.Utilities.DTOs.WishlistDtos;
 using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.BasketException;
 using Bookory.Business.Utilities.Exceptions.BookExceptions;
@@ -120,7 +119,7 @@ public class BasketService : IBasketService
 
         if (!_isAuthenticated)
         {
-            var response = await UpdateCookieBasketItemAsync(basketPutDto);
+            var response =  UpdateCookieBasketItem(basketPutDto);
             return new ResponseDto(response.StatusCode, response.Message);
         }
 
@@ -138,7 +137,7 @@ public class BasketService : IBasketService
 
         await _basketItemService.UpdateBasketItemAsync(existingBasketItem);
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated");
+        return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated AUTH");
     }
 
     public async Task<ResponseDto> RemoveBasketItemAsync(Guid id)
@@ -149,7 +148,7 @@ public class BasketService : IBasketService
 
         if (!_isAuthenticated)
         {
-            var cookieBasketRemovalResult = await RemoveCookieBasketItemAsync(id);
+            var cookieBasketRemovalResult =  RemoveCookieBasketItem(id);
             return new ResponseDto(cookieBasketRemovalResult.StatusCode, "Successfully removed item from the basket.");
         }
 
@@ -220,7 +219,7 @@ public class BasketService : IBasketService
 
         return new ResponseDto((int)HttpStatusCode.Created, "Book successfully added");
     }
-    private async Task<ResponseDto> UpdateCookieBasketItemAsync(BasketPutDto basketPutDto)
+    private ResponseDto UpdateCookieBasketItem(BasketPutDto basketPutDto)
     {
         List<BasketItem> basketItems = GetBasketItemsFromCookie();
         if (basketItems is null)
@@ -232,12 +231,13 @@ public class BasketService : IBasketService
 
         itemToUpdate.Quantity = basketPutDto.Quantity;
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
+        
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.UtcNow.AddMonths(1) });
 
-        return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated");
+        return new ResponseDto((int)HttpStatusCode.OK, "Item quantity in the basket has been successfully updated NO AUTH");
     }
 
-    private async Task<ResponseDto> RemoveCookieBasketItemAsync(Guid id)
+    private ResponseDto RemoveCookieBasketItem(Guid id)
     {
         var basketItems = GetBasketItemsFromCookie();
 
@@ -250,13 +250,13 @@ public class BasketService : IBasketService
 
         basketItems.Remove(itemToDelete);
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems));
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(COOKIE_BASKET_ITEM_KEY, JsonConvert.SerializeObject(basketItems), new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.UtcNow.AddMonths(1) });
         return new ResponseDto((int)HttpStatusCode.OK, "Item removed from the basket");
     }
 
     private void ClearCookieBasket()
     {
-        _httpContextAccessor.HttpContext.Response.Cookies.Delete(COOKIE_BASKET_ITEM_KEY);
+        _httpContextAccessor.HttpContext.Response.Cookies.Delete(COOKIE_BASKET_ITEM_KEY, new CookieOptions { HttpOnly = false, SameSite = SameSiteMode.None, Secure = true, Expires = DateTime.UtcNow.AddMonths(1) });
     }
 
     #endregion

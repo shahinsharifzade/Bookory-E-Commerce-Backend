@@ -210,6 +210,10 @@ public class BookService : IBookService
                 case "popularity":
                     booksQuery = booksQuery.OrderByDescending(b => b.SoldQuantity);
                     break;
+                case "onSale":
+                    booksQuery = booksQuery.Where(b => b.DiscountPercentage != 0);
+                    booksQuery = booksQuery.OrderByDescending(b => b.DiscountPercentage);
+                    break;
                 default:
                     booksQuery = booksQuery.OrderByDescending(b => b.Rating);
                     break;

@@ -15,4 +15,13 @@ public class UserAddress : BaseEntity
 
     public string UserId { get; set; } = null!;
     public AppUser User { get; set; }
+
+    public ICollection<OrderDetail>? OrderDetails { get; set; }
+
+    public UserAddress()
+    {
+
+        OrderDetails = new List<OrderDetail>();
+    }
+
 }

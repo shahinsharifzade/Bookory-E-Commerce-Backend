@@ -14,7 +14,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(p => p.Description).IsRequired(true).HasMaxLength(300);
         builder.Property(p => p.StockQuantity).IsRequired(true);
         builder.Property(p => p.Price).IsRequired(true).HasColumnType("decimal(10,2)");
-        builder.Property(p => p.DiscountPrice).IsRequired(false).HasColumnType("decimal(10,2)");
+        builder.Property(p => p.DiscountPercentage).IsRequired(false).HasColumnType("decimal(10,2)");
         builder.Property(p => p.SoldQuantity).HasDefaultValue(0);
         builder.Property(p => p.Rating).HasDefaultValue(0);
         builder.Property(p => p.IsDeleted).HasDefaultValue(false);

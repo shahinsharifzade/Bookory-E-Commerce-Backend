@@ -35,6 +35,12 @@ public class UsersController : ControllerBase
         return Ok(await _userService.GetUserByIdAsync(id));
     }
 
+    [HttpGet("active")]
+    public async Task<IActionResult> GetActiveUser()
+    {
+        return Ok(await _userService.GetActiveUser());
+    }
+
     [HttpPut("changerole")]
     //[Authorize(Roles = "Admin")]
     public async Task<IActionResult> ChangeRole(Guid userId, Guid roleId)

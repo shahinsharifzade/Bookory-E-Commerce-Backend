@@ -13,10 +13,15 @@ public class OrderDetail : BaseEntity
     public Guid PaymentDetailId { get; set; } //Stripe
     public PaymentDetail? PaymentDetail { get; set; } //Stripe
 
+    public Guid UseraddressId { get; set; }
+    public UserAddress Useraddress { get; set; }
+
     public ICollection<OrderItem>? OrderItems { get; set; }
+
 
     public OrderDetail()
     {
         OrderItems = new List<OrderItem>();
+
     }
 }
