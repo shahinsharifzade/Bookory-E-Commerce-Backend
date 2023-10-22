@@ -29,7 +29,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Post(GenrePostDto genrePostDto)
     {
         var response = await _genreService.CreateGenreAsync(genrePostDto);
@@ -38,6 +38,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Put(GenrePutDto genrePutDto)
     {
         var response = await _genreService.UpdateGenreAsync(genrePutDto);
@@ -46,6 +47,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Delete( Guid id)
     {
         var response =await _genreService.DeleteGenreAsync(id);

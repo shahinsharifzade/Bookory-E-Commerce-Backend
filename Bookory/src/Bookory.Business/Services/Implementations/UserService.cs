@@ -194,14 +194,18 @@ public class UserService : IUserService
         return userRoleDto;
     }
 
-    public async Task<UserGetResponseDto> GetActiveUser()
+    public async Task<UserRoleGetResponseDto> GetActiveUser()
     {
         var userId = _httpContext.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _usermanager.FindByIdAsync(userId);
 
+
         var userDto = _mapper.Map<UserGetResponseDto>(user);
 
-        return userDto;
+        var userRoles = await _usermanager.GetRolesAsync(user);
+
+        UserRoleGetResponseDto userRoleDto = new(userDto, userRoles.FirstOrDefault()!, user.IsVendorRegistrationComplete);
+        return userRoleDto;
     }
 
 

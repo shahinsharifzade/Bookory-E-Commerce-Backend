@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oHR5NR2tAsVFG9bv9np8F+7UezQdp5+5Huk+i0CBZ8I=",
+  "Hash": "iiNFcv8V796MVdaeZhAOw7twOWhAAtamJi1XiGTpH9k=",
   "Source": "Bookory.API",
   "BasePath": "_content/Bookory.API",
   "Mode": "Default",
@@ -1445,23 +1445,6 @@
       "OriginalItemSpec": "wwwroot\\assets\\images\\books\\6929f6f3-1368-4b23-ae34-100b98859230-blog3.jpg"
     },
     {
-      "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\6954c9a3-6df0-4638-91e5-f3ccce58d690-ringShout.jpg",
-      "SourceId": "Bookory.API",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\",
-      "BasePath": "_content/Bookory.API",
-      "RelativePath": "assets/images/books/6954c9a3-6df0-4638-91e5-f3ccce58d690-ringShout.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\images\\books\\6954c9a3-6df0-4638-91e5-f3ccce58d690-ringShout.jpg"
-    },
-    {
       "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\699dbc3c-99dd-4c69-8def-89c7239e3ef7-error.jpg",
       "SourceId": "Bookory.API",
       "SourceType": "Discovered",
@@ -1681,6 +1664,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\images\\books\\9356259a-ed09-4384-81d8-fd30d9cc091e-Hallowe'en Party.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\99af2700-f0ee-43be-a873-74127e0115af-Dan Brown.jpg",
+      "SourceId": "Bookory.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\",
+      "BasePath": "_content/Bookory.API",
+      "RelativePath": "assets/images/books/99af2700-f0ee-43be-a873-74127e0115af-Dan Brown.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\images\\books\\99af2700-f0ee-43be-a873-74127e0115af-Dan Brown.jpg"
     },
     {
       "Identity": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\assets\\images\\books\\9a271b38-452b-4091-842f-d1d5cb5d6077-van gogh.jpg",

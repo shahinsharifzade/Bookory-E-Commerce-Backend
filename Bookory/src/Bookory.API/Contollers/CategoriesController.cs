@@ -1,7 +1,9 @@
 ﻿using Bookory.Business.Services.Implementations;
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.CategoryDtos;
+using Bookory.Business.Utilities.Enums;
 using Bookory.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;
@@ -30,6 +32,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Post(CategoryPostDto categoryPostDto)
     {
         var response = await _categoryService.CreateCategoryAsync(categoryPostDto);
@@ -38,6 +41,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Put(CategoryPutDto categoryPutDto)
     {
         var response = await _categoryService.UpdateCategoryAsync(categoryPutDto);
@@ -46,6 +50,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _categoryService.DeleteCategoryAsync(id);

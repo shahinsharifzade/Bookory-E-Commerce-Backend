@@ -2,6 +2,8 @@
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.ContactDtos;
 using Bookory.Business.Utilities.DTOs.GenreDtos;
+using Bookory.Business.Utilities.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;
@@ -39,6 +41,7 @@ public class ContactController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _contactService.DeleteContactMessagesAsync(id);

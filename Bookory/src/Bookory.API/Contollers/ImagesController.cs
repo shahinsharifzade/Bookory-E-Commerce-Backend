@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Bookory.Business.Utilities.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers
@@ -15,6 +17,7 @@ namespace Bookory.API.Contollers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, Moderator")]
         public IActionResult GetImage([FromQuery] string path)
         {
             // Combine the wwwroot path and the provided path to get the full image path.

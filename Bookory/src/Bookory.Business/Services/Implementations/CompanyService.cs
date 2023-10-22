@@ -92,7 +92,7 @@ public class CompanyService : ICompanyService
     public async Task<CompanyGetResponseDto> GetCompanyByActiveVendor()
     {
         var user = await _userService.GetActiveUser();
-        var company = await _companyRepository.GetSingleAsync(c => c.User.Id == user.Id.ToString(), includes);
+        var company = await _companyRepository.GetSingleAsync(c => c.User.Id == user.User.Id.ToString(), includes);
 
         var companyDto = _mapper.Map<CompanyGetResponseDto>(company);
 

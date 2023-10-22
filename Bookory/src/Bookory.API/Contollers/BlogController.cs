@@ -2,6 +2,8 @@
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BlogDtos;
 using Bookory.Business.Utilities.DTOs.BookDtos;
+using Bookory.Business.Utilities.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;
@@ -37,19 +39,22 @@ public class BlogsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Post([FromForm] BlogPostDto blogPostDto)
     {
         return Ok(await _blogService.CreateBlogAsync(blogPostDto));
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Put([FromForm] BlogPutDto blogPutDto)
     {
 
         return Ok(await _blogService.UpdateBlogAsync(blogPutDto));
     }
 
-    [HttpDelete("{id}")] 
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
 

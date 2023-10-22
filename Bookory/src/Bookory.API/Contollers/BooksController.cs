@@ -32,6 +32,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet("pending-or-rejected")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> GetPendingOrRejectedBooks()
     {
         var books = await _bookService.GetBooksPendingApprovalOrRejectedAsync();
@@ -52,7 +53,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Post([FromForm] BookPostDto bookPostDto)
     {
         var response = await _bookService.CreateBookAsync(bookPostDto);
@@ -61,6 +62,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Put([FromForm] BookPutDto bookPutDto)
     {
         var response = await _bookService.UpdateBookAsync(bookPutDto);
@@ -69,6 +71,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _bookService.DeleteBookAsync(id);
@@ -78,6 +81,7 @@ public class BooksController : ControllerBase
 
 
     [HttpPost("{bookId}/approve")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> ApproveBook(Guid bookId)
     {
         var response = await _bookService.ApproveOrRejectBookAsync(bookId, BookStatus.Approved);
@@ -85,6 +89,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost("{bookId}/reject")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> RejectBook(Guid bookId)
     {
         var response = await _bookService.ApproveOrRejectBookAsync(bookId, BookStatus.Rejected);

@@ -24,7 +24,6 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    //[Authorize]
     public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
     {
         return Ok(await _authorService.GetAuthorByIdAsync(id));
@@ -37,6 +36,7 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Post([FromForm] AuthorPostDto authorPostDto)
     {
         var response = await _authorService.CreateAuthorAsync(authorPostDto);
@@ -45,6 +45,7 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Put([FromForm] AuthorPutDto authorPutDto)
     {
         var response = await _authorService.UpdateAuthorAsync(authorPutDto);
@@ -53,14 +54,11 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _authorService.DeleteAuthorAsync(id);
 
         return StatusCode(response.StatusCode, response.Message);
     }
-
-
-
-
 }

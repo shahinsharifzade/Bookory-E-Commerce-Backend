@@ -26,12 +26,14 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> GetAll([FromQuery] string? search)
     {
         return Ok(await _userService.GetAllUsersAsync(search));
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> GetById(string id)
     {
         return Ok(await _userService.GetUserByIdAsync(id));
@@ -45,6 +47,7 @@ public class UsersController : ControllerBase
 
     [HttpPut("changerole")]
     [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> ChangeRole([FromQuery] Guid userId,[FromQuery] Guid roleId)
     {
         var response = await _userService.ChangeUserRoleAsync(userId, roleId);
@@ -52,7 +55,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("changeActiveStatus/{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> ChangeActiveStatus(string id)
     {
         var response = await _userService.ChangeUserActiveStatusAsync(id);

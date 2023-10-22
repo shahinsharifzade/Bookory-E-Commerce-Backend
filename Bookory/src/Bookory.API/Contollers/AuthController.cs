@@ -42,5 +42,4 @@ public class AuthController : ControllerBase
         var response = await _authService.ResetPasswordAsync(resetPasswordDto, token, email);
         return Ok(response);
     }
-
 }
