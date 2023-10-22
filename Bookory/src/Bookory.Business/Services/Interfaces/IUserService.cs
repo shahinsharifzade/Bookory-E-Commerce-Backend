@@ -14,4 +14,5 @@ public interface IUserService
     Task<ResponseDto> CreateUserAsync(RegisterDto userPostDto);
     Task<ResponseDto> ChangeUserRoleAsync(Guid userId , Guid roleId);
     Task<ResponseDto> UpdateUserAsync(AppUser user);
+    Task<ResponseDto> ChangeUserActiveStatusAsync(string userId);
 }

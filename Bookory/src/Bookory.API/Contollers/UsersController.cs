@@ -1,5 +1,7 @@
 ﻿using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.UserDtos;
+using Bookory.Business.Utilities.Exceptions.AuthException;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;
@@ -30,7 +32,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById( string id)
+    public async Task<IActionResult> GetById(string id)
     {
         return Ok(await _userService.GetUserByIdAsync(id));
     }
@@ -42,12 +44,19 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("changerole")]
-    //[Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ChangeRole(Guid userId, Guid roleId)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ChangeRole([FromQuery] Guid userId,[FromQuery] Guid roleId)
     {
         var response = await _userService.ChangeUserRoleAsync(userId, roleId);
         return StatusCode(response.StatusCode, response.Message);
     }
 
+    [HttpPut("changeActiveStatus/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ChangeActiveStatus(string id)
+    {
+        var response = await _userService.ChangeUserActiveStatusAsync(id);
+        return StatusCode(response.StatusCode, response.Message);
+    }
 
 }

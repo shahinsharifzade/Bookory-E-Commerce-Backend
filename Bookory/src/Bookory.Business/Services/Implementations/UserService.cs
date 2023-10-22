@@ -205,4 +205,23 @@ public class UserService : IUserService
     }
 
 
+    public async Task<ResponseDto> ChangeUserActiveStatusAsync(string userId)
+    {
+        var user = await _usermanager.FindByIdAsync(userId);
+
+        if (user == null)
+            throw new UserNotFoundException($"No user was found with the specified ID: {userId}");
+
+        user.IsActive = !user.IsActive;
+
+        var result = await _usermanager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+            throw new UserUpdateFailedException("Failed to update user's active status.");
+
+        return new ResponseDto((int)HttpStatusCode.OK, "User active status updated successfully.");
+    }
+
+
+
 }
