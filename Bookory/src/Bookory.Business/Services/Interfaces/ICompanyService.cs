@@ -14,7 +14,7 @@ public interface ICompanyService
     Task<ResponseDto> CreateCompanyAsync(CompanyPostDto companyPostDto);
     Task<ResponseDto> UpdateCompanyAsync(CompanyPutDto companyPutDto);
 
-
+    Task<CompanyGetResponseDto> GetCompanyByActiveVendor();
     Task<ResponseDto> ApproveOrRejectCompanyAsync(Guid companyId, CompanyStatus status);
     Task<List<CompanyGetResponseDto>> GetCompaniesPendingApprovalOrRejectedAsync();
     Task<ResponseDto> SendMessageAsync(CompanyMessagePostDto messageDto);

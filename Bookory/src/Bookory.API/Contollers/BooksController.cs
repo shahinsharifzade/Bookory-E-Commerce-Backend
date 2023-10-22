@@ -1,6 +1,7 @@
 ﻿using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookory.API.Contollers;
@@ -51,6 +52,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Post([FromForm] BookPostDto bookPostDto)
     {
         var response = await _bookService.CreateBookAsync(bookPostDto);
@@ -58,11 +60,10 @@ public class BooksController : ControllerBase
         return StatusCode(response.StatusCode, response.Message);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromForm] BookPutDto bookPutDto)
+    [HttpPut]
+    public async Task<IActionResult> Put([FromForm] BookPutDto bookPutDto)
     {
-        var updatedBook = new BookPutDto(id, bookPutDto.Title, bookPutDto.Images, bookPutDto.MainImageIndex, bookPutDto.Description, bookPutDto.Price, bookPutDto.DiscountPrice, bookPutDto.StockQuantity, bookPutDto.AuthorId, bookPutDto.GenreIds);
-        var response = await _bookService.UpdateBookAsync(updatedBook);
+        var response = await _bookService.UpdateBookAsync(bookPutDto);
 
         return StatusCode(response.StatusCode, response.Message);
     }

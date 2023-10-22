@@ -61,7 +61,7 @@ public class BookService : IBookService
 
     public async Task<BookGetResponseDto> GetBookByIdAsync(Guid id)
     {
-        var book = await _bookRepository.GetSingleAsync(b => b.Id == id && b.Status == BookStatus.Approved, includes);
+        var book = await _bookRepository.GetSingleAsync(b => b.Id == id, includes);
 
         if (book is null)
             throw new BookNotFoundException($"The book with ID {id} was not found");
@@ -173,7 +173,7 @@ public class BookService : IBookService
 
     public async Task<BookPageResponseDto> GetPageOfBooksAsync(int pageNumber, int pageSize, BookFiltersDto filters)
     {
-        var booksQuery = _bookRepository.GetFiltered(b => (string.IsNullOrEmpty(filters.Search) ||  b.Title.ToLower().Contains(filters.Search.Trim().ToLower())) && b.Status == BookStatus.Approved, includes);
+        var booksQuery = _bookRepository.GetFiltered(b => (string.IsNullOrEmpty(filters.Search) || b.Title.ToLower().Contains(filters.Search.Trim().ToLower())) && b.Status == BookStatus.Approved, includes);
         booksQuery = booksQuery.OrderByDescending(b => b.Rating);
 
         if (filters.Authors != null && filters.Authors.Any())

@@ -8,6 +8,7 @@ using Bookory.Business.Utilities.Enums;
 using Bookory.Business.Utilities.Exceptions.AuthException;
 using Bookory.Business.Utilities.Exceptions.RoleException;
 using Bookory.Business.Utilities.Exceptions.UserException;
+using Bookory.Core.Models;
 using Bookory.Core.Models.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -202,4 +203,6 @@ public class UserService : IUserService
 
         return userDto;
     }
+
+
 }

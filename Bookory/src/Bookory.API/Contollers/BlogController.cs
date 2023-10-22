@@ -8,11 +8,11 @@ namespace Bookory.API.Contollers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BlogController : ControllerBase
+public class BlogsController : ControllerBase
 {
     private readonly IBlogService _blogService;
 
-    public BlogController(IBlogService blogService)
+    public BlogsController(IBlogService blogService)
     {
         _blogService = blogService;
     }

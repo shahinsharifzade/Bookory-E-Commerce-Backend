@@ -12,8 +12,10 @@ using Bookory.Business.Utilities.Extension.FileExtensions.Common;
 using Bookory.Core.Models;
 using Bookory.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Security.Claims;
 
 namespace Bookory.Business.Services.Implementations;
 
@@ -30,7 +32,7 @@ public class CompanyService : ICompanyService
         _mapper = mapper;
         _userService = userService;
         _companyRepository = companyRepository;
-        _webHostEnvironment = webHostEnvironment; 
+        _webHostEnvironment = webHostEnvironment;
         _mailService = mailService;
     }
 
@@ -85,6 +87,17 @@ public class CompanyService : ICompanyService
 
         if (company is null) throw new CompanyNotFoundException($"No company found for username '{username}'");
         return company;
+    }
+
+    public async Task<CompanyGetResponseDto> GetCompanyByActiveVendor()
+    {
+        var user = await _userService.GetActiveUser();
+        var company = await _companyRepository.GetSingleAsync(c => c.User.Id == user.Id.ToString(), includes);
+
+        var companyDto = _mapper.Map<CompanyGetResponseDto>(company);
+
+        if (company is null) throw new CompanyNotFoundException($"No company found");
+        return companyDto;
     }
 
     public async Task<ResponseDto> UpdateCompanyAsync(CompanyPutDto companyPutDto)
@@ -233,7 +246,7 @@ public class CompanyService : ICompanyService
 
         await _mailService.SendEmailAsync(mailRequestDto);
 
-        return new ResponseDto((int) HttpStatusCode.OK , "Message sent successfully");
+        return new ResponseDto((int)HttpStatusCode.OK, "Message sent successfully");
     }
 
     private static readonly string[] includes ={

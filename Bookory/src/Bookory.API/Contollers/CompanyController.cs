@@ -35,6 +35,18 @@ public class CompanyController : ControllerBase
         return (Ok(await _companyService.GetCompanyByIdAsync(id)));
     }
 
+    [HttpGet("byusername")]
+    public async Task<IActionResult> GetByUsername([FromQuery] string username)
+    {
+        return (Ok(await _companyService.GetCompanyByUsernameAsync(username)));
+    }
+
+    [HttpGet("byactive")]
+    public async Task<IActionResult> GetByActiveVendor()
+    {
+        return (Ok(await _companyService.GetCompanyByActiveVendor()));
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] CompanyPostDto companyPostDto)
     {
@@ -44,16 +56,14 @@ public class CompanyController : ControllerBase
 
     [HttpPost("email")]
     public async Task<IActionResult> SendEmail([FromForm] CompanyMessagePostDto companyMessagePostDto)
-        {
+    {
         return Ok(await _companyService.SendMessageAsync(companyMessagePostDto));
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromForm] CompanyPutDto companyPutDto)
+    [HttpPut]
+    public async Task<IActionResult> Put([FromForm] CompanyPutDto companyPutDto)
     {
-        var dto = new CompanyPutDto(id, companyPutDto.Name, companyPutDto.Description, companyPutDto.Logo, companyPutDto.BannerImage, companyPutDto.ContactPhone, companyPutDto.ContactPhone, companyPutDto.Address);
-
-        var response = await _companyService.UpdateCompanyAsync(dto);
+        var response = await _companyService.UpdateCompanyAsync(companyPutDto);
         return Ok(response);
     }
 

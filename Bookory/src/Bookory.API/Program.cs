@@ -26,6 +26,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGenService();
 
 var app = builder.Build();
+app.UseCors();
 
 if (app.Environment.IsDevelopment())
 {
@@ -34,9 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//app.AddExceptionHandlerService();
+app.AddExceptionHandlerService();
 
-app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

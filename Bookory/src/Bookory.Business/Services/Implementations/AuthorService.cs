@@ -27,7 +27,7 @@ public class AuthorService : IAuthorService
 
     public async Task<List<AuthorGetResponseDto>> GetAllAuthorsAsync(string? search)
     {
-        var authors =await _authorRepository.GetFiltered(g => string.IsNullOrEmpty(search) ? true : g.Name.ToLower().Contains(search.Trim().ToLower()), includes).ToListAsync();
+        var authors = await _authorRepository.GetFiltered(g => string.IsNullOrEmpty(search) ? true : g.Name.ToLower().Contains(search.Trim().ToLower()), includes).ToListAsync();
 
         if (authors is null || authors.Count == 0)
             throw new AuthorNotFoundException("No authors were found matching the provided criteria.");
@@ -40,7 +40,7 @@ public class AuthorService : IAuthorService
     {
         var authorsQuery = _authorRepository.GetAll(includes);
         decimal totalCount = Math.Ceiling((decimal)await authorsQuery.CountAsync() / pageSize);
-        
+
         int itemsToSkip = (pageNumber - 1) * pageSize;
         authorsQuery = authorsQuery.Skip(itemsToSkip).Take(pageSize);
 
@@ -57,7 +57,7 @@ public class AuthorService : IAuthorService
 
     public async Task<AuthorGetResponseDto> GetAuthorByIdAsync(Guid id)
     {
-        var author = await _authorRepository.GetByIdAsync(id,includes);
+        var author = await _authorRepository.GetByIdAsync(id, includes);
 
         if (author is null)
             throw new AuthorNotFoundException($"Author with ID {id} not found.");
@@ -79,23 +79,23 @@ public class AuthorService : IAuthorService
         return new((int)HttpStatusCode.Created, "Author has been successfully created");
     }
 
-        public async Task<ResponseDto> UpdateAuthorAsync(AuthorPutDto authorPutDto)     
-        {
-            bool isExist = await _authorRepository.IsExistAsync(b => b.Name.ToLower().Trim() == authorPutDto.Name.ToLower().Trim() && b.Id != authorPutDto.Id);
-            if (isExist) throw new AuthorAlreadyExistException($"An author with the name '{authorPutDto.Name}' already exists.");
+    public async Task<ResponseDto> UpdateAuthorAsync(AuthorPutDto authorPutDto)
+    {
+        bool isExist = await _authorRepository.IsExistAsync(b => b.Name.ToLower().Trim() == authorPutDto.Name.ToLower().Trim() && b.Id != authorPutDto.Id);
+        if (isExist) throw new AuthorAlreadyExistException($"An author with the name '{authorPutDto.Name}' already exists.");
 
-            var author = await _authorRepository.GetSingleAsync(b => b.Id == authorPutDto.Id, nameof(Author.Images));
-            if (author is null) throw new AuthorNotFoundException($"Author not found with ID {authorPutDto.Id}");
-        
-            DeleteAuthorImage(authorPutDto, author);
+        var author = await _authorRepository.GetSingleAsync(b => b.Id == authorPutDto.Id, nameof(Author.Images));
+        if (author is null) throw new AuthorNotFoundException($"Author not found with ID {authorPutDto.Id}");
 
-            var updatedAuthor = _mapper.Map(authorPutDto, author);
+        DeleteAuthorImage(authorPutDto, author);
 
-            _authorRepository.Update(updatedAuthor);
-            await _authorRepository.SaveAsync();
+        var updatedAuthor = _mapper.Map(authorPutDto, author);
 
-            return new((int)HttpStatusCode.OK, "Author has been successfully updated");
-        }
+        _authorRepository.Update(updatedAuthor);
+        await _authorRepository.SaveAsync();
+
+        return new((int)HttpStatusCode.OK, "Author has been successfully updated");
+    }
 
     public async Task<ResponseDto> DeleteAuthorAsync(Guid id)
     {

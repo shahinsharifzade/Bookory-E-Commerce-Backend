@@ -29,6 +29,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Post(GenrePostDto genrePostDto)
     {
         var response = await _genreService.CreateGenreAsync(genrePostDto);
