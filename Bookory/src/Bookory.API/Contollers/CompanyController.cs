@@ -49,7 +49,6 @@ public class CompanyController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Post([FromForm] CompanyPostDto companyPostDto)
     {
         var response = await _companyService.CreateCompanyAsync(companyPostDto);
@@ -57,14 +56,13 @@ public class CompanyController : ControllerBase
     }
 
     [HttpPost("email")]
-    [Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> SendEmail([FromForm] CompanyMessagePostDto companyMessagePostDto)
     {
         return Ok(await _companyService.SendMessageAsync(companyMessagePostDto));
     }
 
     [HttpPut]
-    [Authorize(Roles = "Admin, Moderator")]
+    [Authorize(Roles = "Admin, Moderator, Vendor")]
     public async Task<IActionResult> Put([FromForm] CompanyPutDto companyPutDto)
     {
         var response = await _companyService.UpdateCompanyAsync(companyPutDto);

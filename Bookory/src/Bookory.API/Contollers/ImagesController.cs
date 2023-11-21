@@ -17,7 +17,7 @@ namespace Bookory.API.Contollers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Moderator")]
+        [Authorize(Roles = "Admin, Moderator, Vendor")]
         public IActionResult GetImage([FromQuery] string path)
         {
             // Combine the wwwroot path and the provided path to get the full image path.

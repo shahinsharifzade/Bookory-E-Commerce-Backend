@@ -2,6 +2,7 @@
 using Bookory.Business.Services.Interfaces;
 using Bookory.Business.Utilities.DTOs.AuthorDtos;
 using Bookory.Business.Utilities.DTOs.Common;
+using Bookory.Business.Utilities.Enums;
 using Bookory.Business.Utilities.Exceptions.AuthorExceptions;
 using Bookory.Business.Utilities.Extension.FileExtensions.Common;
 using Bookory.Core.Models;
@@ -32,6 +33,9 @@ public class AuthorService : IAuthorService
         if (authors is null || authors.Count == 0)
             throw new AuthorNotFoundException("No authors were found matching the provided criteria.");
 
+        foreach (var author in authors)
+            author.Books = author.Books?.Where(b => b.Status == BookStatus.Approved).ToList();
+
         var authorDtos = _mapper.Map<List<AuthorGetResponseDto>>(authors);
         return authorDtos;
     }
@@ -48,6 +52,9 @@ public class AuthorService : IAuthorService
         if (authors is null || authors.Count == 0)
             throw new AuthorNotFoundException("No authors were found matching the provided criteria.");
 
+        foreach (var author in authors)
+            author.Books = author.Books?.Where(b => b.Status == BookStatus.Approved).ToList();
+
         var authorGetResponseDto = _mapper.Map<List<AuthorGetResponseDto>>(authors);
 
         AuthorPageResponseDto authorsDtos = new(authorGetResponseDto, totalCount);
@@ -61,6 +68,9 @@ public class AuthorService : IAuthorService
 
         if (author is null)
             throw new AuthorNotFoundException($"Author with ID {id} not found.");
+
+        author.Books = author.Books?.Where(b => b.Status == BookStatus.Approved).ToList();
+
 
         var authorDto = _mapper.Map<AuthorGetResponseDto>(author);
         return authorDto;
@@ -123,5 +133,5 @@ public class AuthorService : IAuthorService
     nameof(Author.Images),
     nameof(Author.Books),
     $"{nameof(Author.Books)}.{nameof(Book.Images)}",
-    $"{nameof(Author.Books)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}"};
+    $"{nameof(Author.Books)}.{nameof(Book.BookGenres)}.{nameof(BookGenre.Genre)}" };
 }

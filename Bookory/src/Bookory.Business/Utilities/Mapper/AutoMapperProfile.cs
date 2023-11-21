@@ -182,9 +182,9 @@ public class AutoMapperProfile : Profile
         CreateMap<BlogGetResponseDto, Blog>().ReverseMap();
 
         CreateMap<BlogPutDto, Blog>()
-            .ForMember(src => src.Image , opt => opt.MapFrom<BlogPutImageResolver>());
+            .ForMember(src => src.Image, opt => opt.MapFrom<BlogPutImageResolver>());
         CreateMap<BlogPostDto, Blog>()
-            .ForMember(src => src.Image , opt => opt.MapFrom<BlogPostImageResolver>());
+            .ForMember(src => src.Image, opt => opt.MapFrom<BlogPostImageResolver>());
 
         #endregion
 

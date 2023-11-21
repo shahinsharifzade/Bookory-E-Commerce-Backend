@@ -14,7 +14,7 @@ public static class AddExceptionHandlerExtension
             error.Run(async context =>
             {
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-
+                
                 int statusCode = (int)HttpStatusCode.InternalServerError;
                 string message = "Internal Server Error";
 
