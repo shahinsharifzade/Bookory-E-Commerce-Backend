@@ -22,7 +22,7 @@ public class OrderDetailService : IOrderDetailService
 
     public async Task<List<OrderDetailGetResponseDto>> GetAllOrderDetailAsync()
     {
-        var orderDetail = await _orderDetailRepository.GetAll(includes).ToListAsync();
+        var orderDetail = await _orderDetailRepository.GetAll(includes).OrderByDescending(o => o.CreatedAt).ToListAsync();
 
         if (orderDetail == null)
             throw new OrderDetailNotFoundException("No order details were found");
@@ -44,7 +44,7 @@ public class OrderDetailService : IOrderDetailService
 
     public async Task<List<OrderDetailGetResponseDto>> GetAllOrderDetailByUserIdAsync(string id)
     {
-        var orderDetail = await _orderDetailRepository.GetFiltered(od => od.UserId == id, includes).ToListAsync();
+        var orderDetail = await _orderDetailRepository.GetFiltered(od => od.UserId == id, includes).OrderByDescending(o => o.CreatedAt).ToListAsync();
 
         if (orderDetail == null)
             throw new OrderDetailNotFoundException("No order details were found for the specified user");

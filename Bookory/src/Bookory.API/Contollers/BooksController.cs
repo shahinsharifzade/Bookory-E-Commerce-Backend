@@ -53,7 +53,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin, Moderator")]
+    [Authorize(Roles = "Admin, Moderator, Vendor")]
     public async Task<IActionResult> Post([FromForm] BookPostDto bookPostDto)
     {
         var response = await _bookService.CreateBookAsync(bookPostDto);
@@ -62,7 +62,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut]
-    [Authorize(Roles = "Admin, Moderator")]
+    [Authorize(Roles = "Admin, Moderator, Vendor")]
     public async Task<IActionResult> Put([FromForm] BookPutDto bookPutDto)
     {
         var response = await _bookService.UpdateBookAsync(bookPutDto);

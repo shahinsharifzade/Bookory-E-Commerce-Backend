@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Bookory.Business.Services.Implementations;
 
@@ -97,9 +98,9 @@ public class BookService : IBookService
         if (isExist)
             throw new BookAlreadyExistException($"A book with the title '{bookPostDto.Title}' already exists");
 
-        await _authorService.GetAuthorByIdAsync(bookPostDto.AuthorId);
-        foreach (var genreId in bookPostDto.GenreIds)
-            await _genreService.GetGenreByIdAsync(genreId);
+        //await _authorService.GetAuthorByIdAsync(bookPostDto.AuthorId);
+        //foreach (var genreId in bookPostDto.GenreIds)
+        //    await _genreService.GetGenreByIdAsync(genreId);
 
         var newBook = _mapper.Map<Book>(bookPostDto);
 
@@ -125,7 +126,7 @@ public class BookService : IBookService
 
     public async Task<ResponseDto> UpdateBookAsync(BookPutDto bookPutDto)
     {
-        var book = await _bookRepository.GetSingleAsync(b => b.Id == bookPutDto.Id, nameof(Book.Images));
+        var book = await _bookRepository.GetSingleAsync(b => b.Id == bookPutDto.Id, includes);
         if (book is null)
             throw new BookNotFoundException($"No book found with the ID {bookPutDto.Id}");
 
@@ -133,9 +134,9 @@ public class BookService : IBookService
         if (isExist)
             throw new BookAlreadyExistException($"A book with the title '{bookPutDto.Title}' already exists");
 
-        await _authorService.GetAuthorByIdAsync(bookPutDto.AuthorId);
-        foreach (var genreId in bookPutDto.GenreIds)
-            await _genreService.GetGenreByIdAsync(genreId);
+        //await _authorService.GetAuthorByIdAsync(bookPutDto.AuthorId);
+        //foreach (var genreId in bookPutDto.GenreIds)
+        //    await _genreService.GetGenreByIdAsync(genreId);
 
         DeleteBookImages(bookPutDto, book);
 
@@ -150,8 +151,10 @@ public class BookService : IBookService
             await _basketItemService.UpdateBasketItemAsync(basketBookItem);
         }
 
-        if (user.Role == Roles.Vendor.ToString())
+        if (user.Role == Roles.Vendor.ToString() )
+        {
             updatedBook.Status = BookStatus.PendingApproval;
+        }
 
         _bookRepository.Update(updatedBook);
         await _bookRepository.SaveAsync();

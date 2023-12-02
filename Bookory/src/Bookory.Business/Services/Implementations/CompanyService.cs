@@ -235,7 +235,9 @@ public class CompanyService : ICompanyService
         if (company is null) throw new CompanyNotFoundException($"Company with ID '{messageDto.CompanyId}' was not found");
 
         string emailSubject = $"New Message from {messageDto.Name} ({messageDto.Email})";
-        string emailBody = $"Message Content:\n\n{messageDto.Message}";
+        string emailBody = $"New Message from: {messageDto.Name} - {messageDto.Email} <br><br>" +
+                    $"Message Content:<br><br>{messageDto.Message}";
+
 
 
         MailRequestDto mailRequestDto = new(

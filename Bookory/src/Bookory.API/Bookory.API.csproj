@@ -7,6 +7,29 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="wwwroot\assets\images\books\054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <Compile Remove="wwwroot\assets\images\books\82cba3ac-d62e-47ca-8e8b-7b4461a0ed6b-49a2675d-1164-4fa8-acf2-c60a0d2b6a6a-eab9d135-2835-4a5e-9548-b12ce9c3d5c0-7052e848-325e-4f93-91da-41a2a2a1f0b8-asp.net core logo.png\**" />
+	  <Compile Remove="wwwroot\assets\images\books\c38af9fd-566e-463c-bec4-38d783a2dc96-c525957d-36f4-4298-ad0b-d39fc0c15240-08c8f809-07aa-4084-814a-e026b84465f6-204c34da-9e91-42d4-80b2-7900d6b5fd93-e74d7d4f-f265-42ec-804f-43cc077b84cc-Adam Fawer.jpeg\**" />
+	  <Compile Remove="wwwroot\assets\images\books\d01f6cd4-c339-4e95-b8c1-072cf4d965b1-6ebd0d7f-a293-47e2-b800-d2c147641bdc-054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <Compile Remove="wwwroot\assets\images\books\f8f466f3-cd2f-4898-aa62-5ca20e0d812b-7ed1b356-aee2-4dea-9c84-4d9c4610a2b0-92b05b83-cd93-43a5-955b-ac6ee6066f73-e8390f5f-1b8f-4e31-9397-66dacc526ba2-atomic habits.jpg\**" />
+	  <Content Remove="wwwroot\assets\images\books\054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <Content Remove="wwwroot\assets\images\books\82cba3ac-d62e-47ca-8e8b-7b4461a0ed6b-49a2675d-1164-4fa8-acf2-c60a0d2b6a6a-eab9d135-2835-4a5e-9548-b12ce9c3d5c0-7052e848-325e-4f93-91da-41a2a2a1f0b8-asp.net core logo.png\**" />
+	  <Content Remove="wwwroot\assets\images\books\c38af9fd-566e-463c-bec4-38d783a2dc96-c525957d-36f4-4298-ad0b-d39fc0c15240-08c8f809-07aa-4084-814a-e026b84465f6-204c34da-9e91-42d4-80b2-7900d6b5fd93-e74d7d4f-f265-42ec-804f-43cc077b84cc-Adam Fawer.jpeg\**" />
+	  <Content Remove="wwwroot\assets\images\books\d01f6cd4-c339-4e95-b8c1-072cf4d965b1-6ebd0d7f-a293-47e2-b800-d2c147641bdc-054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <Content Remove="wwwroot\assets\images\books\f8f466f3-cd2f-4898-aa62-5ca20e0d812b-7ed1b356-aee2-4dea-9c84-4d9c4610a2b0-92b05b83-cd93-43a5-955b-ac6ee6066f73-e8390f5f-1b8f-4e31-9397-66dacc526ba2-atomic habits.jpg\**" />
+	  <EmbeddedResource Remove="wwwroot\assets\images\books\054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <EmbeddedResource Remove="wwwroot\assets\images\books\82cba3ac-d62e-47ca-8e8b-7b4461a0ed6b-49a2675d-1164-4fa8-acf2-c60a0d2b6a6a-eab9d135-2835-4a5e-9548-b12ce9c3d5c0-7052e848-325e-4f93-91da-41a2a2a1f0b8-asp.net core logo.png\**" />
+	  <EmbeddedResource Remove="wwwroot\assets\images\books\c38af9fd-566e-463c-bec4-38d783a2dc96-c525957d-36f4-4298-ad0b-d39fc0c15240-08c8f809-07aa-4084-814a-e026b84465f6-204c34da-9e91-42d4-80b2-7900d6b5fd93-e74d7d4f-f265-42ec-804f-43cc077b84cc-Adam Fawer.jpeg\**" />
+	  <EmbeddedResource Remove="wwwroot\assets\images\books\d01f6cd4-c339-4e95-b8c1-072cf4d965b1-6ebd0d7f-a293-47e2-b800-d2c147641bdc-054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <EmbeddedResource Remove="wwwroot\assets\images\books\f8f466f3-cd2f-4898-aa62-5ca20e0d812b-7ed1b356-aee2-4dea-9c84-4d9c4610a2b0-92b05b83-cd93-43a5-955b-ac6ee6066f73-e8390f5f-1b8f-4e31-9397-66dacc526ba2-atomic habits.jpg\**" />
+	  <None Remove="wwwroot\assets\images\books\054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <None Remove="wwwroot\assets\images\books\82cba3ac-d62e-47ca-8e8b-7b4461a0ed6b-49a2675d-1164-4fa8-acf2-c60a0d2b6a6a-eab9d135-2835-4a5e-9548-b12ce9c3d5c0-7052e848-325e-4f93-91da-41a2a2a1f0b8-asp.net core logo.png\**" />
+	  <None Remove="wwwroot\assets\images\books\c38af9fd-566e-463c-bec4-38d783a2dc96-c525957d-36f4-4298-ad0b-d39fc0c15240-08c8f809-07aa-4084-814a-e026b84465f6-204c34da-9e91-42d4-80b2-7900d6b5fd93-e74d7d4f-f265-42ec-804f-43cc077b84cc-Adam Fawer.jpeg\**" />
+	  <None Remove="wwwroot\assets\images\books\d01f6cd4-c339-4e95-b8c1-072cf4d965b1-6ebd0d7f-a293-47e2-b800-d2c147641bdc-054afa32-cd24-43ba-bb2c-143a0e8378f4-d5b6f0bd-0e21-43d4-9fa4-e1e43885ee1a-5f420675-2b06-4919-8cec-ff774e25a925-b3adae66-cfbc-497a-805f-c505edc1c402-Adam Fawer.jpeg\**" />
+	  <None Remove="wwwroot\assets\images\books\f8f466f3-cd2f-4898-aa62-5ca20e0d812b-7ed1b356-aee2-4dea-9c84-4d9c4610a2b0-92b05b83-cd93-43a5-955b-ac6ee6066f73-e8390f5f-1b8f-4e31-9397-66dacc526ba2-atomic habits.jpg\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.19" />
 		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.19" />
