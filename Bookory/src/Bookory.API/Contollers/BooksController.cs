@@ -71,7 +71,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Vendor")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _bookService.DeleteBookAsync(id);

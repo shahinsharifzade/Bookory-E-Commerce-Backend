@@ -10,6 +10,7 @@ namespace Bookory.Business.Utilities.Mapper
         {
             CreateMap<Book, OrderItem>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailGetResponseDto>().ReverseMap();
+            CreateMap<OrderDetailPostDto, OrderDetail>();
         }
     }
 }
