@@ -7,18 +7,18 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-# Bookory klasörünü kopyalıyoruz
-COPY ["Bookory/Bookory.API/Bookory.API.csproj", "Bookory.API/"]
-COPY ["Bookory/Bookory.Business/Bookory.Business.csproj", "Bookory.Business/"]
-COPY ["Bookory/Bookory.Core/Bookory.Core.csproj", "Bookory.Core/"]
-COPY ["Bookory/Bookory.DataAccess/Bookory.DataAccess.csproj", "Bookory.DataAccess/"]
+# .csproj dosyalarını kopyalıyoruz - Yolları düzelttik
+COPY ["Bookory.API/Bookory.API.csproj", "Bookory.API/"]
+COPY ["Bookory.Business/Bookory.Business.csproj", "Bookory.Business/"]
+COPY ["Bookory.Core/Bookory.Core.csproj", "Bookory.Core/"]
+COPY ["Bookory.DataAccess/Bookory.DataAccess.csproj", "Bookory.DataAccess/"]
 
 # NuGet paketlerini indiriyoruz
 RUN dotnet restore "Bookory.API/Bookory.API.csproj"
 
-# Projeyi build ediyoruz
+# Tüm kaynak kodunu kopyalıyoruz
 COPY . .
-WORKDIR "/src/Bookory/Bookory.API"
+WORKDIR "/src/Bookory.API"
 RUN dotnet build "Bookory.API.csproj" -c Release -o /app/build
 
 # Uygulamanın publish edilmesi
