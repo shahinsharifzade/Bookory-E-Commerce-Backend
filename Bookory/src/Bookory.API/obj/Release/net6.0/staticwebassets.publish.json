@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "5uq2scV/h+8s8wDTD4xTDFSgzcBg5G6N+qizZ1F3RZY=",
+  "Source": "Bookory.API",
+  "BasePath": "_content/Bookory.API",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Bookory.API\\wwwroot",
+      "Source": "Bookory.API",
+      "ContentRoot": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\wwwroot\\",
+      "BasePath": "_content/Bookory.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}

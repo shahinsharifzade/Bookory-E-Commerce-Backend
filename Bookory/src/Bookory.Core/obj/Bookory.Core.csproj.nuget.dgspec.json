@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj": {}
+    "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj": {
+    "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj",
+        "projectUniqueName": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj",
         "projectName": "Bookory.Core",
-        "projectPath": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj",
-        "packagesPath": "C:\\Users\\Şahin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Şahin\\Desktop\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\obj\\",
+        "projectPath": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Bookory.Core.csproj",
+        "packagesPath": "C:\\Users\\Shahin\\.nuget\\packages\\",
+        "outputPath": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Şahin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Shahin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -39,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -66,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

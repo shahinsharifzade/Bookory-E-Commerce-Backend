@@ -29,7 +29,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin, Moderator")]
+    //[Authorize(Roles = "Admin, Moderator")]
     public async Task<IActionResult> Post(GenrePostDto genrePostDto)
     {
         var response = await _genreService.CreateGenreAsync(genrePostDto);

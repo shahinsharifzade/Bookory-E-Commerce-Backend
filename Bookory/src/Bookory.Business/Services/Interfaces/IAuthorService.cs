@@ -1,5 +1,4 @@
 ﻿using Bookory.Business.Utilities.DTOs.AuthorDtos;
-using Bookory.Business.Utilities.DTOs.BookDtos;
 using Bookory.Business.Utilities.DTOs.Common;
 
 namespace Bookory.Business.Services.Interfaces;

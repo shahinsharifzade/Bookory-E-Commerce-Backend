@@ -66,3 +66,39 @@ C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.B
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\refint\Bookory.Business.dll
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.pdb
 C:\Users\Şahin\Desktop\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\ref\Bookory.Business.dll
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Business.deps.json
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Business.dll
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Business.pdb
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Core.dll
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.DataAccess.dll
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.DataAccess.pdb
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Core.pdb
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.csproj.AssemblyReference.cache
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.AssemblyInfoInputs.cache
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.AssemblyInfo.cs
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.csproj.CoreCompileInputs.cache
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.dll
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\refint\Bookory.Business.dll
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.pdb
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\ref\Bookory.Business.dll
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.sourcelink.json
+D:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory..34BFF2F6.Up2Date
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Business.deps.json
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Business.dll
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Business.pdb
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Core.dll
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.DataAccess.dll
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.DataAccess.pdb
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\bin\Debug\net6.0\Bookory.Core.pdb
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.csproj.AssemblyReference.cache
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.AssemblyInfoInputs.cache
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.AssemblyInfo.cs
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.csproj.CoreCompileInputs.cache
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.sourcelink.json
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory..34BFF2F6.Up2Date
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.dll
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\refint\Bookory.Business.dll
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\Bookory.Business.pdb
+E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.Business\obj\Debug\net6.0\ref\Bookory.Business.dll

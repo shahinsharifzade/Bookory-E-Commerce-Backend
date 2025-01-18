@@ -1,4 +1,5 @@
 ﻿using Bookory.Core.Models.Identity;
+using Bookory.DataAccess.Initalizers;
 using Bookory.DataAccess.Persistance.Context.EfCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -26,5 +27,15 @@ public static class AddUserIdentityExtention
         }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
         return service;
+    }
+
+
+    public static async Task InitDatabaseAsync(this WebApplication app)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var initializer = scope.ServiceProvider.GetRequiredService<DbContextInitalizer>();
+            await initializer.InitDatabaseAsync();
+        }
     }
 }

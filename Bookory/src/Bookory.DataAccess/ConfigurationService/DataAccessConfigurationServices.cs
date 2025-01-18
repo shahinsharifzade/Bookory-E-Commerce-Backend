@@ -1,4 +1,5 @@
 ﻿using Bookory.Core.Models.Common;
+using Bookory.DataAccess.Initalizers;
 using Bookory.DataAccess.Persistance.Context.EfCore;
 using Bookory.DataAccess.Repositories.Implementations;
 using Bookory.DataAccess.Repositories.Interfaces;
@@ -31,6 +32,8 @@ public static class DataAccessConfigurationServices
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IBlogRepository, BlogRepository>();
 
+
+        services.AddScoped<DbContextInitalizer>();
 
         return services;
     }
