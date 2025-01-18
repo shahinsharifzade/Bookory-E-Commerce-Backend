@@ -21,7 +21,7 @@ public static class AddCorsExtension
             {
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.HttpOnly = false;
+                options.Cookie.HttpOnly = true;
             });
 
         return services;
