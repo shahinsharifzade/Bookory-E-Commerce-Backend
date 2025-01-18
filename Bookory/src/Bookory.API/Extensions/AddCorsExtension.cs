@@ -50,8 +50,7 @@ public static class AddCorsExtension
         {
             options.AddDefaultPolicy(builder =>
             {
-                builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://shahin20sh-001-site1.qtempurl.com",
-            "https://shahin20sh-001-site1.qtempurl.com")
+                builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "https://bookory-e-commerce-frontend.vercel.app/","https://bookory-e-commerce-backend.onrender.com/api")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
