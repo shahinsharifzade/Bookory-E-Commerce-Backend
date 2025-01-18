@@ -1,32 +1,28 @@
-﻿# Temel bir imaj seçiyoruz
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+﻿# Base image
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
-# Uygulama için gerekli olan build imajını belirliyoruz
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+# Build image
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# .csproj dosyalarını kopyalıyoruz - Yolları düzelttik
-COPY ["Bookory.API/Bookory.API.csproj", "Bookory.API/"]
-COPY ["Bookory.Business/Bookory.Business.csproj", "Bookory.Business/"]
-COPY ["Bookory.Core/Bookory.Core.csproj", "Bookory.Core/"]
-COPY ["Bookory.DataAccess/Bookory.DataAccess.csproj", "Bookory.DataAccess/"]
+# Copy solution and restore dependencies
+COPY ["Bookory.sln", "./"]
+COPY ["src/Bookory.API/Bookory.API.csproj", "src/Bookory.API/"]
+COPY ["src/Bookory.Business/Bookory.Business.csproj", "src/Bookory.Business/"]
+COPY ["src/Bookory.Core/Bookory.Core.csproj", "src/Bookory.Core/"]
+COPY ["src/Bookory.DataAccess/Bookory.DataAccess.csproj", "src/Bookory.DataAccess/"]
+RUN dotnet restore "Bookory.sln"
 
-# NuGet paketlerini indiriyoruz
-RUN dotnet restore "Bookory.API/Bookory.API.csproj"
-
-# Tüm kaynak kodunu kopyalıyoruz
+# Copy entire source code and build
 COPY . .
-WORKDIR "/src/Bookory.API"
-RUN dotnet build "Bookory.API.csproj" -c Release -o /app/build
+WORKDIR "/src/src/Bookory.API"
+RUN dotnet publish -c Release -o /app/publish
 
-# Uygulamanın publish edilmesi
-FROM build AS publish
-RUN dotnet publish "Bookory.API.csproj" -c Release -o /app/publish
-
-# Uygulamanın son hali
+# Final stage
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "Bookory.API.dll"]
