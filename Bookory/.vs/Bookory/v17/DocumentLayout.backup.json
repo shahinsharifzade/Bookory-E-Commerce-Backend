@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E528F429-8ED7-46F9-86E1-FB51800322B2}|src\\Bookory.API\\Bookory.API.csproj|e:\\projects\\code academy final project\\final - backend\\bookory-e-commerce\\bookory\\src\\bookory.api\\extensions\\addcorsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E528F429-8ED7-46F9-86E1-FB51800322B2}|src\\Bookory.API\\Bookory.API.csproj|solutionrelative:src\\bookory.api\\extensions\\addcorsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2DC2C2E1-1A24-4C4C-AB73-276402F0EAB3}|src\\Bookory.Business\\Bookory.Business.csproj|e:\\projects\\code academy final project\\final - backend\\bookory-e-commerce\\bookory\\src\\bookory.business\\services\\implementations\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DC2C2E1-1A24-4C4C-AB73-276402F0EAB3}|src\\Bookory.Business\\Bookory.Business.csproj|solutionrelative:src\\bookory.business\\services\\implementations\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C3FE1F6-23C1-43C4-89C1-362E80E48B20}|src\\Bookory.Core\\Bookory.Core.csproj|e:\\projects\\code academy final project\\final - backend\\bookory-e-commerce\\bookory\\src\\bookory.core\\models\\wishlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3C3FE1F6-23C1-43C4-89C1-362E80E48B20}|src\\Bookory.Core\\Bookory.Core.csproj|solutionrelative:src\\bookory.core\\models\\wishlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E528F429-8ED7-46F9-86E1-FB51800322B2}|src\\Bookory.API\\Bookory.API.csproj|e:\\projects\\code academy final project\\final - backend\\bookory-e-commerce\\bookory\\src\\bookory.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E528F429-8ED7-46F9-86E1-FB51800322B2}|src\\Bookory.API\\Bookory.API.csproj|solutionrelative:src\\bookory.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC2C2E1-1A24-4C4C-AB73-276402F0EAB3}|src\\Bookory.Business\\Bookory.Business.csproj|e:\\projects\\code academy final project\\final - backend\\bookory-e-commerce\\bookory\\src\\bookory.business\\utilities\\email\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DC2C2E1-1A24-4C4C-AB73-276402F0EAB3}|src\\Bookory.Business\\Bookory.Business.csproj|solutionrelative:src\\bookory.business\\utilities\\email\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC2C2E1-1A24-4C4C-AB73-276402F0EAB3}|src\\Bookory.Business\\Bookory.Business.csproj|e:\\projects\\code academy final project\\final - backend\\bookory-e-commerce\\bookory\\src\\bookory.business\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DC2C2E1-1A24-4C4C-AB73-276402F0EAB3}|src\\Bookory.Business\\Bookory.Business.csproj|solutionrelative:src\\bookory.business\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E528F429-8ED7-46F9-86E1-FB51800322B2}|src\\Bookory.API\\Bookory.API.csproj|e:\\projects\\code academy final project\\final - backend\\bookory-e-commerce\\bookory\\src\\bookory.api\\contollers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E528F429-8ED7-46F9-86E1-FB51800322B2}|src\\Bookory.API\\Bookory.API.csproj|solutionrelative:src\\bookory.api\\contollers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,31 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 236,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Wishlist.cs",
-              "DocumentMoniker": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Models\\Wishlist.cs",
-              "RelativeDocumentMoniker": "src\\Bookory.Core\\Models\\Wishlist.cs",
-              "ToolTip": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Core\\Models\\Wishlist.cs",
-              "RelativeToolTip": "src\\Bookory.Core\\Models\\Wishlist.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAANAAAAAAAAAA==",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\Bookory.API\\appsettings.json",
+              "ToolTip": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\appsettings.json",
+              "RelativeToolTip": "src\\Bookory.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-19T08:15:09.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MailService.cs",
+              "DocumentMoniker": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Business\\Utilities\\Email\\MailService.cs",
+              "RelativeDocumentMoniker": "src\\Bookory.Business\\Utilities\\Email\\MailService.cs",
+              "ToolTip": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Business\\Utilities\\Email\\MailService.cs",
+              "RelativeToolTip": "src\\Bookory.Business\\Utilities\\Email\\MailService.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAowCgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T13:53:22.633Z"
+              "WhenOpened": "2025-01-19T08:11:27.421Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AddCorsExtension.cs",
-              "DocumentMoniker": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\Extensions\\AddCorsExtension.cs",
-              "RelativeDocumentMoniker": "src\\Bookory.API\\Extensions\\AddCorsExtension.cs",
-              "ToolTip": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\Extensions\\AddCorsExtension.cs",
-              "RelativeToolTip": "src\\Bookory.API\\Extensions\\AddCorsExtension.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA8AAAAAAAAAA==",
+              "Title": "UserService.cs",
+              "DocumentMoniker": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Business\\Services\\Implementations\\UserService.cs",
+              "RelativeDocumentMoniker": "src\\Bookory.Business\\Services\\Implementations\\UserService.cs",
+              "ToolTip": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Business\\Services\\Implementations\\UserService.cs",
+              "RelativeToolTip": "src\\Bookory.Business\\Services\\Implementations\\UserService.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAowFgAAABdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T12:53:26.097Z",
+              "WhenOpened": "2025-01-19T08:10:18.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\Contollers\\UsersController.cs",
+              "RelativeDocumentMoniker": "src\\Bookory.API\\Contollers\\UsersController.cs",
+              "ToolTip": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.API\\Contollers\\UsersController.cs",
+              "RelativeToolTip": "src\\Bookory.API\\Contollers\\UsersController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAowBQAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-19T08:09:52.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Business\\Services\\Implementations\\AuthService.cs",
+              "RelativeDocumentMoniker": "src\\Bookory.Business\\Services\\Implementations\\AuthService.cs",
+              "ToolTip": "E:\\Projects\\Code Academy Final Project\\Final - BackEnd\\Bookory-E-commerce\\Bookory\\src\\Bookory.Business\\Services\\Implementations\\AuthService.cs",
+              "RelativeToolTip": "src\\Bookory.Business\\Services\\Implementations\\AuthService.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAgwCgAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-19T08:08:58.934Z",
               "EditorCaption": ""
             }
           ]

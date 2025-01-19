@@ -85,7 +85,10 @@ public class UserService : IUserService
         string token = await _usermanager.GenerateEmailConfirmationTokenAsync(newUser);
         var httpContext = _httpContext.HttpContext;
         var request = httpContext.Request;
-        string url = _linkGenerator.GetUriByAction(httpContext, "Verify", "Auth", new { token = token, email = userPostDto.Email }, scheme: request.Scheme, host: new HostString("localhost", 3000))!;
+        //string url = _linkGenerator.GetUriByAction(httpContext, "Verify", "Auth", new { token = token, email = userPostDto.Email }, scheme: request.Scheme, host: new HostString("localhost", 3000))!;
+        string baseUrl = "https://bookory-e-commerce-frontend.vercel.app"; // Replace with your frontend URL
+        string url = $"{baseUrl}/api/Auth/Verify?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(userPostDto.Email)}";
+
 
         MailRequestDto mailRequestDto = new(
             newUser.Email,
