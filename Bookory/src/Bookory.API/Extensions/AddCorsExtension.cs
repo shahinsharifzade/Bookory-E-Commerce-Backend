@@ -9,7 +9,7 @@ public static class AddCorsExtension
         {
             options.AddDefaultPolicy(builder =>
             {
-                builder.WithOrigins("https://bookory-e-commerce-frontend.vercel.app")  // Sadece frontend URL'si
+                builder.WithOrigins("https://bookory-e-commerce-frontend.vercel.app", "http://localhost:3000")  // Sadece frontend URL'si
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();  // CORS ile kimlik doğrulama (credentials) kullanımını sağlamak

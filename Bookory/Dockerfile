@@ -10,10 +10,10 @@ WORKDIR /src
 
 # Solution ve project dosyalarını kopyalıyoruz
 COPY ["Bookory.sln", "./"]
-COPY ["src/Bookory.API/Bookory.API.csproj", "src/Bookory.API/"]
-COPY ["src/Bookory.Business/Bookory.Business.csproj", "src/Bookory.Business/"]
-COPY ["src/Bookory.Core/Bookory.Core.csproj", "src/Bookory.Core/"]
-COPY ["src/Bookory.DataAccess/Bookory.DataAccess.csproj", "src/Bookory.DataAccess/"]
+COPY ["src/Bookory.API/Bookory.API.csproj", "./src/Bookory.API/"]
+COPY ["src/Bookory.Business/Bookory.Business.csproj", "./src/Bookory.Business/"]
+COPY ["src/Bookory.Core/Bookory.Core.csproj", "./src/Bookory.Core/"]
+COPY ["src/Bookory.DataAccess/Bookory.DataAccess.csproj", "./src/Bookory.DataAccess/"]
 RUN dotnet restore "Bookory.sln"
 
 # Kaynak kodları kopyala ve build et
