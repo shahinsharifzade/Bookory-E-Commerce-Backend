@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bookory.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ea73cde75e9a57e7fd893ccbb3be728447de968")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4abfcb5cebec545c5f66f81ccd64dded8abca387")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bookory.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bookory.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

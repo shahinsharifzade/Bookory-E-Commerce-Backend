@@ -4,7 +4,7 @@
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
     <ActiveDebugProfile>Bookory.API</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\Properties\PublishProfiles\shahin20sh-001-site1 - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>E:\Projects\Code Academy Final Project\Final - BackEnd\Bookory-E-commerce\Bookory\src\Bookory.API\Properties\PublishProfiles\shahin22sf-001-site1 - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

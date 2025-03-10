@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bookory.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e183595ef364a57c563fcc339ebd4dbbea6add03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4abfcb5cebec545c5f66f81ccd64dded8abca387")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bookory.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bookory.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
