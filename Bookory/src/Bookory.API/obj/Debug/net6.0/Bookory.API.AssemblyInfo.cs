@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bookory.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec5abca3bd1b1616b52dc736853551674a4ed2db")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6548739f90fec7c9e5229c542f7d336cd376a7bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bookory.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bookory.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
